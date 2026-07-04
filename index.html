@@ -3,69 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toko Top Up Game</title>
+    <title>LimStore - Top Up Game Termurah & Terpercaya</title>
     <style>
-        * {margin:0; padding:0; font-family:Arial, sans-serif; box-sizing:border-box;}
-        body {background:#f0f4f8; color:#333;}
-        .atas {background:#165DFF; color:white; padding:15px; text-align:center; font-size:20px; font-weight:bold;}
-        .fitur {display:flex; justify-content:space-around; flex-wrap:wrap; padding:15px; background:white; margin:10px; border-radius:8px;}
-        .box-fitur {text-align:center; padding:10px; font-size:14px;}
-        .judul-game {margin:20px 10px 10px; font-size:18px; font-weight:bold;}
-        .daftar-game {display:flex; flex-wrap:wrap; gap:10px; padding:0 10px; margin-bottom:20px;}
-        .kartu-game {flex:1 1 140px; background:white; border-radius:8px; padding:12px; text-align:center; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-        .kartu-game:hover {background:#e8f3ff;}
-        .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); padding:20px; overflow:auto;}
-        .isi-modal {background:white; max-width:450px; margin:20px auto; padding:20px; border-radius:8px;}
-        .tutup {float:right; font-size:24px; cursor:pointer; color:#888;}
-        h3 {margin-bottom:15px;}
-        input, button {width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:5px; font-size:15px;}
-        button {background:#165DFF; color:white; border:none; cursor:pointer; font-weight:bold;}
-        button:hover {background:#0f4cd1;}
-        .pilihan-bayar {margin:15px 0;}
-        .pilihan-bayar label {display:block; padding:10px; margin:5px 0; border:1px solid #ddd; border-radius:5px; cursor:pointer;}
-        .pilihan-bayar label.aktif {border-color:#165DFF; background:#e8f3ff;}
-        .link-admin {text-align:center; padding:20px; font-size:12px; color:#888;}
-        .link-admin a {color:#888; text-decoration:none;}
-        .info-bayar {background:#fff3cd; padding:12px; border-radius:6px; margin-top:10px; font-size:14px;}
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            box-sizing: border-box;
+        }
+        :root {
+            --utama: #165DFF;
+            --gelap: #0F172A;
+            --abu: #64748B;
+            --putih: #FFFFFF;
+            --bayangan: 0 4px 20px rgba(22, 93, 255, 0.1);
+            --hover: #0F4CD1;
+        }
+        body {
+            background: #F8FAFC;
+            color: var(--gelap);
+            padding-bottom: 40px;
+        }
+        .atas {
+            background: linear-gradient(135deg, var(--utama), var(--hover));
+            color: var(--putih);
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .tagline {
+            font-size: 13px;
+            font-weight: 400;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+        .keunggulan {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 18px 15px;
+            background: var(--putih);
+            margin: -15px 15px 25px;
+            border-radius: 12px;
+            box-shadow: var(--bayangan);
+        }
+        .item-unggul {
+            text-align: center;
+            flex: 1 1 120px;
+            font-size: 13px;
+            color: var(--abu);
+            font-weight: 500;
+        }
+        .item-unggul b {
+            display: block;
+            color: var(--gelap);
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        .judul-bagian {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 15px 15px;
+            color: var(--gelap);
+            border-left: 4px solid var(--utama);
+            padding-left: 10px;
+        }
+        .daftar-game {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 0 15px;
+            margin-bottom: 25px;
+        }
+        .kartu-game {
+            background: var(--putih);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #F1F5F9;
+        }
+        .kartu-game:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--bayangan);
+            border-color: var(--utama);
+        }
+        .nama-game {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--gelap);
+            margin-bottom: 5px;
+        }
+        .item-game {
+            font-size: 13px;
+            color: var(--abu);
+            margin-bottom: 10px;
+        }
+        .harga-game {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--utama);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 999;
+        }
+        .isi-modal {
+            background: var(--putih);
+            max-width: 480px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .tutup {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--abu);
+            transition: color 0.2s;
+        }
+        .tutup:hover {
+            color: var(--gelap);
+        }
+        .isi-modal h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gelap);
+            margin-bottom: 8px;
+            padding-right: 30px;
+        }
+        .detail-item {
+            color: var(--abu);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .detail-harga {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--utama);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--gelap);
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-bottom: 15px;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--utama);
+        }
+        .judul-bayar {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 10px;
+            color: var(--gelap);
+        }
+        .pilihan-bayar label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .pilihan-bayar label.aktif {
+            border-color: var(--utama);
+            background: #EFF6FF;
+            color: var(--utama);
+        }
+        .pilihan-bayar input {
+            width: auto;
+            margin: 0 10px 0 0;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--utama);
+            color: var(--putih);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: var(--hover);
+        }
+        .info-bayar {
+            background: #ECFDF5;
+            border: 1px solid #10B981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #065F46;
+        }
+        .link-admin {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+        .link-admin a {
+            color: var(--abu);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .link-admin a:hover {
+            color: var(--utama);
+        }
     </style>
 </head>
 <body>
 
-<div class="atas">TOKO TOP UP GAME RESMI</div>
-
-<div class="fitur">
-    <div class="box-fitur"><b>⚡ Proses Instan</b></div>
-    <div class="box-fitur"><b>🔒 100% Aman</b></div>
-    <div class="box-fitur"><b>💳 Sesuai Cara Bayar Kamu</b></div>
-    <div class="box-fitur"><b>🕒 Layanan 24 Jam</b></div>
+<div class="atas">
+    LIMSTORE
+    <div class="tagline">Top Up Game Cepat, Aman, & Paling Murah</div>
 </div>
 
-<div class="judul-game">PILIH GAME</div>
+<div class="keunggulan">
+    <div class="item-unggul"><b>⚡ Instan</b> Masuk Detik Itu Juga</div>
+    <div class="item-unggul"><b>🔐 Aman</b> Data Terjamin Rahasia</div>
+    <div class="item-unggul"><b>💳 Sesuai Saldo</b> GoPay/DANA/OVO/Jago</div>
+    <div class="item-unggul"><b>🕒 Buka 24 Jam</b> Kapan Saja Bisa</div>
+</div>
+
+<div class="judul-bagian">PILIH GAME</div>
 <div class="daftar-game" id="daftarGame"></div>
 
 <div id="formPesan" class="modal">
     <div class="isi-modal">
         <span class="tutup" onclick="tutupPesan()">&times;</span>
         <h3 id="namaGame"></h3>
-        <p id="namaItem"></p>
-        <p><b>Harga: <span id="hargaItem"></span></b></p>
+        <p class="detail-item" id="namaItem"></p>
+        <p class="detail-harga" id="hargaItem"></p>
         
-        <label>Masukkan ID Game:</label>
-        <input type="text" id="idGame" placeholder="Contoh: 12345678">
+        <label>ID Game / User ID</label>
+        <input type="text" id="idGame" placeholder="Contoh: 123456789">
 
-        <label>Nomor WhatsApp Pembeli:</label>
-        <input type="text" id="waPembeli" placeholder="Contoh: 08123456789">
+        <label>Nomor WhatsApp</label>
+        <input type="text" id="waPembeli" placeholder="Contoh: 081234567890">
 
-        <h4>Pilih Cara Bayar:</h4>
+        <h4 class="judul-bayar">Metode Pembayaran</h4>
         <div class="pilihan-bayar" id="pilihanBayar"></div>
 
-        <button onclick="kirimPesan()">Bayar Sekarang</button>
+        <button onclick="kirimPesan()">Lanjut Pembayaran</button>
         <div id="tampilInfoBayar" class="info-bayar" style="display:none;"></div>
     </div>
 </div>
 
 <div class="link-admin">
-    <a href="admin.html">Masuk Admin</a>
+    <a href="admin.html">🔐 Masuk Panel Admin</a>
 </div>
 
 <script>
@@ -78,7 +300,7 @@ function ambilPengaturan(){
         pengaturan = JSON.parse(data);
     }else{
         pengaturan = {
-            namaPemilik: "Nama Kamu",
+            namaPemilik: "LimStore",
             waKamu: "0812xxxxxxx",
             bayar: [
                 {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
@@ -105,7 +327,9 @@ function tampilkanProduk(){
     let html = '';
     produk.forEach(p => {
         html += `<div class="kartu-game" onclick="bukaPesan('${p.nama}','${p.item}',${p.harga})">
-                    <b>${p.nama}</b><br>${p.item}<br>Rp ${p.harga.toLocaleString('id-ID')}
+                    <div class="nama-game">${p.nama}</div>
+                    <div class="item-game">${p.item}</div>
+                    <div class="harga-game">Rp ${p.harga.toLocaleString('id-ID')}</div>
                 </div>`;
     });
     document.getElementById('daftarGame').innerHTML = html;
@@ -117,7 +341,7 @@ function tampilkanCaraBayar(){
     pengaturan.bayar.forEach(cb => {
         if(cb.aktif){
             html += `<label onclick="pilihBayar(this)">
-                        <input type="radio" name="bayar" value="${cb.id}" ${pertama?'checked':''} style="width:auto;"> ${cb.nama}
+                        <input type="radio" name="bayar" value="${cb.id}" ${pertama?'checked':''}> ${cb.nama}
                     </label>`;
             pertama = false;
         }
@@ -127,7 +351,7 @@ function tampilkanCaraBayar(){
 
 function bukaPesan(game, item, harga){
     document.getElementById('namaGame').textContent = 'Pesan ' + game;
-    document.getElementById('namaItem').textContent = 'Item: ' + item;
+    document.getElementById('namaItem').textContent = 'Paket: ' + item;
     document.getElementById('hargaItem').textContent = 'Rp ' + harga.toLocaleString('id-ID');
     hargaSaatIni = harga;
     document.getElementById('formPesan').style.display = 'block';
@@ -150,26 +374,26 @@ function kirimPesan(){
     const waPembeli = document.getElementById('waPembeli').value;
     const caraBayar = document.querySelector('input[name="bayar"]:checked').value;
 
-    if(!idGame){ alert("Isi dulu ID Game ya!"); return; }
-    if(!waPembeli){ alert("Isi dulu nomor WhatsApp kamu ya!"); return; }
+    if(!idGame){ alert("Masukkan ID Game terlebih dahulu!"); return; }
+    if(!waPembeli){ alert("Masukkan nomor WhatsApp terlebih dahulu!"); return; }
 
     let info = "";
     pengaturan.bayar.forEach(cb => {
         if(cb.id === caraBayar){
             if(cb.id === "jago"){
-                info = `✅ Silakan bayar ke ${cb.nama}:\n🏦 No. Rekening: ${cb.nomor}\n👤 Atas Nama: ${pengaturan.namaPemilik}`;
+                info = `<b>Silakan Lakukan Pembayaran:</b><br><br>🏦 Bank Jago<br>No. Rekening: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
             }else{
-                info = `✅ Silakan bayar ke ${cb.nama}:\n📱 Nomor: ${cb.nomor}\n👤 Atas Nama: ${pengaturan.namaPemilik}`;
+                info = `<b>Silakan Lakukan Pembayaran:</b><br><br>📱 ${cb.nama}<br>Nomor: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
             }
         }
     });
 
-    info += `\n\n💸 Total Bayar: Rp ${hargaSaatIni.toLocaleString('id-ID')}`;
-    info += `\n📲 Setelah bayar, kirim bukti ke WA saya: ${pengaturan.waKamu}`;
+    info += `<br><br>💸 Total Pembayaran: <b>Rp ${hargaSaatIni.toLocaleString('id-ID')}</b>`;
+    info += `<br><br>✅ Setelah berhasil bayar, silakan kirim bukti pembayaran ke WhatsApp kami: <b>${pengaturan.waKamu}</b>`;
 
-    document.getElementById('tampilInfoBayar').innerHTML = info.replace(/\n/g, "<br>");
+    document.getElementById('tampilInfoBayar').innerHTML = info;
     document.getElementById('tampilInfoBayar').style.display = 'block';
-    alert("Pesanan Berhasil! Silakan lihat data pembayaran di bawah ya.");
+    alert("Pesanan berhasil dibuat! Silakan lihat detail pembayaran di bawah.");
 }
 
 ambilPengaturan();
