@@ -3,93 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Kelola Toko</title>
+    <title>Panel Admin - LimStore</title>
     <style>
-        * {margin:0; padding:0; font-family:Arial, sans-serif; box-sizing:border-box;}
-        .login-box {max-width:400px; margin:80px auto; padding:20px; box-shadow:0 0 8px #ccc; border-radius:8px;}
-        .dashboard {display:none; padding:15px; max-width:95%; margin:0 auto;}
-        .menu {display:flex; gap:8px; margin:15px 0; flex-wrap:wrap;}
-        .menu button {padding:10px; border:none; border-radius:5px; background:#165DFF; color:white; cursor:pointer;}
-        .menu button.merah {background:#dc2626;}
-        .isi {background:#f5f7fa; padding:15px; border-radius:8px; margin-top:10px; display:none;}
-        input, button {width:100%; padding:10px; margin:5px 0; border:1px solid #ddd; border-radius:5px;}
-        button {background:#165DFF; color:white; border:none; cursor:pointer; font-weight:bold;}
-        .simpan {background:#059669; margin-top:10px;}
-        .kembali {background:#6b7280; margin-bottom:10px;}
-        label {display:block; margin-top:8px;}
-        .baris-bayar {padding:10px; border-bottom:1px solid #ddd; margin:5px 0;}
+        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
+        :root {
+            --utama:#7C3AED;
+            --latar:#0F1218;
+            --kartu:#1A1F2B;
+            --teks:#F1F5F9;
+            --abu:#94A3B8;
+            --sukses:#10B981;
+            --bahaya:#EF4444;
+            --batas:#272E3B;
+        }
+        body {background:var(--latar); color:var(--teks); padding:20px; min-height:100vh;}
+        .login {max-width:400px; margin:60px auto; background:var(--kartu); padding:24px; border-radius:14px; border:1px solid var(--batas);}
+        .login h2 {text-align:center; margin-bottom:20px; color:var(--utama);}
+        .admin {display:none; max-width:500px; margin:0 auto;}
+        .tombol-kembali {display:inline-block; margin-bottom:15px; color:var(--abu); text-decoration:none;}
+        .menu {display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
+        .menu button {flex:1; min-width:120px; padding:12px; border:none; border-radius:8px; background:var(--kartu); color:var(--teks); border:1px solid var(--batas); cursor:pointer; font-weight:600; transition:all 0.2s;}
+        .menu button.aktif {background:var(--utama); border-color:var(--utama);}
+        .menu button.merah {background:var(--bahaya); border-color:var(--bahaya);}
+        .isi {display:none; background:var(--kartu); padding:20px; border-radius:14px; border:1px solid var(--batas);}
+        .isi h3 {margin-bottom:15px; color:var(--utama);}
+        label {display:block; font-size:14px; font-weight:600; margin-bottom:6px; margin-top:12px;}
+        input {width:100%; padding:10px; border:1px solid var(--batas); border-radius:8px; background:var(--latar); color:var(--teks); font-size:15px;}
+        input:focus {outline:none; border-color:var(--utama);}
+        .tombol-simpan {width:100%; padding:12px; margin-top:18px; background:var(--sukses); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer;}
+        .baris {padding:12px; margin:10px 0; border:1px solid var(--batas); border-radius:8px;}
+        .tombol-hapus {padding:8px 12px; background:var(--bahaya); color:white; border:none; border-radius:6px; margin-top:8px; cursor:pointer; font-size:13px;}
+        .tombol-tambah {padding:10px; background:var(--utama); color:white; border:none; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:600;}
     </style>
 </head>
 <body>
 
-<div class="login-box" id="halamanLogin">
-    <h2 style="text-align:center; margin-bottom:15px;">🔐 Masuk Admin</h2>
+<!-- HALAMAN LOGIN -->
+<div class="login" id="halLogin">
+    <h2>🔐 MASUK ADMIN</h2>
     <input type="text" id="user" placeholder="Nama Pengguna">
     <input type="password" id="pass" placeholder="Kata Sandi">
-    <button onclick="cekLogin()">Masuk</button>
+    <button class="tombol-simpan" onclick="cekMasuk()">Masuk</button>
 </div>
 
-<div class="dashboard" id="halamanAdmin">
-    <a href="index.html" style="text-decoration:none;"><button class="kembali">← Kembali ke Toko</button></a>
-    <h2>📊 Kelola Semua Pengaturan Toko</h2>
+<!-- HALAMAN UTAMA ADMIN -->
+<div class="admin" id="halAdmin">
+    <a href="index.html" class="tombol-kembali">← Kembali ke Toko</a>
+    <h2 style="margin-bottom:15px;">PANEL KELOLA TOKO</h2>
 
     <div class="menu">
-        <button onclick="bukaTab('profil')">Profil & Nomor</button>
+        <button class="aktif" onclick="bukaTab('profil')">Profil & Kontak</button>
         <button onclick="bukaTab('bayar')">Cara Bayar</button>
-        <button onclick="bukaTab('produk')">Harga & Produk</button>
+        <button onclick="bukaTab('produk')">Produk</button>
         <button class="merah" onclick="keluar()">Keluar</button>
     </div>
 
+    <!-- TAB PROFIL -->
     <div id="profil" class="isi" style="display:block;">
-        <h3>Ubah Nama & Nomor Kamu</h3>
+        <h3>Ubah Data Toko & Pemilik</h3>
+        <label>Nama Toko:</label>
+        <input type="text" id="namaToko">
         <label>Nama Pemilik Rekening/E-Wallet:</label>
         <input type="text" id="namaPemilik">
-        <label>Nomor WhatsApp untuk kirim bukti:</label>
-        <input type="text" id="waKamu">
-        <button class="simpan" onclick="simpanProfil()">Simpan Perubahan</button>
+        <label>Nomor WhatsApp Kirim Bukti:</label>
+        <input type="text" id="waTujuan">
+        <button class="tombol-simpan" onclick="simpanProfil()">Simpan Perubahan</button>
     </div>
 
+    <!-- TAB CARA BAYAR -->
     <div id="bayar" class="isi">
-        <h3>Tambah / Hapus / Ubah Cara Bayar</h3>
-        <p>Centang jika mau ditampilkan, hapus centang kalau mau disembunyikan</p>
-        <div id="daftarBayar"></div>
-        <button class="simpan" onclick="simpanBayar()">Simpan Cara Bayar</button>
+        <h3>Kelola Cara Pembayaran</h3>
+        <div id="daftarMetode"></div>
+        <button class="tombol-tambah" onclick="tambahMetode()">+ Tambah Cara Bayar</button>
+        <button class="tombol-simpan" onclick="simpanBayar()">Simpan Semua</button>
     </div>
 
+    <!-- TAB PRODUK -->
     <div id="produk" class="isi">
-        <h3>Ubah Nama Game & Harga</h3>
+        <h3>Kelola Produk / Game</h3>
         <div id="daftarProduk"></div>
-        <button class="simpan" onclick="simpanProduk()">Simpan Harga & Produk</button>
+        <button class="tombol-tambah" onclick="tambahProduk()">+ Tambah Game Baru</button>
+        <button class="tombol-simpan" onclick="simpanProduk()">Simpan Semua</button>
     </div>
 </div>
 
 <script>
-// Ganti nama & sandi masuk admin sesuai keinginanmu!
-const AKUN_ADMIN = {user:"admin", sandi:"123456"};
+// AKUN ADMIN (BISA DIUBAH SESUAI KEINGINAN)
+const AKUN = {user:"admin", sandi:"123456"};
 let pengaturan, produk;
 
-function cekLogin(){
+// Cek login
+function cekMasuk(){
     const u = document.getElementById('user').value;
     const p = document.getElementById('pass').value;
-    if(u === AKUN_ADMIN.user && p === AKUN_ADMIN.sandi){
-        localStorage.setItem('loginAdmin', 'ok');
-        document.getElementById('halamanLogin').style.display = 'none';
-        document.getElementById('halamanAdmin').style.display = 'block';
+    if(u === AKUN.user && p === AKUN.sandi){
+        localStorage.setItem('loginAdmin', 'aktif');
+        document.getElementById('halLogin').style.display = 'none';
+        document.getElementById('halAdmin').style.display = 'block';
         muatData();
     }else{
-        alert("Salah nama atau sandi!");
+        alert("Nama pengguna atau sandi salah!");
     }
 }
 
+// Muat data tersimpan
 function muatData(){
-    const data = localStorage.getItem('pengaturanToko');
-    if(data){
-        pengaturan = JSON.parse(data);
+    const t = localStorage.getItem('dataTokoLim');
+    const p = localStorage.getItem('produkLim');
+    
+    if(t){
+        pengaturan = JSON.parse(t);
     }else{
         pengaturan = {
-            namaPemilik: "Nama Kamu",
-            waKamu: "0812xxxxxxx",
-            bayar: [
+            namaToko: "LimStore", namaPemilik: "Mungalim", waTujuan: "087794088983",
+            caraBayar: [
                 {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
                 {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
                 {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
@@ -98,9 +125,8 @@ function muatData(){
         };
     }
 
-    const dataP = localStorage.getItem('daftarProduk');
-    if(dataP){
-        produk = JSON.parse(dataP);
+    if(p){
+        produk = JSON.parse(p);
     }else{
         produk = [
             {nama:"Mobile Legends", item:"112 Diamond", harga:32000},
@@ -109,75 +135,106 @@ function muatData(){
         ];
     }
 
-    tampilkanForm();
+    tampilForm();
 }
 
-function tampilkanForm(){
+// Tampilkan data di form
+function tampilForm(){
+    document.getElementById('namaToko').value = pengaturan.namaToko;
     document.getElementById('namaPemilik').value = pengaturan.namaPemilik;
-    document.getElementById('waKamu').value = pengaturan.waKamu;
+    document.getElementById('waTujuan').value = pengaturan.waTujuan;
 
     let htmlBayar = '';
-    pengaturan.bayar.forEach((cb, i) => {
-        htmlBayar += `<div class="baris-bayar">
+    pengaturan.caraBayar.forEach((cb,i) => {
+        htmlBayar += `<div class="baris">
             <label><input type="checkbox" id="cbAktif${i}" ${cb.aktif?'checked':''}> Tampilkan</label>
             <label>Nama Cara Bayar:</label>
             <input type="text" id="cbNama${i}" value="${cb.nama}">
             <label>Nomor / No. Rekening:</label>
             <input type="text" id="cbNomor${i}" value="${cb.nomor}">
+            <button class="tombol-hapus" onclick="hapusMetode(${i})">Hapus</button>
         </div>`;
     });
-    document.getElementById('daftarBayar').innerHTML = htmlBayar;
+    document.getElementById('daftarMetode').innerHTML = htmlBayar;
 
     let htmlProduk = '';
-    produk.forEach((pr, i) => {
-        htmlProduk += `<div class="baris-bayar">
+    produk.forEach((pr,i) => {
+        htmlProduk += `<div class="baris">
             <label>Nama Game:</label>
             <input type="text" id="prNama${i}" value="${pr.nama}">
-            <label>Item / Isi:</label>
+            <label>Isi / Item:</label>
             <input type="text" id="prItem${i}" value="${pr.item}">
-            <label>Harga Jual (Rp):</label>
+            <label>Harga (Rp):</label>
             <input type="number" id="prHarga${i}" value="${pr.harga}">
+            <button class="tombol-hapus" onclick="hapusProduk(${i})">Hapus</button>
         </div>`;
     });
     document.getElementById('daftarProduk').innerHTML = htmlProduk;
 }
 
+// Fungsi simpan
 function simpanProfil(){
+    pengaturan.namaToko = document.getElementById('namaToko').value;
     pengaturan.namaPemilik = document.getElementById('namaPemilik').value;
-    pengaturan.waKamu = document.getElementById('waKamu').value;
-    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
-    alert("✅ Profil tersimpan! Perubahan langsung terlihat di toko.");
+    pengaturan.waTujuan = document.getElementById('waTujuan').value;
+    localStorage.setItem('dataTokoLim', JSON.stringify(pengaturan));
+    alert("✅ Data tersimpan! Sekarang buka toko lalu REFRESH ya.");
 }
 
 function simpanBayar(){
-    pengaturan.bayar = [];
-    const jumlahBaris = document.querySelectorAll('.baris-bayar').length;
-    for(let i=0; i<jumlahBaris; i++){
-        const nama = document.getElementById(`cbNama${i}`).value;
-        const nomor = document.getElementById(`cbNomor${i}`).value;
-        const aktif = document.getElementById(`cbAktif${i}`).checked;
-        pengaturan.bayar.push({id:nama.toLowerCase().replace(/\s/g,''), nama:nama, nomor:nomor, aktif:aktif});
-    }
-    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
-    alert("✅ Cara bayar tersimpan! Yang tidak dicentang tidak akan muncul di toko.");
+    pengaturan.caraBayar = [];
+    document.querySelectorAll('#daftarMetode .baris').forEach((b,i) => {
+        pengaturan.caraBayar.push({
+            id: `bayar${i}`,
+            nama: document.getElementById(`cbNama${i}`).value,
+            nomor: document.getElementById(`cbNomor${i}`).value,
+            aktif: document.getElementById(`cbAktif${i}`).checked
+        });
+    });
+    localStorage.setItem('dataTokoLim', JSON.stringify(pengaturan));
+    alert("✅ Cara bayar tersimpan!");
 }
 
 function simpanProduk(){
     produk = [];
-    const jumlahProduk = document.querySelectorAll('#daftarProduk .baris-bayar').length;
-    for(let i=0; i<jumlahProduk; i++){
-        const nama = document.getElementById(`prNama${i}`).value;
-        const item = document.getElementById(`prItem${i}`).value;
-        const harga = parseInt(document.getElementById(`prHarga${i}`).value);
-        produk.push({nama:nama, item:item, harga:harga});
+    document.querySelectorAll('#daftarProduk .baris').forEach((b,i) => {
+        produk.push({
+            nama: document.getElementById(`prNama${i}`).value,
+            item: document.getElementById(`prItem${i}`).value,
+            harga: parseInt(document.getElementById(`prHarga${i}`).value)
+        });
+    });
+    localStorage.setItem('produkLim', JSON.stringify(produk));
+    alert("✅ Produk tersimpan! Sekarang buka toko lalu REFRESH ya.");
+}
+
+// Fungsi tambah/hapus
+function tambahMetode(){
+    pengaturan.caraBayar.push({id:"baru", nama:"", nomor:"", aktif:true});
+    tampilForm();
+}
+function hapusMetode(i){
+    if(confirm("Yakin hapus cara bayar ini?")){
+        pengaturan.caraBayar.splice(i,1);
+        tampilForm();
     }
-    localStorage.setItem('daftarProduk', JSON.stringify(produk));
-    alert("✅ Produk & harga tersimpan!");
+}
+function tambahProduk(){
+    produk.push({nama:"", item:"", harga:0});
+    tampilForm();
+}
+function hapusProduk(i){
+    if(confirm("Yakin hapus game ini?")){
+        produk.splice(i,1);
+        tampilForm();
+    }
 }
 
 function bukaTab(nama){
     document.querySelectorAll('.isi').forEach(e => e.style.display = 'none');
+    document.querySelectorAll('.menu button').forEach(e => e.classList.remove('aktif'));
     document.getElementById(nama).style.display = 'block';
+    event.target.classList.add('aktif');
 }
 
 function keluar(){
@@ -185,10 +242,11 @@ function keluar(){
     location.reload();
 }
 
+// Cek otomatis login
 window.onload = ()=>{
-    if(localStorage.getItem('loginAdmin') === 'ok'){
-        document.getElementById('halamanLogin').style.display = 'none';
-        document.getElementById('halamanAdmin').style.display = 'block';
+    if(localStorage.getItem('loginAdmin') === 'aktif'){
+        document.getElementById('halLogin').style.display = 'none';
+        document.getElementById('halAdmin').style.display = 'block';
         muatData();
     }
 }
