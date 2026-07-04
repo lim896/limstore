@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIMSTORE - Top Up Game Resmi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
+        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
         :root {
             --utama: #00D4FF;
             --latar: #0A0E17;
@@ -20,249 +15,65 @@
             --abu: #94A3B8;
             --harga: #34D399;
             --ungu: #8B5CF6;
+            --bahaya: #EF4444;
         }
-        body {
-            background: var(--latar);
-            color: var(--teks);
-            min-height: 100vh;
-            padding-bottom: 60px;
-        }
+        body {background:var(--latar); color:var(--teks); min-height:100vh; padding-bottom:80px;}
+        .halaman {display:none; padding:20px 16px;}
+        .halaman.aktif {display:block;}
 
-        /* === HALAMAN UTAMA: PILIH GAME === */
-        .halaman {
-            display: none;
-            padding: 20px 16px;
-        }
-        .halaman.aktif {
-            display: block;
-        }
+        /* Header */
+        .header {background:linear-gradient(135deg, var(--ungu), var(--utama)); padding:24px 16px; text-align:center; position:relative; overflow:hidden;}
+        .header::before {content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(0,212,255,0.1), transparent 60%);}
+        .logo-header {display:flex; align-items:center; justify-content:center; gap:12px; position:relative; z-index:1;}
+        .ikon-logo {width:48px; height:48px; background:rgba(255,255,255,0.2); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px;}
+        .nama-toko {font-size:28px; font-weight:800; letter-spacing:1px;}
+        .tagline {font-size:14px; margin-top:6px; opacity:0.9; position:relative; z-index:1;}
 
-        .header {
-            background: linear-gradient(135deg, var(--ungu), var(--utama));
-            padding: 24px 16px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0,212,255,0.1), transparent 60%);
-        }
-        .logo-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        .ikon-logo {
-            width: 48px;
-            height: 48px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        .nama-toko {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        .tagline {
-            font-size: 14px;
-            margin-top: 6px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
+        .fitur-atas {display:flex; justify-content:space-around; gap:8px; padding:16px; margin:-16px 12px 24px; background:var(--kartu); border-radius:12px; border:1px solid var(--batas); position:relative; z-index:2;}
+        .item-fitur {text-align:center; flex:1; font-size:12px; color:var(--abu);}
+        .item-fitur b {display:block; color:var(--teks); font-size:13px; margin-bottom:2px;}
 
-        .fitur-atas {
-            display: flex;
-            justify-content: space-around;
-            gap: 8px;
-            padding: 16px;
-            margin: -16px 12px 24px;
-            background: var(--kartu);
-            border-radius: 12px;
-            border: 1px solid var(--batas);
-            position: relative;
-            z-index: 2;
-        }
-        .item-fitur {
-            text-align: center;
-            flex: 1;
-            font-size: 12px;
-            color: var(--abu);
-        }
-        .item-fitur b {
-            display: block;
-            color: var(--teks);
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
+        .judul-bagian {font-size:20px; font-weight:700; margin-bottom:16px; border-left:4px solid var(--utama); padding-left:10px;}
 
-        .judul-bagian {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            border-left: 4px solid var(--utama);
-            padding-left: 10px;
-        }
+        /* Pilih Game */
+        .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
+        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; text-align:center; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s;}
+        .kartu-game:hover {transform:translateY(-5px); border-color:var(--utama); box-shadow:0 8px 24px rgba(0,212,255,0.15);}
+        .ikon-game {font-size:40px; margin-bottom:12px;}
+        .nama-game {font-weight:700; font-size:16px; margin-bottom:4px;}
+        .isi-game {font-size:13px; color:var(--abu);}
 
-        .grid-game {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        .kartu-game {
-            background: var(--kartu);
-            border-radius: 16px;
-            padding: 24px 16px;
-            text-align: center;
-            border: 1px solid var(--batas);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .kartu-game:hover {
-            transform: translateY(-5px);
-            border-color: var(--utama);
-            box-shadow: 0 8px 24px rgba(0,212,255,0.15);
-        }
-        .ikon-game {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
-        .nama-game {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        .isi-game {
-            font-size: 13px;
-            color: var(--abu);
-            margin-bottom: 8px;
-        }
-        .harga-game {
-            font-weight: 800;
-            font-size: 18px;
-            color: var(--harga);
-        }
+        /* Pilih Nominal */
+        .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; text-decoration:none; margin-bottom:20px; cursor:pointer;}
+        .tombol-kembali::before {content:'←'; font-size:18px;}
+        .judul-nominal {font-size:22px; font-weight:800; margin-bottom:20px; display:flex; align-items:center; gap:10px;}
+        .nomor-urutan {width:32px; height:32px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700;}
+        .grid-nominal {display:grid; grid-template-columns:repeat(2, 1fr); gap:14px;}
+        .kartu-nominal {background:var(--kartu); border-radius:12px; padding:20px 16px; border:2px solid var(--batas); cursor:pointer; transition:all 0.2s; text-align:center;}
+        .kartu-nominal.aktif {border-color:var(--utama); box-shadow:0 0 15px rgba(0,212,255,0.2);}
+        .kartu-nominal:hover {border-color:var(--utama);}
+        .nama-nominal {font-weight:700; font-size:17px; margin-bottom:6px;}
+        .harga-nominal {font-size:16px; font-weight:700; color:var(--utama);}
 
-        /* === HALAMAN PILIH NOMINAL === */
-        .tombol-kembali {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--utama);
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-        .tombol-kembali::before {
-            content: '←';
-            font-size: 18px;
-        }
+        /* Form Pemesanan */
+        .form-group {margin-bottom:16px;}
+        label {display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
+        input {width:100%; padding:12px; border:1px solid var(--batas); border-radius:8px; background:var(--kartu); color:var(--teks); font-size:15px;}
+        input:focus {outline:none; border-color:var(--utama);}
+        .judul-bayar {font-size:16px; font-weight:700; margin:20px 0 10px;}
+        .pilih-bayar label {display:flex; align-items:center; padding:12px; margin:6px 0; border:1px solid var(--batas); border-radius:8px; cursor:pointer; transition:all 0.2s;}
+        .pilih-bayar label.aktif {border-color:var(--utama); background:rgba(0,212,255,0.1);}
+        .pilih-bayar input {width:auto; margin:0 10px 0 0;}
+        .info-bayar {background:rgba(52,211,153,0.1); border:1px solid var(--harga); padding:16px; border-radius:8px; margin-top:18px; font-size:14px; line-height:1.7; color:#A7F3D0; display:none;}
 
-        .judul-nominal {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nomor-urutan {
-            width: 32px;
-            height: 32px;
-            background: var(--utama);
-            color: var(--latar);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            font-weight: 700;
-        }
+        /* Tombol Bawah */
+        .tombol-bawah {position:fixed; bottom:20px; left:16px; right:16px; padding:14px; background:var(--utama); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; transition:transform 0.2s;}
+        .tombol-bawah:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed; transform:none;}
+        .tombol-bawah:hover:not(:disabled) {transform:scale(1.02);}
 
-        .grid-nominal {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-        }
-        .kartu-nominal {
-            background: var(--kartu);
-            border-radius: 12px;
-            padding: 20px 16px;
-            border: 2px solid var(--batas);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .kartu-nominal.aktif {
-            border-color: var(--utama);
-            box-shadow: 0 0 15px rgba(0,212,255,0.2);
-        }
-        .kartu-nominal:hover {
-            border-color: var(--utama);
-        }
-        .nama-nominal {
-            font-weight: 700;
-            font-size: 17px;
-            margin-bottom: 6px;
-        }
-        .harga-nominal {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--utama);
-        }
-
-        .tombol-lanjut {
-            position: fixed;
-            bottom: 20px;
-            left: 16px;
-            right: 16px;
-            padding: 14px;
-            background: var(--utama);
-            color: var(--latar);
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .tombol-lanjut:hover {
-            transform: scale(1.02);
-        }
-        .tombol-lanjut:disabled {
-            background: var(--batas);
-            color: var(--abu);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .link-admin {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-        }
-        .link-admin a {
-            color: var(--abu);
-            text-decoration: none;
-        }
-        .link-admin a:hover {
-            color: var(--utama);
-        }
+        .link-admin {text-align:center; margin-top:30px; font-size:13px;}
+        .link-admin a {color:var(--abu); text-decoration:none;}
+        .link-admin a:hover {color:var(--utama);}
     </style>
 </head>
 <body>
@@ -295,93 +106,114 @@
 <!-- HALAMAN 2: PILIH NOMINAL -->
 <div class="halaman" id="halPilihNominal">
     <div class="tombol-kembali" onclick="kembaliKeGame()">Kembali Pilih Game</div>
-    
     <div class="judul-nominal">
         <div class="nomor-urutan">2</div>
         PILIH NOMINAL TOP UP
     </div>
-
     <div class="grid-nominal" id="daftarNominal"></div>
+    <button class="tombol-bawah" id="btnLanjut" disabled onclick="bukaForm()">Lanjut Isi Data</button>
+</div>
 
-    <button class="tombol-lanjut" id="btnLanjut" disabled>Lanjut Isi Data</button>
+<!-- HALAMAN 3: FORM PEMESANAN -->
+<div class="halaman" id="halForm">
+    <div class="tombol-kembali" onclick="kembaliKeNominal()">Kembali Pilih Nominal</div>
+    <div class="judul-nominal">
+        <div class="nomor-urutan">3</div>
+        ISI DATA PEMESANAN
+    </div>
+
+    <div class="form-group">
+        <label>ID Game / User ID</label>
+        <input type="text" id="idGame" placeholder="Contoh: 123456789">
+    </div>
+    <div class="form-group">
+        <label>Nomor WhatsApp</label>
+        <input type="text" id="waPembeli" placeholder="Contoh: 081234567890">
+    </div>
+
+    <h4 class="judul-bayar">Metode Pembayaran</h4>
+    <div class="pilih-bayar" id="daftarBayar"></div>
+
+    <button class="tombol-bawah" onclick="kirimPesan()">Konfirmasi Pesanan</button>
+    <div id="infoBayar" class="info-bayar"></div>
 </div>
 
 <script>
 let gameTerpilih = null;
 let nominalTerpilih = null;
+let pengaturan, dataGame;
 
-// Data Nominal Sesuai Contoh Kamu
-const dataNominal = {
-    "Mobile Legends": [
-        {nama: "5 Diamonds", harga: 1000},
-        {nama: "10 Diamonds", harga: 2000},
-        {nama: "20 Diamonds", harga: 4000},
-        {nama: "50 Diamonds", harga: 8000},
-        {nama: "70 Diamonds", harga: 10000},
-        {nama: "100 Diamonds", harga: 17000},
-        {nama: "140 Diamonds", harga: 20000},
-        {nama: "150 Diamonds", harga: 23000},
-        {nama: "210 Diamonds", harga: 31000},
-        {nama: "280 Diamonds", harga: 41000},
-        {nama: "355 Diamonds", harga: 50000},
-        {nama: "425 Diamonds", harga: 61000}
-    ],
-    "Free Fire": [
-        {nama: "5 Diamond", harga: 900},
-        {nama: "12 Diamond", harga: 2500},
-        {nama: "50 Diamond", harga: 9500},
-        {nama: "140 Diamond", harga: 28000},
-        {nama: "7290 Diamond", harga: 1400000}
-    ],
-    "PUBG Mobile": [
-        {nama: "60 UC", harga: 25000},
-        {nama: "325 UC", harga: 115000},
-        {nama: "660 UC", harga: 230000}
-    ]
-};
+// Baca data dari Admin
+function ambilData(){
+    const t = localStorage.getItem('pengaturanToko');
+    const g = localStorage.getItem('dataGame');
+    
+    if(t){
+        pengaturan = JSON.parse(t);
+    }else{
+        pengaturan = {
+            namaPemilik: "Mungalim",
+            waTujuan: "087794088983",
+            bayar: [
+                {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
+                {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
+                {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
+                {id:"jago", nama:"Bank Jago", nomor:"12345678", aktif:true}
+            ]
+        };
+    }
 
-const ikonGame = {
-    "Mobile Legends": "⚔️",
-    "Free Fire": "🔥",
-    "PUBG Mobile": "🎯"
-};
+    if(g){
+        dataGame = JSON.parse(g);
+    }else{
+        dataGame = [
+            {nama:"Mobile Legends", ikon:"⚔️", nominal:[
+                {nama:"5 Diamonds", harga:1000}, {nama:"10 Diamonds", harga:2000},
+                {nama:"20 Diamonds", harga:4000}, {nama:"50 Diamonds", harga:8000},
+                {nama:"70 Diamonds", harga:10000}, {nama:"100 Diamonds", harga:17000},
+                {nama:"140 Diamonds", harga:20000}, {nama:"150 Diamonds", harga:23000},
+                {nama:"210 Diamonds", harga:31000}, {nama:"280 Diamonds", harga:41000},
+                {nama:"355 Diamonds", harga:50000}, {nama:"425 Diamonds", harga:61000}
+            ]},
+            {nama:"Free Fire", ikon:"🔥", nominal:[
+                {nama:"5 Diamond", harga:900}, {nama:"12 Diamond", harga:2500},
+                {nama:"50 Diamond", harga:9500}, {nama:"140 Diamond", harga:28000},
+                {nama:"7290 Diamond", harga:1400000}
+            ]},
+            {nama:"PUBG Mobile", ikon:"🎯", nominal:[
+                {nama:"60 UC", harga:25000}, {nama:"325 UC", harga:115000},
+                {nama:"660 UC", harga:230000}
+            ]}
+        ];
+    }
+}
 
-// Tampilkan Daftar Game
+// Tampilkan daftar game
 function tampilGame(){
-    const produk = [
-        {nama:"Mobile Legends", isi:"Pilih Nominal Diamond"},
-        {nama:"Free Fire", isi:"Pilih Nominal Diamond"},
-        {nama:"PUBG Mobile", isi:"Pilih Nominal UC"}
-    ];
     let html = '';
-    produk.forEach(p => {
-        html += `<div class="kartu-game" onclick="bukaNominal('${p.nama}')">
-                    <div class="ikon-game">${ikonGame[p.nama] || "🎮"}</div>
-                    <div class="nama-game">${p.nama}</div>
-                    <div class="isi-game">${p.isi}</div>
+    dataGame.forEach(g => {
+        html += `<div class="kartu-game" onclick="bukaNominal('${g.nama}')">
+                    <div class="ikon-game">${g.ikon}</div>
+                    <div class="nama-game">${g.nama}</div>
+                    <div class="isi-game">Pilih Nominal</div>
                 </div>`;
     });
     document.getElementById('daftarGame').innerHTML = html;
 }
 
-// Beralih ke Halaman Nominal
-function bukaNominal(namaGame){
-    gameTerpilih = namaGame;
+// Buka halaman nominal
+function bukaNominal(nama){
+    gameTerpilih = nama;
     nominalTerpilih = null;
-    
-    // Ganti Halaman
-    document.getElementById('halPilihGame').classList.remove('aktif');
-    document.getElementById('halPilihNominal').classList.add('aktif');
-    
-    // Tampilkan Nominal
+    gantiHalaman('halPilihNominal');
     tampilNominal();
 }
 
-// Tampilkan Daftar Nominal
+// Tampilkan nominal
 function tampilNominal(){
-    const daftar = dataNominal[gameTerpilih] || [];
+    const game = dataGame.find(g => g.nama === gameTerpilih);
     let html = '';
-    daftar.forEach((n, i) => {
+    game.nominal.forEach((n,i) => {
         html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)">
                     <div class="nama-nominal">${n.nama}</div>
                     <div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div>
@@ -391,25 +223,83 @@ function tampilNominal(){
     document.getElementById('btnLanjut').disabled = true;
 }
 
-// Pilih Salah Satu Nominal
-function pilihNominal(index, elemen){
-    // Hapus yang lain
+// Pilih nominal
+function pilihNominal(index, el){
     document.querySelectorAll('.kartu-nominal').forEach(e => e.classList.remove('aktif'));
-    // Tandai yang dipilih
-    elemen.classList.add('aktif');
-    nominalTerpilih = dataNominal[gameTerpilih][index];
-    // Aktifkan tombol
+    el.classList.add('aktif');
+    const game = dataGame.find(g => g.nama === gameTerpilih);
+    nominalTerpilih = game.nominal[index];
     document.getElementById('btnLanjut').disabled = false;
 }
 
-// Kembali ke Halaman Game
-function kembaliKeGame(){
-    document.getElementById('halPilihNominal').classList.remove('aktif');
-    document.getElementById('halPilihGame').classList.add('aktif');
+// Buka form pemesanan
+function bukaForm(){
+    gantiHalaman('halForm');
+    tampilCaraBayar();
 }
 
-// Jalankan Pertama Kali
+// Tampilkan cara bayar
+function tampilCaraBayar(){
+    let html = '';
+    let pertama = true;
+    pengaturan.bayar.forEach(cb => {
+        if(cb.aktif){
+            html += `<label onclick="pilihMetode(this)">
+                        <input type="radio" name="bayar" value="${cb.id}" ${pertama?'checked':''}> ${cb.nama}
+                    </label>`;
+            pertama = false;
+        }
+    });
+    document.getElementById('daftarBayar').innerHTML = html;
+}
+
+function pilihMetode(el){
+    document.querySelectorAll('.pilih-bayar label').forEach(e => e.classList.remove('aktif'));
+    el.classList.add('aktif');
+    el.querySelector('input').checked = true;
+}
+
+// Kirim pesan & tampil info bayar
+function kirimPesan(){
+    const id = document.getElementById('idGame').value;
+    const wa = document.getElementById('waPembeli').value;
+    const pilih = document.querySelector('input[name="bayar"]:checked').value;
+
+    if(!id) return alert("Masukkan ID Game dulu!");
+    if(!wa) return alert("Masukkan Nomor WhatsApp dulu!");
+
+    let info = `<b>✅ PESANAN DITERIMA</b><br><br>`;
+    info += `Game: ${gameTerpilih}<br>`;
+    info += `Item: ${nominalTerpilih.nama}<br>`;
+    info += `Total: <b>Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}</b><br><br>`;
+    
+    pengaturan.bayar.forEach(cb => {
+        if(cb.id === pilih){
+            info += `<b>Cara Pembayaran:</b><br>`;
+            info += cb.id === 'jago' 
+                ? `🏦 ${cb.nama}<br>No. Rekening: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`
+                : `📱 ${cb.nama}<br>Nomor: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
+        }
+    });
+    info += `<br><br>📲 Kirim bukti bayar ke WA: <b>${pengaturan.waTujuan}</b>`;
+    
+    document.getElementById('infoBayar').innerHTML = info;
+    document.getElementById('infoBayar').style.display = 'block';
+    alert("Berhasil! Silakan lihat cara pembayaran di bawah.");
+}
+
+// Fungsi ganti halaman
+function gantiHalaman(id){
+    document.querySelectorAll('.halaman').forEach(e => e.classList.remove('aktif'));
+    document.getElementById(id).classList.add('aktif');
+}
+function kembaliKeGame(){ gantiHalaman('halPilihGame'); }
+function kembaliKeNominal(){ gantiHalaman('halPilihNominal'); }
+
+// Jalankan saat buka
+ambilData();
 tampilGame();
 </script>
 </body>
-</html>
+        </html>
+                                    
