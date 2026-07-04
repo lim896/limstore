@@ -3,286 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LimStore - Top Up Game Termurah & Terpercaya</title>
+    <title>LimStore - Top Up Game Resmi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            box-sizing: border-box;
-        }
+        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
         :root {
-            --utama: #165DFF;
-            --gelap: #0F172A;
-            --abu: #64748B;
-            --putih: #FFFFFF;
-            --bayangan: 0 4px 20px rgba(22, 93, 255, 0.1);
-            --hover: #0F4CD1;
+            --utama:#7C3AED;
+            --latar:#0F1218;
+            --kartu:#1A1F2B;
+            --teks:#F1F5F9;
+            --abu:#94A3B8;
+            --sukses:#10B981;
+            --batas:#272E3B;
         }
-        body {
-            background: #F8FAFC;
-            color: var(--gelap);
-            padding-bottom: 40px;
-        }
-        .atas {
-            background: linear-gradient(135deg, var(--utama), var(--hover));
-            color: var(--putih);
-            padding: 20px 15px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .tagline {
-            font-size: 13px;
-            font-weight: 400;
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-        .keunggulan {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 18px 15px;
-            background: var(--putih);
-            margin: -15px 15px 25px;
-            border-radius: 12px;
-            box-shadow: var(--bayangan);
-        }
-        .item-unggul {
-            text-align: center;
-            flex: 1 1 120px;
-            font-size: 13px;
-            color: var(--abu);
-            font-weight: 500;
-        }
-        .item-unggul b {
-            display: block;
-            color: var(--gelap);
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-        .judul-bagian {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 15px 15px;
-            color: var(--gelap);
-            border-left: 4px solid var(--utama);
-            padding-left: 10px;
-        }
-        .daftar-game {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            padding: 0 15px;
-            margin-bottom: 25px;
-        }
-        .kartu-game {
-            background: var(--putih);
-            border-radius: 12px;
-            padding: 20px 15px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 1px solid #F1F5F9;
-        }
-        .kartu-game:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--bayangan);
-            border-color: var(--utama);
-        }
-        .nama-game {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--gelap);
-            margin-bottom: 5px;
-        }
-        .item-game {
-            font-size: 13px;
-            color: var(--abu);
-            margin-bottom: 10px;
-        }
-        .harga-game {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--utama);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 20px;
-            overflow-y: auto;
-            z-index: 999;
-        }
-        .isi-modal {
-            background: var(--putih);
-            max-width: 480px;
-            margin: 30px auto;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            position: relative;
-        }
-        .tutup {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--abu);
-            transition: color 0.2s;
-        }
-        .tutup:hover {
-            color: var(--gelap);
-        }
-        .isi-modal h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--gelap);
-            margin-bottom: 8px;
-            padding-right: 30px;
-        }
-        .detail-item {
-            color: var(--abu);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        .detail-harga {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--utama);
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 6px;
-            color: var(--gelap);
-        }
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1.5px solid #E2E8F0;
-            border-radius: 8px;
-            font-size: 15px;
-            margin-bottom: 15px;
-            transition: border-color 0.2s;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--utama);
-        }
-        .judul-bayar {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 20px 0 10px;
-            color: var(--gelap);
-        }
-        .pilihan-bayar label {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            margin: 8px 0;
-            border: 1.5px solid #E2E8F0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        .pilihan-bayar label.aktif {
-            border-color: var(--utama);
-            background: #EFF6FF;
-            color: var(--utama);
-        }
-        .pilihan-bayar input {
-            width: auto;
-            margin: 0 10px 0 0;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: var(--utama);
-            color: var(--putih);
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: var(--hover);
-        }
-        .info-bayar {
-            background: #ECFDF5;
-            border: 1px solid #10B981;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-size: 14px;
-            line-height: 1.7;
-            color: #065F46;
-        }
-        .link-admin {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-        }
-        .link-admin a {
-            color: var(--abu);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .link-admin a:hover {
-            color: var(--utama);
-        }
+        body {background:var(--latar); color:var(--teks); min-height:100vh; padding-bottom:40px;}
+        .header {background:linear-gradient(135deg, var(--utama), #9D4EDD); padding:24px 16px; text-align:center;}
+        .header h1 {font-size:26px; font-weight:800; margin-bottom:4px;}
+        .header p {font-size:13px; opacity:0.9;}
+        .info-atas {display:flex; justify-content:space-around; gap:8px; padding:16px; margin:-16px 12px 24px; background:var(--kartu); border-radius:12px; border:1px solid var(--batas); position:relative; z-index:2;}
+        .info-item {text-align:center; flex:1; font-size:11px; color:var(--abu);}
+        .info-item b {display:block; color:var(--teks); font-size:13px; margin-bottom:2px;}
+        .judul {font-size:18px; font-weight:700; margin:0 16px 16px; border-left:4px solid var(--utama); padding-left:10px;}
+        .grid-game {display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:14px; padding:0 16px;}
+        .kartu {background:var(--kartu); border-radius:14px; padding:18px 12px; text-align:center; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s;}
+        .kartu:hover {transform:translateY(-4px); border-color:var(--utama); box-shadow:0 8px 20px rgba(124,58,237,0.15);}
+        .ikon {font-size:32px; margin-bottom:10px;}
+        .nama-game {font-weight:700; font-size:15px; margin-bottom:4px;}
+        .item {font-size:12px; color:var(--abu); margin-bottom:8px;}
+        .harga {font-weight:800; font-size:17px; color:var(--sukses);}
+        .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,18,24,0.9); padding:20px; overflow-y:auto; z-index:999;}
+        .isi-modal {background:var(--kartu); max-width:420px; margin:30px auto; padding:24px; border-radius:16px; border:1px solid var(--batas); position:relative;}
+        .tutup {position:absolute; top:14px; right:18px; font-size:28px; cursor:pointer; color:var(--abu);}
+        .tutup:hover {color:var(--teks);}
+        .isi-modal h3 {font-size:20px; margin-bottom:6px; padding-right:30px;}
+        .isi-modal .desk {font-size:14px; color:var(--abu); margin-bottom:12px;}
+        .isi-modal .harga-besar {font-size:24px; font-weight:800; color:var(--sukses); margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--batas);}
+        label {display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
+        input {width:100%; padding:12px; border:1px solid var(--batas); border-radius:8px; background:var(--latar); color:var(--teks); margin-bottom:14px; font-size:15px;}
+        input:focus {outline:none; border-color:var(--utama);}
+        .judul-bayar {font-size:16px; font-weight:700; margin:20px 0 10px;}
+        .pilih-bayar label {display:flex; align-items:center; padding:12px; margin:6px 0; border:1px solid var(--batas); border-radius:8px; cursor:pointer; transition:all 0.2s;}
+        .pilih-bayar label.aktif {border-color:var(--utama); background:rgba(124,58,237,0.1);}
+        .pilih-bayar input {width:auto; margin:0 10px 0 0;}
+        button {width:100%; padding:14px; background:linear-gradient(135deg, var(--utama), #9D4EDD); color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; margin-top:8px; transition:transform 0.2s;}
+        button:hover {transform:scale(1.02);}
+        .info-bayar {background:rgba(16,185,129,0.1); border:1px solid var(--sukses); padding:16px; border-radius:8px; margin-top:18px; font-size:14px; line-height:1.7; color:#A7F3D0;}
+        .link-admin {text-align:center; margin-top:30px; font-size:13px; color:var(--abu);}
+        .link-admin a {color:var(--abu); text-decoration:none;}
+        .link-admin a:hover {color:var(--utama);}
     </style>
 </head>
 <body>
 
-<div class="atas">
-    LIMSTORE
-    <div class="tagline">Top Up Game Cepat, Aman, & Paling Murah</div>
+<div class="header">
+    <h1>LIMSTORE</h1>
+    <p>Top Up Game Cepat, Aman, & Paling Murah</p>
 </div>
 
-<div class="keunggulan">
-    <div class="item-unggul"><b>⚡ Instan</b> Masuk Detik Itu Juga</div>
-    <div class="item-unggul"><b>🔐 Aman</b> Data Terjamin Rahasia</div>
-    <div class="item-unggul"><b>💳 Sesuai Saldo</b> GoPay/DANA/OVO/Jago</div>
-    <div class="item-unggul"><b>🕒 Buka 24 Jam</b> Kapan Saja Bisa</div>
+<div class="info-atas">
+    <div class="info-item"><b>⚡ Instan</b> Masuk Detik Itu Juga</div>
+    <div class="info-item"><b>🔐 Aman</b> 100% Resmi</div>
+    <div class="info-item"><b>💳 Semua Bayar</b> E-Wallet & Bank</div>
+    <div class="info-item"><b>🕒 24 Jam</b> Buka Setiap Saat</div>
 </div>
 
-<div class="judul-bagian">PILIH GAME</div>
-<div class="daftar-game" id="daftarGame"></div>
+<div class="judul">PILIH PRODUK</div>
+<div class="grid-game" id="daftarGame"></div>
 
-<div id="formPesan" class="modal">
+<div id="modalPesan" class="modal">
     <div class="isi-modal">
-        <span class="tutup" onclick="tutupPesan()">&times;</span>
+        <span class="tutup" onclick="tutupModal()">&times;</span>
         <h3 id="namaGame"></h3>
-        <p class="detail-item" id="namaItem"></p>
-        <p class="detail-harga" id="hargaItem"></p>
-        
+        <p class="desk" id="deskItem"></p>
+        <p class="harga-besar" id="hargaItem"></p>
+
         <label>ID Game / User ID</label>
-        <input type="text" id="idGame" placeholder="Contoh: 123456789">
+        <input type="text" id="idUser" placeholder="Masukkan ID kamu di sini">
 
         <label>Nomor WhatsApp</label>
-        <input type="text" id="waPembeli" placeholder="Contoh: 081234567890">
+        <input type="text" id="waUser" placeholder="Contoh: 0812xxxxxxx">
 
-        <h4 class="judul-bayar">Metode Pembayaran</h4>
-        <div class="pilihan-bayar" id="pilihanBayar"></div>
+        <h4 class="judul-bayar">Pilih Cara Bayar</h4>
+        <div class="pilih-bayar" id="daftarBayar"></div>
 
-        <button onclick="kirimPesan()">Lanjut Pembayaran</button>
-        <div id="tampilInfoBayar" class="info-bayar" style="display:none;"></div>
+        <button onclick="prosesPesan()">Lanjut Pembayaran</button>
+        <div id="infoBayar" class="info-bayar" style="display:none;"></div>
     </div>
 </div>
 
@@ -291,18 +95,22 @@
 </div>
 
 <script>
-let hargaSaatIni = 0;
+let hargaSekarang = 0;
 let pengaturan, produk;
 
-function ambilPengaturan(){
-    const data = localStorage.getItem('pengaturanToko');
-    if(data){
-        pengaturan = JSON.parse(data);
+// Baca data pengaturan & produk
+function bacaData(){
+    const dataToko = localStorage.getItem('dataTokoLim');
+    const dataProduk = localStorage.getItem('produkLim');
+    
+    if(dataToko){
+        pengaturan = JSON.parse(dataToko);
     }else{
         pengaturan = {
-            namaPemilik: "LimStore",
-            waKamu: "0812xxxxxxx",
-            bayar: [
+            namaToko: "LimStore",
+            namaPemilik: "Mungalim",
+            waTujuan: "087794088983",
+            caraBayar: [
                 {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
                 {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
                 {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
@@ -311,7 +119,6 @@ function ambilPengaturan(){
         };
     }
 
-    const dataProduk = localStorage.getItem('daftarProduk');
     if(dataProduk){
         produk = JSON.parse(dataProduk);
     }else{
@@ -323,81 +130,85 @@ function ambilPengaturan(){
     }
 }
 
-function tampilkanProduk(){
+// Tampilkan daftar game
+function tampilGame(){
     let html = '';
+    const ikon = {"Mobile Legends":"⚔️","Free Fire":"🔥","PUBG Mobile":"🎯"};
     produk.forEach(p => {
-        html += `<div class="kartu-game" onclick="bukaPesan('${p.nama}','${p.item}',${p.harga})">
+        html += `<div class="kartu" onclick="bukaModal('${p.nama}','${p.item}',${p.harga})">
+                    <div class="ikon">${ikon[p.nama] || "🎮"}</div>
                     <div class="nama-game">${p.nama}</div>
-                    <div class="item-game">${p.item}</div>
-                    <div class="harga-game">Rp ${p.harga.toLocaleString('id-ID')}</div>
+                    <div class="item">${p.item}</div>
+                    <div class="harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
                 </div>`;
     });
     document.getElementById('daftarGame').innerHTML = html;
 }
 
-function tampilkanCaraBayar(){
+// Tampilkan cara bayar
+function tampilBayar(){
     let html = '';
     let pertama = true;
-    pengaturan.bayar.forEach(cb => {
+    pengaturan.caraBayar.forEach(cb => {
         if(cb.aktif){
-            html += `<label onclick="pilihBayar(this)">
-                        <input type="radio" name="bayar" value="${cb.id}" ${pertama?'checked':''}> ${cb.nama}
+            html += `<label onclick="pilihMetode(this)">
+                        <input type="radio" name="metode" value="${cb.id}" ${pertama?'checked':''}> ${cb.nama}
                     </label>`;
             pertama = false;
         }
     });
-    document.getElementById('pilihanBayar').innerHTML = html;
+    document.getElementById('daftarBayar').innerHTML = html;
 }
 
-function bukaPesan(game, item, harga){
-    document.getElementById('namaGame').textContent = 'Pesan ' + game;
-    document.getElementById('namaItem').textContent = 'Paket: ' + item;
+// Buka form pesan
+function bukaModal(nama, item, harga){
+    document.getElementById('namaGame').textContent = 'Top Up ' + nama;
+    document.getElementById('deskItem').textContent = 'Paket: ' + item;
     document.getElementById('hargaItem').textContent = 'Rp ' + harga.toLocaleString('id-ID');
-    hargaSaatIni = harga;
-    document.getElementById('formPesan').style.display = 'block';
-    document.getElementById('tampilInfoBayar').style.display = 'none';
-    tampilkanCaraBayar();
+    hargaSekarang = harga;
+    document.getElementById('modalPesan').style.display = 'block';
+    document.getElementById('infoBayar').style.display = 'none';
+    tampilBayar();
 }
 
-function tutupPesan(){
-    document.getElementById('formPesan').style.display = 'none';
+function tutupModal(){
+    document.getElementById('modalPesan').style.display = 'none';
 }
 
-function pilihBayar(label){
-    document.querySelectorAll('.pilihan-bayar label').forEach(l => l.classList.remove('aktif'));
+function pilihMetode(label){
+    document.querySelectorAll('.pilih-bayar label').forEach(l => l.classList.remove('aktif'));
     label.classList.add('aktif');
     label.querySelector('input').checked = true;
 }
 
-function kirimPesan(){
-    const idGame = document.getElementById('idGame').value;
-    const waPembeli = document.getElementById('waPembeli').value;
-    const caraBayar = document.querySelector('input[name="bayar"]:checked').value;
+// Proses pesan & tampilkan data yang sudah diubah
+function prosesPesan(){
+    const id = document.getElementById('idUser').value;
+    const wa = document.getElementById('waUser').value;
+    const pilih = document.querySelector('input[name="metode"]:checked').value;
 
-    if(!idGame){ alert("Masukkan ID Game terlebih dahulu!"); return; }
-    if(!waPembeli){ alert("Masukkan nomor WhatsApp terlebih dahulu!"); return; }
+    if(!id) return alert("Isi ID Game dulu!");
+    if(!wa) return alert("Isi nomor WA dulu!");
 
-    let info = "";
-    pengaturan.bayar.forEach(cb => {
-        if(cb.id === caraBayar){
-            if(cb.id === "jago"){
-                info = `<b>Silakan Lakukan Pembayaran:</b><br><br>🏦 Bank Jago<br>No. Rekening: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
-            }else{
-                info = `<b>Silakan Lakukan Pembayaran:</b><br><br>📱 ${cb.nama}<br>Nomor: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
-            }
+    let info = `<b>✅ Pembayaran ke:</b><br><br>`;
+    pengaturan.caraBayar.forEach(cb => {
+        if(cb.id === pilih){
+            info += cb.id === 'jago' 
+                ? `🏦 ${cb.nama}<br>No. Rekening: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`
+                : `📱 ${cb.nama}<br>Nomor: ${cb.nomor}<br>Atas Nama: ${pengaturan.namaPemilik}`;
         }
     });
+    info += `<br><br>💸 Total: <b>Rp ${hargaSekarang.toLocaleString('id-ID')}</b>`;
+    info += `<br><br>📲 Kirim bukti ke WA: <b>${pengaturan.waTujuan}</b>`;
 
-    info += `<br><br>💸 Total Pembayaran: <b>Rp ${hargaSaatIni.toLocaleString('id-ID')}</b>`;
-    info += `<br><br>✅ Setelah berhasil bayar, silakan kirim bukti pembayaran ke WhatsApp kami: <b>${pengaturan.waKamu}</b>`;
-
-    document.getElementById('tampilInfoBayar').innerHTML = info;
-    document.getElementById('tampilInfoBayar').style.display = 'block';
-    alert("Pesanan berhasil dibuat! Silakan lihat detail pembayaran di bawah.");
+    document.getElementById('infoBayar').innerHTML = info;
+    document.getElementById('infoBayar').style.display = 'block';
+    alert("Pesanan berhasil! Data yang kamu ubah di admin sudah terpakai ya.");
 }
 
-ambilPengaturan();
-tampilkanProduk();
+// Jalankan saat halaman dibuka
+bacaData();
+tampilGame();
 </script>
 </body>
 </html>
