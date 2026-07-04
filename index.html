@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Top Up Game</title>
+    <style>
+        * {margin:0; padding:0; font-family:Arial, sans-serif; box-sizing:border-box;}
+        body {background:#f0f4f8; color:#333;}
+        .atas {background:#165DFF; color:white; padding:15px; text-align:center; font-size:20px; font-weight:bold;}
+        .fitur {display:flex; justify-content:space-around; flex-wrap:wrap; padding:15px; background:white; margin:10px; border-radius:8px;}
+        .box-fitur {text-align:center; padding:10px; font-size:14px;}
+        .judul-game {margin:20px 10px 10px; font-size:18px; font-weight:bold;}
+        .daftar-game {display:flex; flex-wrap:wrap; gap:10px; padding:0 10px; margin-bottom:20px;}
+        .kartu-game {flex:1 1 140px; background:white; border-radius:8px; padding:12px; text-align:center; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        .kartu-game:hover {background:#e8f3ff;}
+        .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); padding:20px; overflow:auto;}
+        .isi-modal {background:white; max-width:450px; margin:20px auto; padding:20px; border-radius:8px;}
+        .tutup {float:right; font-size:24px; cursor:pointer; color:#888;}
+        h3 {margin-bottom:15px;}
+        input, button {width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:5px; font-size:15px;}
+        button {background:#165DFF; color:white; border:none; cursor:pointer; font-weight:bold;}
+        button:hover {background:#0f4cd1;}
+        .pilihan-bayar {margin:15px 0;}
+        .pilihan-bayar label {display:block; padding:10px; margin:5px 0; border:1px solid #ddd; border-radius:5px; cursor:pointer;}
+        .pilihan-bayar label.aktif {border-color:#165DFF; background:#e8f3ff;}
+        .link-admin {text-align:center; padding:20px; font-size:12px; color:#888;}
+        .link-admin a {color:#888; text-decoration:none;}
+        .info-bayar {background:#fff3cd; padding:12px; border-radius:6px; margin-top:10px; font-size:14px;}
+    </style>
+</head>
+<body>
+
+<div class="atas">TOKO TOP UP GAME RESMI</div>
+
+<div class="fitur">
+    <div class="box-fitur"><b>⚡ Proses Instan</b></div>
+    <div class="box-fitur"><b>🔒 100% Aman</b></div>
+    <div class="box-fitur"><b>💳 Sesuai Cara Bayar Kamu</b></div>
+    <div class="box-fitur"><b>🕒 Layanan 24 Jam</b></div>
+</div>
+
+<div class="judul-game">PILIH GAME</div>
+<div class="daftar-game" id="daftarGame"></div>
+
+<div id="formPesan" class="modal">
+    <div class="isi-modal">
+        <span class="tutup" onclick="tutupPesan()">&times;</span>
+        <h3 id="namaGame"></h3>
+        <p id="namaItem"></p>
+        <p><b>Harga: <span id="hargaItem"></span></b></p>
+        
+        <label>Masukkan ID Game:</label>
+        <input type="text" id="idGame" placeholder="Contoh: 12345678">
+
+        <label>Nomor WhatsApp Pembeli:</label>
+        <input type="text" id="waPembeli" placeholder="Contoh: 08123456789">
+
+        <h4>Pilih Cara Bayar:</h4>
+        <div class="pilihan-bayar" id="pilihanBayar"></div>
+
+        <button onclick="kirimPesan()">Bayar Sekarang</button>
+        <div id="tampilInfoBayar" class="info-bayar" style="display:none;"></div>
+    </div>
+</div>
+
+<div class="link-admin">
+    <a href="admin.html">Masuk Admin</a>
+</div>
+
+<script>
+let hargaSaatIni = 0;
+let pengaturan, produk;
+
+function ambilPengaturan(){
+    const data = localStorage.getItem('pengaturanToko');
+    if(data){
+        pengaturan = JSON.parse(data);
+    }else{
+        pengaturan = {
+            namaPemilik: "Nama Kamu",
+            waKamu: "0812xxxxxxx",
+            bayar: [
+                {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
+                {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
+                {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
+                {id:"jago", nama:"Bank Jago", nomor:"12345678", aktif:true}
+            ]
+        };
+    }
+
+    const dataProduk = localStorage.getItem('daftarProduk');
+    if(dataProduk){
+        produk = JSON.parse(dataProduk);
+    }else{
+        produk = [
+            {nama:"Mobile Legends", item:"112 Diamond", harga:32000},
+            {nama:"Free Fire", item:"140 Diamond", harga:28000},
+            {nama:"PUBG Mobile", item:"60 UC", harga:25000}
+        ];
+    }
+}
+
+function tampilkanProduk(){
+    let html = '';
+    produk.forEach(p => {
+        html += `<div class="kartu-game" onclick="bukaPesan('${p.nama}','${p.item}',${p.harga})">
+                    <b>${p.nama}</b><br>${p.item}<br>Rp ${p.harga.toLocaleString('id-ID')}
+                </div>`;
+    });
+    document.getElementById('daftarGame').innerHTML = html;
+}
+
+function tampilkanCaraBayar(){
+    let html = '';
+    let pertama = true;
+    pengaturan.bayar.forEach(cb => {
+        if(cb.aktif){
+            html += `<label onclick="pilihBayar(this)">
+                        <input type="radio" name="bayar" value="${cb.id}" ${pertama?'checked':''} style="width:auto;"> ${cb.nama}
+                    </label>`;
+            pertama = false;
+        }
+    });
+    document.getElementById('pilihanBayar').innerHTML = html;
+}
+
+function bukaPesan(game, item, harga){
+    document.getElementById('namaGame').textContent = 'Pesan ' + game;
+    document.getElementById('namaItem').textContent = 'Item: ' + item;
+    document.getElementById('hargaItem').textContent = 'Rp ' + harga.toLocaleString('id-ID');
+    hargaSaatIni = harga;
+    document.getElementById('formPesan').style.display = 'block';
+    document.getElementById('tampilInfoBayar').style.display = 'none';
+    tampilkanCaraBayar();
+}
+
+function tutupPesan(){
+    document.getElementById('formPesan').style.display = 'none';
+}
+
+function pilihBayar(label){
+    document.querySelectorAll('.pilihan-bayar label').forEach(l => l.classList.remove('aktif'));
+    label.classList.add('aktif');
+    label.querySelector('input').checked = true;
+}
+
+function kirimPesan(){
+    const idGame = document.getElementById('idGame').value;
+    const waPembeli = document.getElementById('waPembeli').value;
+    const caraBayar = document.querySelector('input[name="bayar"]:checked').value;
+
+    if(!idGame){ alert("Isi dulu ID Game ya!"); return; }
+    if(!waPembeli){ alert("Isi dulu nomor WhatsApp kamu ya!"); return; }
+
+    let info = "";
+    pengaturan.bayar.forEach(cb => {
+        if(cb.id === caraBayar){
+            if(cb.id === "jago"){
+                info = `✅ Silakan bayar ke ${cb.nama}:\n🏦 No. Rekening: ${cb.nomor}\n👤 Atas Nama: ${pengaturan.namaPemilik}`;
+            }else{
+                info = `✅ Silakan bayar ke ${cb.nama}:\n📱 Nomor: ${cb.nomor}\n👤 Atas Nama: ${pengaturan.namaPemilik}`;
+            }
+        }
+    });
+
+    info += `\n\n💸 Total Bayar: Rp ${hargaSaatIni.toLocaleString('id-ID')}`;
+    info += `\n📲 Setelah bayar, kirim bukti ke WA saya: ${pengaturan.waKamu}`;
+
+    document.getElementById('tampilInfoBayar').innerHTML = info.replace(/\n/g, "<br>");
+    document.getElementById('tampilInfoBayar').style.display = 'block';
+    alert("Pesanan Berhasil! Silakan lihat data pembayaran di bawah ya.");
+}
+
+ambilPengaturan();
+tampilkanProduk();
+</script>
+</body>
+</html>
