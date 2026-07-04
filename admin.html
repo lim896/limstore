@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Kelola Toko</title>
+    <style>
+        * {margin:0; padding:0; font-family:Arial, sans-serif; box-sizing:border-box;}
+        .login-box {max-width:400px; margin:80px auto; padding:20px; box-shadow:0 0 8px #ccc; border-radius:8px;}
+        .dashboard {display:none; padding:15px; max-width:95%; margin:0 auto;}
+        .menu {display:flex; gap:8px; margin:15px 0; flex-wrap:wrap;}
+        .menu button {padding:10px; border:none; border-radius:5px; background:#165DFF; color:white; cursor:pointer;}
+        .menu button.merah {background:#dc2626;}
+        .isi {background:#f5f7fa; padding:15px; border-radius:8px; margin-top:10px; display:none;}
+        input, button {width:100%; padding:10px; margin:5px 0; border:1px solid #ddd; border-radius:5px;}
+        button {background:#165DFF; color:white; border:none; cursor:pointer; font-weight:bold;}
+        .simpan {background:#059669; margin-top:10px;}
+        .kembali {background:#6b7280; margin-bottom:10px;}
+        label {display:block; margin-top:8px;}
+        .baris-bayar {padding:10px; border-bottom:1px solid #ddd; margin:5px 0;}
+    </style>
+</head>
+<body>
+
+<div class="login-box" id="halamanLogin">
+    <h2 style="text-align:center; margin-bottom:15px;">🔐 Masuk Admin</h2>
+    <input type="text" id="user" placeholder="Nama Pengguna">
+    <input type="password" id="pass" placeholder="Kata Sandi">
+    <button onclick="cekLogin()">Masuk</button>
+</div>
+
+<div class="dashboard" id="halamanAdmin">
+    <a href="index.html" style="text-decoration:none;"><button class="kembali">← Kembali ke Toko</button></a>
+    <h2>📊 Kelola Semua Pengaturan Toko</h2>
+
+    <div class="menu">
+        <button onclick="bukaTab('profil')">Profil & Nomor</button>
+        <button onclick="bukaTab('bayar')">Cara Bayar</button>
+        <button onclick="bukaTab('produk')">Harga & Produk</button>
+        <button class="merah" onclick="keluar()">Keluar</button>
+    </div>
+
+    <div id="profil" class="isi" style="display:block;">
+        <h3>Ubah Nama & Nomor Kamu</h3>
+        <label>Nama Pemilik Rekening/E-Wallet:</label>
+        <input type="text" id="namaPemilik">
+        <label>Nomor WhatsApp untuk kirim bukti:</label>
+        <input type="text" id="waKamu">
+        <button class="simpan" onclick="simpanProfil()">Simpan Perubahan</button>
+    </div>
+
+    <div id="bayar" class="isi">
+        <h3>Tambah / Hapus / Ubah Cara Bayar</h3>
+        <p>Centang jika mau ditampilkan, hapus centang kalau mau disembunyikan</p>
+        <div id="daftarBayar"></div>
+        <button class="simpan" onclick="simpanBayar()">Simpan Cara Bayar</button>
+    </div>
+
+    <div id="produk" class="isi">
+        <h3>Ubah Nama Game & Harga</h3>
+        <div id="daftarProduk"></div>
+        <button class="simpan" onclick="simpanProduk()">Simpan Harga & Produk</button>
+    </div>
+</div>
+
+<script>
+// Ganti nama & sandi masuk admin sesuai keinginanmu!
+const AKUN_ADMIN = {user:"admin", sandi:"123456"};
+let pengaturan, produk;
+
+function cekLogin(){
+    const u = document.getElementById('user').value;
+    const p = document.getElementById('pass').value;
+    if(u === AKUN_ADMIN.user && p === AKUN_ADMIN.sandi){
+        localStorage.setItem('loginAdmin', 'ok');
+        document.getElementById('halamanLogin').style.display = 'none';
+        document.getElementById('halamanAdmin').style.display = 'block';
+        muatData();
+    }else{
+        alert("Salah nama atau sandi!");
+    }
+}
+
+function muatData(){
+    const data = localStorage.getItem('pengaturanToko');
+    if(data){
+        pengaturan = JSON.parse(data);
+    }else{
+        pengaturan = {
+            namaPemilik: "Nama Kamu",
+            waKamu: "0812xxxxxxx",
+            bayar: [
+                {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
+                {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
+                {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
+                {id:"jago", nama:"Bank Jago", nomor:"12345678", aktif:true}
+            ]
+        };
+    }
+
+    const dataP = localStorage.getItem('daftarProduk');
+    if(dataP){
+        produk = JSON.parse(dataP);
+    }else{
+        produk = [
+            {nama:"Mobile Legends", item:"112 Diamond", harga:32000},
+            {nama:"Free Fire", item:"140 Diamond", harga:28000},
+            {nama:"PUBG Mobile", item:"60 UC", harga:25000}
+        ];
+    }
+
+    tampilkanForm();
+}
+
+function tampilkanForm(){
+    document.getElementById('namaPemilik').value = pengaturan.namaPemilik;
+    document.getElementById('waKamu').value = pengaturan.waKamu;
+
+    let htmlBayar = '';
+    pengaturan.bayar.forEach((cb, i) => {
+        htmlBayar += `<div class="baris-bayar">
+            <label><input type="checkbox" id="cbAktif${i}" ${cb.aktif?'checked':''}> Tampilkan</label>
+            <label>Nama Cara Bayar:</label>
+            <input type="text" id="cbNama${i}" value="${cb.nama}">
+            <label>Nomor / No. Rekening:</label>
+            <input type="text" id="cbNomor${i}" value="${cb.nomor}">
+        </div>`;
+    });
+    document.getElementById('daftarBayar').innerHTML = htmlBayar;
+
+    let htmlProduk = '';
+    produk.forEach((pr, i) => {
+        htmlProduk += `<div class="baris-bayar">
+            <label>Nama Game:</label>
+            <input type="text" id="prNama${i}" value="${pr.nama}">
+            <label>Item / Isi:</label>
+            <input type="text" id="prItem${i}" value="${pr.item}">
+            <label>Harga Jual (Rp):</label>
+            <input type="number" id="prHarga${i}" value="${pr.harga}">
+        </div>`;
+    });
+    document.getElementById('daftarProduk').innerHTML = htmlProduk;
+}
+
+function simpanProfil(){
+    pengaturan.namaPemilik = document.getElementById('namaPemilik').value;
+    pengaturan.waKamu = document.getElementById('waKamu').value;
+    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
+    alert("✅ Profil tersimpan! Perubahan langsung terlihat di toko.");
+}
+
+function simpanBayar(){
+    pengaturan.bayar = [];
+    const jumlahBaris = document.querySelectorAll('.baris-bayar').length;
+    for(let i=0; i<jumlahBaris; i++){
+        const nama = document.getElementById(`cbNama${i}`).value;
+        const nomor = document.getElementById(`cbNomor${i}`).value;
+        const aktif = document.getElementById(`cbAktif${i}`).checked;
+        pengaturan.bayar.push({id:nama.toLowerCase().replace(/\s/g,''), nama:nama, nomor:nomor, aktif:aktif});
+    }
+    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
+    alert("✅ Cara bayar tersimpan! Yang tidak dicentang tidak akan muncul di toko.");
+}
+
+function simpanProduk(){
+    produk = [];
+    const jumlahProduk = document.querySelectorAll('#daftarProduk .baris-bayar').length;
+    for(let i=0; i<jumlahProduk; i++){
+        const nama = document.getElementById(`prNama${i}`).value;
+        const item = document.getElementById(`prItem${i}`).value;
+        const harga = parseInt(document.getElementById(`prHarga${i}`).value);
+        produk.push({nama:nama, item:item, harga:harga});
+    }
+    localStorage.setItem('daftarProduk', JSON.stringify(produk));
+    alert("✅ Produk & harga tersimpan!");
+}
+
+function bukaTab(nama){
+    document.querySelectorAll('.isi').forEach(e => e.style.display = 'none');
+    document.getElementById(nama).style.display = 'block';
+}
+
+function keluar(){
+    localStorage.removeItem('loginAdmin');
+    location.reload();
+}
+
+window.onload = ()=>{
+    if(localStorage.getItem('loginAdmin') === 'ok'){
+        document.getElementById('halamanLogin').style.display = 'none';
+        document.getElementById('halamanAdmin').style.display = 'block';
+        muatData();
+    }
+}
+</script>
+</body>
+</html>
