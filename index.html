@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>LIM STORE</title>
 
 <style>
@@ -15,43 +14,17 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
-background:#0b0f16;
+background:#0b1220;
 color:white;
-overflow-x:hidden;
-}
-
-:root{
---primary:#00d4ff;
---card:#141b25;
---card2:#1b2430;
-}
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background-image:
-linear-gradient(rgba(0,212,255,.05) 1px,transparent 1px),
-linear-gradient(90deg,rgba(0,212,255,.05) 1px,transparent 1px);
-background-size:40px 40px;
-pointer-events:none;
-z-index:-1;
 }
 
 header{
 position:sticky;
 top:0;
-z-index:999;
-background:#101720;
-padding:15px 18px;
+z-index:1000;
+background:#111827;
+padding:15px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -59,17 +32,10 @@ border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
-color:var(--primary);
+color:#00d4ff;
 cursor:pointer;
-}
-
-.logo-icon{
-font-size:24px;
 }
 
 .menu-btn{
@@ -78,161 +44,114 @@ cursor:pointer;
 }
 
 .hero{
-padding:80px 20px;
+padding:70px 20px;
 text-align:center;
 }
 
 .hero h1{
 font-size:42px;
-color:var(--primary);
+color:#00d4ff;
 margin-bottom:10px;
 }
 
-.hero h2{
-font-size:30px;
-margin-bottom:20px;
-}
-
 .hero p{
-max-width:650px;
+max-width:600px;
 margin:auto;
-color:#c7c7c7;
+color:#cfd6df;
 line-height:1.7;
 }
 
-.hero-buttons{
-margin-top:30px;
+.btn-group{
+margin-top:25px;
 display:flex;
 justify-content:center;
-gap:15px;
+gap:12px;
 flex-wrap:wrap;
 }
 
-.hero-buttons a{
-background:var(--primary);
-color:black;
-font-weight:bold;
-text-decoration:none;
-padding:14px 20px;
+.btn{
+padding:14px 22px;
+border:none;
 border-radius:12px;
+background:#00d4ff;
+font-weight:bold;
+cursor:pointer;
 }
 
-.search-box{
+.search{
 padding:20px;
 }
 
-.search-box input{
+.search input{
 width:100%;
-padding:15px;
+padding:14px;
 border:none;
 border-radius:12px;
-background:#151d28;
+background:#182233;
 color:white;
-font-size:16px;
+font-size:15px;
 }
 
-.banner{
-margin:0 20px 20px;
+.promo{
+margin:0 20px;
+background:linear-gradient(90deg,#00d4ff,#0099cc);
 padding:15px;
-border-radius:15px;
-background:linear-gradient(135deg,#00d4ff,#0099cc);
-color:black;
-font-weight:bold;
+border-radius:12px;
 text-align:center;
+font-weight:bold;
+color:black;
 }
 
-.section-title{
+.title{
 padding:20px;
 font-size:22px;
 font-weight:bold;
 }
 
 .games{
-padding:0 20px 20px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:15px;
+padding:0 20px 20px;
 }
 
-.game-card{
-background:var(--card);
-border-radius:15px;
+.game{
+background:#182233;
 padding:20px;
+border-radius:15px;
 text-align:center;
 cursor:pointer;
 transition:.3s;
-border:1px solid rgba(255,255,255,.05);
 }
 
-.game-card:hover{
+.game:hover{
 transform:translateY(-4px);
 }
 
-.game-card h3{
-color:var(--primary);
-font-size:16px;
-}
-
 footer{
+background:#111827;
 margin-top:40px;
-background:#101720;
 padding:30px 20px;
 }
 
-.footer-logo{
-font-size:24px;
-font-weight:bold;
-color:var(--primary);
+footer h3{
+color:#00d4ff;
 margin-bottom:10px;
 }
 
-.footer-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:20px;
-}
-
-.footer-grid h4{
-margin-bottom:10px;
-}
-
-.footer-grid p{
-color:#bcbcbc;
-margin-bottom:8px;
-}
-
-.copyright{
-margin-top:25px;
-text-align:center;
-color:#777;
-font-size:14px;
-}
-
-.whatsapp{
-position:fixed;
-right:20px;
-bottom:20px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:#25D366;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:28px;
-cursor:pointer;
-box-shadow:0 0 20px rgba(37,211,102,.4);
+footer p{
+color:#b8c2cc;
+margin-bottom:6px;
 }
 
 .sidebar{
 position:fixed;
 top:0;
-right:-320px;
+right:-280px;
 width:280px;
 height:100%;
 background:#111827;
-padding:25px;
+padding:20px;
 transition:.3s;
 z-index:2000;
 }
@@ -241,24 +160,19 @@ z-index:2000;
 right:0;
 }
 
-.sidebar h2{
-color:var(--primary);
-margin-bottom:20px;
-}
-
 .sidebar a{
 display:block;
-padding:15px 0;
-text-decoration:none;
+padding:14px 0;
 color:white;
+text-decoration:none;
 border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.close-btn{
-font-size:28px;
+.close{
+font-size:24px;
 text-align:right;
 cursor:pointer;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 .overlay{
@@ -267,7 +181,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.7);
 display:none;
 z-index:1500;
 }
@@ -278,16 +192,8 @@ display:block;
 
 @media(max-width:500px){
 
-.games{
-grid-template-columns:1fr 1fr;
-}
-
 .hero h1{
 font-size:34px;
-}
-
-.hero h2{
-font-size:24px;
 }
 
 }
@@ -301,11 +207,7 @@ font-size:24px;
 
 <div class="sidebar" id="sidebar">
 
-<div class="close-btn" id="closeMenu">
-✕
-</div>
-
-<h2>LIM STORE</h2>
+<div class="close" id="closeBtn">✕</div>
 
 <a href="#">🏠 Beranda</a>
 <a href="#">📦 Riwayat</a>
@@ -317,11 +219,10 @@ font-size:24px;
 <header>
 
 <div class="logo" id="logoBtn">
-<div class="logo-icon">🎮</div>
-<div>LIM STORE</div>
+LIM STORE
 </div>
 
-<div class="menu-btn" id="openMenu">
+<div class="menu-btn" id="menuBtn">
 ☰
 </div>
 
@@ -331,110 +232,67 @@ font-size:24px;
 
 <h1>TOP UP GAME</h1>
 
-<h2>CEPAT & AMAN</h2>
-
 <p>
-Harga bersaing, proses instan,
-dan customer service aktif
-untuk membantu setiap transaksi.
+Top Up Cepat & Aman.
+Harga bersaing, proses cepat,
+dan customer service siap membantu.
 </p>
 
-<div class="hero-buttons">
+<div class="btn-group">
 
-<a href="#games">
+<button class="btn">
 KATALOG GAME
-</a>
+</button>
 
-<a href="#">
+<button class="btn">
 LACAK PESANAN
-</a>
+</button>
 
 </div>
 
 </section>
 
-<div class="banner">
+<div class="promo">
 🔥 PROMO HARI INI - Top Up Cepat & Aman
 </div>
 
-<div class="search-box">
+<div class="search">
 
 <input
 type="text"
-id="searchGame"
 placeholder="Cari Game..."
->
+id="searchInput">
 
 </div>
 
-<div class="section-title" id="games">
-🔥 GAME POPULER
+<div class="title">
+🎮 GAME POPULER
 </div>
 
-<section class="games" id="gamesContainer">
+<section class="games" id="gameList">
 
-<div class="game-card"><h3>Free Fire</h3></div>
-
-<div class="game-card"><h3>Mobile Legends</h3></div>
-
-<div class="game-card"><h3>PUBG Mobile</h3></div>
-
-<div class="game-card"><h3>Genshin Impact</h3></div>
-
-<div class="game-card"><h3>Honor Of Kings</h3></div>
-
-<div class="game-card"><h3>Valorant</h3></div>
-
-<div class="game-card"><h3>Free Fire MAX</h3></div>
-
-<div class="game-card"><h3>Magic Chess Go Go</h3></div>
+<div class="game">Mobile Legends</div>
+<div class="game">Free Fire</div>
+<div class="game">Free Fire MAX</div>
+<div class="game">PUBG Mobile</div>
+<div class="game">Genshin Impact</div>
+<div class="game">Honor Of Kings</div>
+<div class="game">Valorant</div>
+<div class="game">Magic Chess Go Go</div>
 
 </section>
 
 <footer>
 
-<div class="footer-logo">
-🎮 LIM STORE
-</div>
+<h3>LIM STORE</h3>
 
-<p>
-Top Up Cepat & Aman
-</p>
+<p>Top Up Cepat & Aman</p>
 
-<div class="footer-grid">
+<p>WhatsApp: 087794088983</p>
 
-<div>
-
-<h4>Pintasan</h4>
-
-<p>Beranda</p>
-<p>Riwayat</p>
-<p>FAQ</p>
-<p>Kontak</p>
-
-</div>
-
-<div>
-
-<h4>Bantuan</h4>
-
-<p>Cara Pembayaran</p>
-<p>Kebijakan Privasi</p>
-<p>Hubungi Kami</p>
-
-</div>
-
-</div>
-
-<div class="copyright">
-© 2026 LIM STORE - BY LIMBREV
-</div>
+<p>© 2026 LIM STORE</p>
 
 </footer>
-
-<div class="whatsapp">
-☎
-</div>
 
 <script>
 
@@ -445,8 +303,8 @@ const overlay =
 document.getElementById("overlay");
 
 document
-.getElementById("openMenu")
-.onclick = ()=>{
+.getElementById("menuBtn")
+.onclick=()=>{
 
 sidebar.classList.add("active");
 overlay.classList.add("active");
@@ -454,56 +312,56 @@ overlay.classList.add("active");
 };
 
 document
-.getElementById("closeMenu")
-.onclick = ()=>{
+.getElementById("closeBtn")
+.onclick=()=>{
 
 sidebar.classList.remove("active");
 overlay.classList.remove("active");
 
 };
 
-overlay.onclick = ()=>{
+overlay.onclick=()=>{
 
 sidebar.classList.remove("active");
 overlay.classList.remove("active");
 
 };
 
-let adminTap = 0;
+let adminClick = 0;
 
 document
 .getElementById("logoBtn")
 .addEventListener("click",()=>{
 
-adminTap++;
+adminClick++;
 
-if(adminTap >= 7){
+if(adminClick>=7){
 
-alert("Menu Admin Akan Ditambahkan Pada Bagian 2");
+alert("MENU ADMIN AKAN DITAMBAHKAN PADA TAHAP 2");
 
-adminTap = 0;
+adminClick=0;
 
 }
 
 });
 
 document
-.getElementById("searchGame")
+.getElementById("searchInput")
 .addEventListener("keyup",function(){
 
-let filter =
+let value =
 this.value.toLowerCase();
 
-let cards =
-document.querySelectorAll(".game-card");
+let games =
+document.querySelectorAll(".game");
 
-cards.forEach(card=>{
+games.forEach(item=>{
 
 let text =
-card.innerText.toLowerCase();
+item.innerText.toLowerCase();
 
-card.style.display =
-text.includes(filter)
+item.style.display =
+text.includes(value)
 ? "block"
 : "none";
 
@@ -514,4 +372,1284 @@ text.includes(filter)
 </script>
 
 </body>
-</html>
+</html>  
+
+<!-- TAMBAHKAN KODE INI TEPAT DI ATAS </body> -->
+
+<!-- MODAL PRODUK -->
+<div id="productModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+z-index:3000;
+overflow:auto;
+">
+
+<div style="
+background:#111827;
+max-width:600px;
+margin:30px auto;
+padding:20px;
+border-radius:15px;
+">
+
+<h2 id="gameTitle" style="
+margin-bottom:20px;
+color:#00d4ff;
+">
+Pilih Nominal
+</h2>
+
+<label>ID Game</label>
+
+<input
+type="text"
+id="gameId"
+placeholder="Masukkan ID Game"
+style="
+width:100%;
+padding:12px;
+margin-top:8px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<label>Server</label>
+
+<input
+type="text"
+id="serverId"
+placeholder="Masukkan Server"
+style="
+width:100%;
+padding:12px;
+margin-top:8px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<h3 style="margin-bottom:10px;">
+Pilih Nominal
+</h3>
+
+<div id="nominalList"></div>
+
+<button
+onclick="closeProduct()"
+style="
+margin-top:20px;
+width:100%;
+padding:14px;
+background:red;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+TUTUP
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const products = {
+
+"Mobile Legends":[
+"5 Diamond - Rp1.600",
+"10 Diamond - Rp3.500",
+"12 Diamond - Rp3.800",
+"14 Diamond - Rp4.450",
+"18 Diamond - Rp5.590",
+"19 Diamond - Rp6.000",
+"28 Diamond - Rp8.650",
+"36 Diamond - Rp11.200",
+"44 Diamond - Rp13.500",
+"46 Diamond - Rp13.900"
+],
+
+"Free Fire":[
+"5 Diamond - Rp1.000",
+"10 Diamond - Rp2.000",
+"20 Diamond - Rp4.000",
+"50 Diamond - Rp8.000",
+"70 Diamond - Rp10.000",
+"140 Diamond - Rp20.000"
+],
+
+"Free Fire MAX":[
+"5 Diamond - Rp1.000",
+"10 Diamond - Rp2.000",
+"20 Diamond - Rp4.000",
+"50 Diamond - Rp8.000",
+"70 Diamond - Rp10.000",
+"140 Diamond - Rp20.000"
+],
+
+"PUBG Mobile":[
+"60 UC - Rp16.800",
+"120 UC - Rp33.600"
+],
+
+"Genshin Impact":[
+"60 Genesis - Rp16.500",
+"300+30 Genesis - Rp81.000"
+],
+
+"Honor Of Kings":[
+"80 Token - Rp17.000",
+"400 Token - Rp81.000"
+],
+
+"Valorant":[
+"475 VP - Rp53.719",
+"1000 VP - Rp112.000"
+],
+
+"Magic Chess Go Go":[
+"5 Diamond - Rp1.580",
+"12 Diamond - Rp3.604"
+]
+
+};
+
+function openGame(game){
+
+document
+.getElementById("productModal")
+.style.display="block";
+
+document
+.getElementById("gameTitle")
+.innerText=game;
+
+let html="";
+
+products[game].forEach(item=>{
+
+html += `
+<div
+onclick="checkout('${game}','${item}')"
+style="
+background:#182233;
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
+cursor:pointer;
+">
+${item}
+</div>
+`;
+
+});
+
+document
+.getElementById("nominalList")
+.innerHTML=html;
+
+}
+
+function closeProduct(){
+
+document
+.getElementById("productModal")
+.style.display="none";
+
+}
+
+document
+.querySelectorAll(".game")
+.forEach(card=>{
+
+card.onclick=()=>{
+
+openGame(card.innerText);
+
+};
+
+});
+
+function checkout(game,item){
+
+let id =
+document
+.getElementById("gameId")
+.value;
+
+if(id===""){
+
+alert("Masukkan ID Game");
+
+return;
+
+}
+
+localStorage.setItem(
+"limstore_game",
+game
+);
+
+localStorage.setItem(
+"limstore_item",
+item
+);
+
+localStorage.setItem(
+"limstore_id",
+id
+);
+
+alert(
+"Checkout akan dibuat pada Tahap 3"
+);
+
+}
+
+</script>
+
+<!-- TAMBAHKAN KODE INI TEPAT DI ATAS </body> -->
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:4000;
+overflow:auto;
+">
+
+<div style="
+background:#111827;
+max-width:650px;
+margin:30px auto;
+padding:20px;
+border-radius:15px;
+color:white;
+">
+
+<h2 style="
+color:#00d4ff;
+margin-bottom:20px;
+">
+Checkout Pesanan
+</h2>
+
+<div id="checkoutInfo"></div>
+
+<hr style="
+margin:20px 0;
+border-color:#253044;
+">
+
+<h3>Metode Pembayaran</h3>
+
+<div style="
+background:#182233;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+">
+
+<b>GoPay</b><br>
+Nomor: <span id="payNumber">087794088983</span><br>
+Atas Nama: Mungalim
+
+<br><br>
+
+<button onclick="copyPayment()"
+style="
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#00d4ff;
+font-weight:bold;
+cursor:pointer;
+">
+Salin Nomor
+</button>
+
+</div>
+
+<hr style="
+margin:20px 0;
+border-color:#253044;
+">
+
+<h3>Upload Bukti Pembayaran</h3>
+
+<input
+type="file"
+id="paymentProof"
+accept="image/*"
+style="
+margin-top:10px;
+width:100%;
+">
+
+<br><br>
+
+<button onclick="submitOrder()"
+style="
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#00d4ff;
+font-weight:bold;
+cursor:pointer;
+">
+Kirim Pesanan
+</button>
+
+<br><br>
+
+<button onclick="closeCheckout()"
+style="
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+Tutup
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let orderNumber =
+localStorage.getItem("limstore_order_counter");
+
+if(!orderNumber){
+
+orderNumber = 1;
+
+}else{
+
+orderNumber = parseInt(orderNumber);
+
+}
+
+function checkout(game,item){
+
+let id =
+document
+.getElementById("gameId")
+.value;
+
+if(id===""){
+
+alert("Masukkan ID Game");
+
+return;
+
+}
+
+let server =
+document
+.getElementById("serverId")
+.value;
+
+let orderId =
+"LS20260705" +
+String(orderNumber).padStart(3,"0");
+
+window.currentOrderId =
+orderId;
+
+window.currentGame =
+game;
+
+window.currentItem =
+item;
+
+window.currentGameId =
+id;
+
+window.currentServer =
+server;
+
+document
+.getElementById("checkoutModal")
+.style.display="block";
+
+document
+.getElementById("checkoutInfo")
+.innerHTML = `
+
+<b>ID Pesanan:</b><br>
+${orderId}
+
+<br><br>
+
+<b>Game:</b><br>
+${game}
+
+<br><br>
+
+<b>Produk:</b><br>
+${item}
+
+<br><br>
+
+<b>ID Game:</b><br>
+${id}
+
+<br><br>
+
+<b>Server:</b><br>
+${server}
+
+`;
+
+}
+
+function closeCheckout(){
+
+document
+.getElementById("checkoutModal")
+.style.display="none";
+
+}
+
+function copyPayment(){
+
+navigator.clipboard.writeText(
+"087794088983"
+);
+
+alert(
+"Nomor GoPay berhasil disalin"
+);
+
+}
+
+function submitOrder(){
+
+let proof =
+document
+.getElementById("paymentProof")
+.files[0];
+
+if(!proof){
+
+alert(
+"Upload bukti pembayaran terlebih dahulu"
+);
+
+return;
+
+}
+
+let orders =
+JSON.parse(
+localStorage.getItem("limstore_orders")
+|| "[]"
+);
+
+orders.push({
+
+orderId:
+window.currentOrderId,
+
+game:
+window.currentGame,
+
+product:
+window.currentItem,
+
+gameId:
+window.currentGameId,
+
+server:
+window.currentServer,
+
+status:
+"Menunggu Verifikasi",
+
+date:
+new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"limstore_orders",
+JSON.stringify(orders)
+);
+
+orderNumber++;
+
+localStorage.setItem(
+"limstore_order_counter",
+orderNumber
+);
+
+alert(
+"Pesanan berhasil dikirim\\n\\nID: "
++ window.currentOrderId
+);
+
+closeCheckout();
+
+}
+
+</script>
+
+<!-- TAMBAHKAN KODE INI TEPAT DI ATAS </body> -->
+
+<!-- RIWAYAT PESANAN -->
+<div id="historyModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:5000;
+overflow:auto;
+">
+
+<div style="
+background:#111827;
+max-width:700px;
+margin:30px auto;
+padding:20px;
+border-radius:15px;
+color:white;
+">
+
+<h2 style="
+color:#00d4ff;
+margin-bottom:20px;
+">
+Riwayat Pesanan
+</h2>
+
+<div id="historyList"></div>
+
+<br>
+
+<button onclick="closeHistory()"
+style="
+width:100%;
+padding:14px;
+background:red;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+Tutup
+</button>
+
+</div>
+
+</div>
+
+<!-- LOGIN ADMIN -->
+<div id="adminLoginModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:6000;
+">
+
+<div style="
+background:#111827;
+max-width:400px;
+margin:100px auto;
+padding:20px;
+border-radius:15px;
+">
+
+<h2 style="
+color:#00d4ff;
+margin-bottom:15px;
+">
+Login Admin
+</h2>
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Masukkan Password Admin"
+style="
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<br><br>
+
+<button onclick="loginAdmin()"
+style="
+width:100%;
+padding:14px;
+background:#00d4ff;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+Masuk
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD ADMIN -->
+<div id="adminPanel" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0b1220;
+z-index:7000;
+overflow:auto;
+padding:20px;
+">
+
+<h1 style="
+color:#00d4ff;
+margin-bottom:20px;
+">
+Dashboard Admin
+</h1>
+
+<h3>Daftar Pesanan</h3>
+
+<div id="adminOrders"></div>
+
+<br>
+
+<button onclick="closeAdmin()"
+style="
+padding:14px;
+background:red;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+Keluar Admin
+</button>
+
+</div>
+
+<script>
+
+/* MENU RIWAYAT */
+
+document
+.querySelectorAll("a")
+.forEach(link=>{
+
+if(link.innerText.includes("Riwayat")){
+
+link.onclick = ()=>{
+
+openHistory();
+
+};
+
+}
+
+});
+
+function openHistory(){
+
+let orders =
+JSON.parse(
+localStorage.getItem("limstore_orders")
+|| "[]"
+);
+
+let html = "";
+
+if(orders.length===0){
+
+html =
+"<p>Belum ada pesanan.</p>";
+
+}else{
+
+orders.reverse().forEach(order=>{
+
+let color =
+"#ffc107";
+
+if(order.status==="Selesai")
+color="#28a745";
+
+if(order.status==="Dibatalkan")
+color="#dc3545";
+
+html += `
+
+<div style="
+background:#182233;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+">
+
+<b>${order.orderId}</b>
+
+<br><br>
+
+${order.game}
+
+<br>
+
+${order.product}
+
+<br><br>
+
+<span style="
+color:${color};
+font-weight:bold;
+">
+
+${order.status}
+
+</span>
+
+</div>
+
+`;
+
+});
+
+}
+
+document
+.getElementById("historyList")
+.innerHTML = html;
+
+document
+.getElementById("historyModal")
+.style.display = "block";
+
+}
+
+function closeHistory(){
+
+document
+.getElementById("historyModal")
+.style.display = "none";
+
+}
+
+/* ADMIN 7 KLIK */
+
+let adminCounter = 0;
+
+document
+.getElementById("logoBtn")
+.addEventListener("click",()=>{
+
+adminCounter++;
+
+if(adminCounter>=7){
+
+document
+.getElementById("adminLoginModal")
+.style.display="block";
+
+adminCounter=0;
+
+}
+
+});
+
+/* PASSWORD ADMIN */
+
+if(
+!localStorage.getItem("limstore_admin_password")
+){
+
+localStorage.setItem(
+"limstore_admin_password",
+"admin123"
+);
+
+}
+
+function loginAdmin(){
+
+let pass =
+document
+.getElementById("adminPassword")
+.value;
+
+let realPass =
+localStorage.getItem(
+"limstore_admin_password"
+);
+
+if(pass!==realPass){
+
+alert("Password Salah");
+
+return;
+
+}
+
+document
+.getElementById("adminLoginModal")
+.style.display="none";
+
+openAdmin();
+
+}
+
+function openAdmin(){
+
+document
+.getElementById("adminPanel")
+.style.display="block";
+
+loadAdminOrders();
+
+}
+
+function closeAdmin(){
+
+document
+.getElementById("adminPanel")
+.style.display="none";
+
+}
+
+/* DATA PESANAN ADMIN */
+
+function loadAdminOrders(){
+
+let orders =
+JSON.parse(
+localStorage.getItem("limstore_orders")
+|| "[]"
+);
+
+let html="";
+
+if(orders.length===0){
+
+html="<p>Belum ada pesanan.</p>";
+
+}else{
+
+orders.forEach((order,index)=>{
+
+html += `
+
+<div style="
+background:#182233;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+">
+
+<b>${order.orderId}</b>
+
+<br><br>
+
+${order.game}
+
+<br>
+
+${order.product}
+
+<br>
+
+${order.status}
+
+<br><br>
+
+<button
+onclick="updateStatus(${index},'Diproses')">
+Diproses
+</button>
+
+<button
+onclick="updateStatus(${index},'Selesai')">
+Selesai
+</button>
+
+<button
+onclick="updateStatus(${index},'Dibatalkan')">
+Batal
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+document
+.getElementById("adminOrders")
+.innerHTML = html;
+
+}
+
+function updateStatus(index,status){
+
+let orders =
+JSON.parse(
+localStorage.getItem("limstore_orders")
+|| "[]"
+);
+
+orders[index].status =
+status;
+
+localStorage.setItem(
+"limstore_orders",
+JSON.stringify(orders)
+);
+
+loadAdminOrders();
+
+}
+
+</script>
+
+<!-- TAMBAHKAN KODE INI TEPAT DI ATAS </body> -->
+
+<!-- ADMIN PENGATURAN -->
+<div style="margin-top:25px;">
+
+<h3 style="color:#00d4ff;">
+Pengaturan Website
+</h3>
+
+<br>
+
+<label>Nomor WhatsApp</label>
+
+<input
+id="settingWhatsapp"
+style="
+width:100%;
+padding:12px;
+margin-top:5px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<label>Nomor GoPay</label>
+
+<input
+id="settingGopay"
+style="
+width:100%;
+padding:12px;
+margin-top:5px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<label>Nama Pemilik</label>
+
+<input
+id="settingOwner"
+style="
+width:100%;
+padding:12px;
+margin-top:5px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<label>Banner Promo</label>
+
+<textarea
+id="settingBanner"
+style="
+width:100%;
+height:80px;
+padding:12px;
+margin-top:5px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+"></textarea>
+
+<button
+onclick="saveSettings()"
+style="
+width:100%;
+padding:14px;
+background:#00d4ff;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+Simpan Pengaturan
+</button>
+
+</div>
+
+<hr style="margin:25px 0;">
+
+<h3 style="color:#00d4ff;">
+FAQ
+</h3>
+
+<textarea
+id="faqInput"
+style="
+width:100%;
+height:120px;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+"></textarea>
+
+<br><br>
+
+<button
+onclick="saveFaq()"
+style="
+width:100%;
+padding:14px;
+background:#00d4ff;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+Simpan FAQ
+</button>
+
+<hr style="margin:25px 0;">
+
+<h3 style="color:#00d4ff;">
+Keamanan Admin
+</h3>
+
+<input
+type="password"
+id="newAdminPassword"
+placeholder="Password Baru"
+style="
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#182233;
+color:white;
+">
+
+<br><br>
+
+<button
+onclick="changeAdminPassword()"
+style="
+width:100%;
+padding:14px;
+background:#00d4ff;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+Ganti Password Admin
+</button>
+
+<hr style="margin:25px 0;">
+
+<h3 style="color:#00d4ff;">
+Hapus Pesanan Selesai
+</h3>
+
+<button
+onclick="deleteFinishedOrders()"
+style="
+width:100%;
+padding:14px;
+background:red;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+Hapus Semua Pesanan Selesai
+</button>
+
+<script>
+
+/* SETTING DEFAULT */
+
+if(!localStorage.getItem("limstore_whatsapp")){
+localStorage.setItem(
+"limstore_whatsapp",
+"087794088983"
+);
+}
+
+if(!localStorage.getItem("limstore_gopay")){
+localStorage.setItem(
+"limstore_gopay",
+"087794088983"
+);
+}
+
+if(!localStorage.getItem("limstore_owner")){
+localStorage.setItem(
+"limstore_owner",
+"Mungalim"
+);
+}
+
+if(!localStorage.getItem("limstore_banner")){
+localStorage.setItem(
+"limstore_banner",
+"🔥 PROMO HARI INI - Top Up Cepat & Aman"
+);
+}
+
+if(!localStorage.getItem("limstore_faq")){
+localStorage.setItem(
+"limstore_faq",
+`1. Berapa lama proses top up?
+Biasanya 1-5 menit.
+
+2. Jika belum masuk?
+Hubungi customer service.
+
+3. Apakah aman?
+Ya, aman dan terpercaya.`
+);
+}
+
+/* LOAD SETTING */
+
+function loadSettings(){
+
+let wa =
+localStorage.getItem(
+"limstore_whatsapp"
+);
+
+let gopay =
+localStorage.getItem(
+"limstore_gopay"
+);
+
+let owner =
+localStorage.getItem(
+"limstore_owner"
+);
+
+let banner =
+localStorage.getItem(
+"limstore_banner"
+);
+
+let faq =
+localStorage.getItem(
+"limstore_faq"
+);
+
+if(document.getElementById("settingWhatsapp")){
+
+document.getElementById(
+"settingWhatsapp"
+).value = wa;
+
+document.getElementById(
+"settingGopay"
+).value = gopay;
+
+document.getElementById(
+"settingOwner"
+).value = owner;
+
+document.getElementById(
+"settingBanner"
+).value = banner;
+
+document.getElementById(
+"faqInput"
+).value = faq;
+
+}
+
+}
+
+setTimeout(loadSettings,500);
+
+/* SIMPAN */
+
+function saveSettings(){
+
+localStorage.setItem(
+"limstore_whatsapp",
+document.getElementById(
+"settingWhatsapp"
+).value
+);
+
+localStorage.setItem(
+"limstore_gopay",
+document.getElementById(
+"settingGopay"
+).value
+);
+
+localStorage.s
