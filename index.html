@@ -25,14 +25,14 @@
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:20px; cursor:pointer;}
         .langkah {display:flex; align-items:center; gap:10px; margin:20px 0 12px;}
         .nomor-langkah {width:40px; height:40px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; font-size:18px;}
-        .judul-langkah {font-size:20px; font-weight:700;}
+        .judul-langkah {font-size:20px; font-weight:700; margin-bottom:16px;}
         .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:12px; border-radius:8px; font-size:13px; color:var(--abu); margin:12px 0;}
-        .form-group {margin-bottom:16px;}
+        .form-group {margin-bottom:14px;}
         label {display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
         input, select {width:100%; padding:12px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
         input:focus, select:focus {outline:none; border-color:var(--utama);}
 
-        /* PILIH GAME */
+        /* PILIH GAME TOKO */
         .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:12px;}
         .kartu-game {background:var(--kartu); border-radius:12px; padding:18px 12px; text-align:center; border:1px solid var(--batas); cursor:pointer;}
         .gambar-game {width:60px; height:60px; border-radius:10px; margin:0 auto 10px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:32px;}
@@ -58,10 +58,10 @@
         .file-nama {margin-top:8px; color:var(--sukses); font-weight:600; font-size:12px;}
 
         /* PANEL ADMIN */
-        .tab-admin {display:flex; gap:10px; margin-bottom:16px;}
-        .tab-btn {flex:1; padding:12px; border:none; border-radius:10px; font-weight:700; cursor:pointer; background:var(--kartu); color:var(--abu);}
+        .tab-admin {display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+        .tab-btn {flex:1; min-width:120px; padding:12px; border:none; border-radius:10px; font-weight:700; cursor:pointer; background:var(--kartu); color:var(--abu); font-size:13px;}
         .tab-btn.aktif {background:var(--utama); color:var(--latar);}
-        .kartu-pesanan {background:var(--kartu); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid var(--batas);}
+        .kartu-pesanan, .kartu-produk {background:var(--kartu); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid var(--batas);}
         .label-pesanan {font-size:12px; padding:4px 10px; border-radius:20px; font-weight:700; display:inline-block; margin-bottom:10px;}
         .label-pesanan.menunggu {background:rgba(245,158,11,0.1); color:var(--peringatan); border:1px solid var(--peringatan);}
         .label-pesanan.selesai {background:rgba(16,185,129,0.1); color:var(--sukses); border:1px solid var(--sukses);}
@@ -69,11 +69,16 @@
         .data-pesanan {font-size:13px; line-height:1.7; margin-bottom:10px;}
         .data-pesanan span {color:var(--abu); min-width:90px; display:inline-block;}
         .kosong {text-align:center; padding:40px 20px; color:var(--abu); font-size:14px;}
+        .baris-nominal {display:flex; gap:8px; align-items:center; margin-bottom:8px;}
+        .baris-nominal input {flex:1; padding:10px; font-size:13px;}
+        .btn-hapus-kecil {padding:10px; background:var(--bahaya); color:white; border:none; border-radius:8px; cursor:pointer; font-size:12px;}
+        .btn-simpan {background:var(--sukses); color:white; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; margin-top:10px;}
+        .judul-game-admin {font-weight:700; font-size:16px; margin-bottom:10px; color:var(--utama);}
     </style>
 </head>
 <body>
 
-<!-- HEADER DENGAN PILIHAN MODE -->
+<!-- HEADER -->
 <div class="atas">
     <div class="logo"><div class="ikon-logo">🎮</div><div>LIMSTORE</div></div>
     <div>
@@ -83,15 +88,13 @@
 </div>
 
 <!-- ============================================== -->
-<!-- BAGIAN 1: HALAMAN TOKO -->
+<!-- HALAMAN TOKO -->
 <div class="halaman aktif" id="halToko">
-    <!-- PILIH GAME -->
     <div class="halaman aktif" id="halPilihGame">
-        <div class="judul-langkah" style="margin-bottom:16px;">PILIH GAME TOP UP</div>
-        <div class="grid-game" id="daftarGame"></div>
+        <div class="judul-langkah">PILIH GAME TOP UP</div>
+        <div class="grid-game" id="daftarGameToko"></div>
     </div>
 
-    <!-- ISI DATA & PESANAN -->
     <div class="halaman" id="halFormPesanan">
         <div class="tombol-kembali" onclick="gantiHalamanToko('halPilihGame')">← Kembali Pilih Game</div>
         <div class="langkah"><div class="nomor-langkah">1</div><div class="judul-langkah">DATA AKUN</div></div>
@@ -110,10 +113,10 @@
         </div>
 
         <div class="langkah"><div class="nomor-langkah">2</div><div class="judul-langkah">PILIH NOMINAL</div></div>
-        <div class="grid-nominal" id="daftarNominal"></div>
+        <div class="grid-nominal" id="daftarNominalToko"></div>
 
         <div class="langkah"><div class="nomor-langkah">3</div><div class="judul-langkah">PILIH METODE BAYAR</div></div>
-        <div class="grid-metode" id="daftarMetode"></div>
+        <div class="grid-metode" id="daftarMetodeToko"></div>
 
         <div class="langkah"><div class="nomor-langkah">4</div><div class="judul-langkah">KONTAK</div></div>
         <div class="form-group">
@@ -128,7 +131,6 @@
         <button class="tombol-beli" id="btnLanjut" disabled onclick="gantiHalamanToko('halPembayaran')">LANJUT KE PEMBAYARAN</button>
     </div>
 
-    <!-- KONFIRMASI BAYAR -->
     <div class="halaman" id="halPembayaran">
         <div class="tombol-kembali" onclick="gantiHalamanToko('halFormPesanan')">← Kembali Ubah Pesanan</div>
         <div class="langkah"><div class="nomor-langkah">5</div><div class="judul-langkah">INFO PEMBAYARAN</div></div>
@@ -159,29 +161,36 @@
 </div>
 
 <!-- ============================================== -->
-<!-- BAGIAN 2: PANEL ADMIN -->
+<!-- PANEL ADMIN -->
 <div class="halaman" id="halAdmin">
-    <div class="judul-langkah" style="margin-bottom:16px;">📋 PANEL KELOLA PESANAN</div>
+    <div class="judul-langkah">🔐 PANEL ADMIN LIMSTORE</div>
     
     <div class="tab-admin">
-        <button class="tab-btn aktif" onclick="filterPesanan('semua')">Semua</button>
-        <button class="tab-btn" onclick="filterPesanan('MENUNGGU KONFIRMASI')">Menunggu</button>
-        <button class="tab-btn" onclick="filterPesanan('SELESAI')">Selesai</button>
+        <button class="tab-btn aktif" onclick="bukaTabAdmin('pesanan')">📋 Kelola Pesanan</button>
+        <button class="tab-btn" onclick="bukaTabAdmin('produk')">⚙️ Kelola Produk & Harga</button>
     </div>
 
-    <div id="daftarPesananAdmin"></div>
+    <!-- BAGIAN KELOLA PESANAN -->
+    <div id="tabPesanan">
+        <div class="tab-admin">
+            <button class="tab-btn aktif" onclick="filterPesanan('semua')">Semua</button>
+            <button class="tab-btn" onclick="filterPesanan('MENUNGGU KONFIRMASI')">Menunggu</button>
+            <button class="tab-btn" onclick="filterPesanan('SELESAI')">Selesai</button>
+        </div>
+        <div id="daftarPesanan"></div>
+    </div>
+
+    <!-- BAGIAN KELOLA PRODUK & HARGA -->
+    <div id="tabProduk" style="display:none;">
+        <div class="info-bantuan">ℹ️ Semua perubahan di sini akan otomatis muncul di tampilan Toko. Simpan setelah selesai ubah!</div>
+        <div id="daftarProdukAdmin"></div>
+        <button class="btn-simpan" onclick="simpanPerubahanProduk()">💾 SIMPAN SEMUA PERUBAHAN</button>
+    </div>
 </div>
 
 <script>
-// ================= DATA TOKO & GAME (SUDAH LENGKAP) =================
-const dataToko = {
-    rekening: [
-        { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
-        { nama: "DANA", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
-        { nama: "Bank Jago", nomor: "1234567890", atasNama: "Mungalim", aktif: true }
-    ]
-};
-const dataGame = [
+// ================= DATA AWAL (AKAN TERSIMPAN OTOMATIS) =================
+const dataAwalProduk = [
     {nama:"Mobile Legends", ikon:"⚔️", labelId:"User ID", butuhServer:true, labelServer:"Server ID",
     nominal:[
         {nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500},{nama:"12 Diamonds", harga:3800},
@@ -245,7 +254,16 @@ const dataGame = [
     ]}
 ];
 
-// VARIABEL
+const dataToko = {
+    rekening: [
+        { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
+        { nama: "DANA", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
+        { nama: "Bank Jago", nomor: "1234567890", atasNama: "Mungalim", aktif: true }
+    ]
+};
+
+// AMBIL DATA PRODUK DARI PENYIMPANAN JIKA SUDAH ADA
+let dataGame = JSON.parse(localStorage.getItem('dataProdukToko')) || dataAwalProduk;
 let gameTerpilih = null, nominalTerpilih = null, metodeTerpilih = null, namaFileBukti = "";
 
 // ================= PERGANTIAN MODE UTAMA =================
@@ -256,7 +274,7 @@ function bukaModeToko() {
     document.getElementById('btnModeToko').style.color = 'var(--latar)';
     document.getElementById('btnModeAdmin').style.background = 'var(--kartu)';
     document.getElementById('btnModeAdmin').style.color = 'var(--abu)';
-    tampilDaftarGame();
+    tampilDaftarGameToko();
 }
 function bukaModeAdmin() {
     document.getElementById('halAdmin').classList.add('aktif');
@@ -266,6 +284,21 @@ function bukaModeAdmin() {
     document.getElementById('btnModeToko').style.background = 'var(--kartu)';
     document.getElementById('btnModeToko').style.color = 'var(--abu)';
     tampilPesananAdmin();
+    tampilDaftarProdukAdmin();
+}
+function bukaTabAdmin(tab) {
+    document.querySelectorAll('.tab-admin:nth-of-type(2) .tab-btn').forEach(b => b.classList.remove('aktif'));
+    document.getElementById('tabPesanan').style.display = 'none';
+    document.getElementById('tabProduk').style.display = 'none';
+    if(tab === 'pesanan') {
+        document.getElementById('tabPesanan').style.display = 'block';
+        event.target.classList.add('aktif');
+        tampilPesananAdmin();
+    } else {
+        document.getElementById('tabProduk').style.display = 'block';
+        event.target.classList.add('aktif');
+        tampilDaftarProdukAdmin();
+    }
 }
 function gantiHalamanToko(id) {
     document.querySelectorAll('#halToko .halaman').forEach(h => h.classList.remove('aktif'));
@@ -273,11 +306,11 @@ function gantiHalamanToko(id) {
     if(id === 'halPembayaran') isiInfoPembayaran();
 }
 
-// ================= FUNGSI TOKO =================
-function tampilDaftarGame() {
+// ================= FUNGSI TAMPILAN TOKO =================
+function tampilDaftarGameToko() {
     let html = "";
     dataGame.forEach(g => html += `<div class="kartu-game" onclick="pilihGame('${g.nama}')"><div class="gambar-game">${g.ikon}</div><div class="nama-game">${g.nama}</div></div>`);
-    document.getElementById('daftarGame').innerHTML = html;
+    document.getElementById('daftarGameToko').innerHTML = html;
 }
 function pilihGame(nama) {
     gameTerpilih = dataGame.find(g => g.nama === nama);
@@ -288,22 +321,22 @@ function pilihGame(nama) {
     nominalTerpilih = metodeTerpilih = null; namaFileBukti = "";
     document.getElementById('inputIdUtama').value = document.getElementById('inputServer').value = "";
     document.getElementById('namaPembeli').value = document.getElementById('waPembeli').value = "";
-    tampilDaftarNominal(); tampilDaftarMetode();
+    tampilDaftarNominalToko(); tampilDaftarMetodeToko();
     gantiHalamanToko('halFormPesanan');
 }
-function tampilDaftarNominal() {
+function tampilDaftarNominalToko() {
     let html = "";
     gameTerpilih.nominal.forEach((n,i) => html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)"><div class="nama-nominal">${n.nama}</div><div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div></div>`);
-    document.getElementById('daftarNominal').innerHTML = html;
+    document.getElementById('daftarNominalToko').innerHTML = html;
 }
 function pilihNominal(i, el) {
     document.querySelectorAll('.kartu-nominal').forEach(k => k.classList.remove('aktif'));
     el.classList.add('aktif'); nominalTerpilih = gameTerpilih.nominal[i]; cekLengkap();
 }
-function tampilDaftarMetode() {
+function tampilDaftarMetodeToko() {
     let html = "";
     dataToko.rekening.filter(r=>r.aktif).forEach((m,i) => html += `<div class="kartu-metode" onclick="pilihMetode(${i}, this)"><div class="nama-nominal">${m.nama}</div><div class="keterangan-metode">Transfer Manual</div></div>`);
-    document.getElementById('daftarMetode').innerHTML = html;
+    document.getElementById('daftarMetodeToko').innerHTML = html;
 }
 function pilihMetode(i, el) {
     document.querySelectorAll('.kartu-metode').forEach(k => k.classList.remove('aktif'));
@@ -349,12 +382,12 @@ function kirimPesanan() {
     bukaModeToko(); gantiHalamanToko('halPilihGame');
 }
 
-// ================= FUNGSI ADMIN =================
+// ================= FUNGSI KELOLA PESANAN =================
 function tampilPesananAdmin(filter = 'semua') {
     let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
     if(filter !== 'semua') list = list.filter(p => p.status === filter);
     if(list.length === 0) {
-        document.getElementById('daftarPesananAdmin').innerHTML = `<div class="kosong">📭 Belum ada pesanan masuk</div>`;
+        document.getElementById('daftarPesanan').innerHTML = `<div class="kosong">📭 Belum ada pesanan masuk</div>`;
         return;
     }
     let html = "";
@@ -380,10 +413,10 @@ function tampilPesananAdmin(filter = 'semua') {
             <button onclick="hapusPesanan('${p.id}')" style="width:100%; padding:10px; background:var(--bahaya); color:white; border:none; border-radius:8px; margin-top:4px; cursor:pointer;">🗑️ Hapus Pesanan</button>
         </div>`;
     });
-    document.getElementById('daftarPesananAdmin').innerHTML = html;
+    document.getElementById('daftarPesanan').innerHTML = html;
 }
 function filterPesanan(status) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('aktif'));
+    document.querySelectorAll('.tab-admin:nth-of-type(2) .tab-btn').forEach(b => b.classList.remove('aktif'));
     event.target.classList.add('aktif');
     tampilPesananAdmin(status);
 }
@@ -397,12 +430,52 @@ function ubahStatus(idBaru, statusBaru) {
     }
 }
 function hapusPesanan(idHapus) {
-    if(confirm('Yakin mau hapus pesanan ini? Data tidak bisa dikembalikan!')) {
+    if(confirm('Yakin mau hapus pesanan ini? Tidak bisa dikembalikan!')) {
         let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
         list = list.filter(p => p.id !== idHapus);
         localStorage.setItem('daftarPesanan', JSON.stringify(list));
         tampilPesananAdmin();
     }
+}
+
+// ================= FUNGSI KELOLA PRODUK & HARGA =================
+function tampilDaftarProdukAdmin() {
+    let html = "";
+    dataGame.forEach((game, indeksGame) => {
+        html += `<div class="kartu-produk">
+            <div class="judul-game-admin">${game.ikon} ${game.nama}</div>
+            <div style="margin-bottom:10px;">
+                <label style="display:inline-block; margin-right:10px;"><input type="checkbox" ${game.butuhServer?'checked':''} onchange="dataGame[${indeksGame}].butuhServer=this.checked"> Wajib isi Server ID</label>
+            </div>
+            <div style="margin-bottom:8px; font-weight:600; font-size:13px;">DAFTAR NOMINAL & HARGA:</div>`;
+        
+        game.nominal.forEach((nominal, indeksNominal) => {
+            html += `<div class="baris-nominal">
+                <input type="text" value="${nominal.nama}" onchange="dataGame[${indeksGame}].nominal[${indeksNominal}].nama=this.value" placeholder="Nama Item">
+                <input type="number" value="${nominal.harga}" onchange="dataGame[${indeksGame}].nominal[${indeksNominal}].harga=parseInt(this.value)" placeholder="Harga Rp">
+                <button class="btn-hapus-kecil" onclick="hapusNominal(${indeksGame}, ${indeksNominal})">✖</button>
+            </div>`;
+        });
+
+        html += `<button style="width:100%; padding:10px; background:var(--batas); color:var(--teks); border:none; border-radius:8px; margin-bottom:10px; cursor:pointer; font-size:13px;" onclick="tambahNominal(${indeksGame})">+ Tambah Nominal Baru</button></div>`;
+    });
+    html += `<button style="width:100%; padding:12px; background:var(--ungu); color:white; border:none; border-radius:10px; font-weight:700; margin-top:10px; cursor:pointer;">+ Tambah Game Baru (Segera ditambahkan)</button>`;
+    document.getElementById('daftarProdukAdmin').innerHTML = html;
+}
+function tambahNominal(indeksGame) {
+    dataGame[indeksGame].nominal.push({nama:"Item Baru", harga:0});
+    tampilDaftarProdukAdmin();
+}
+function hapusNominal(indeksGame, indeksNominal) {
+    if(confirm('Yakin hapus nominal ini?')) {
+        dataGame[indeksGame].nominal.splice(indeksNominal, 1);
+        tampilDaftarProdukAdmin();
+    }
+}
+function simpanPerubahanProduk() {
+    localStorage.setItem('dataProdukToko', JSON.stringify(dataGame));
+    alert("✅ SEMUA PERUBAHAN SUDAH DISIMPAN!\nPerubahan langsung berlaku di tampilan toko.");
+    tampilDaftarGameToko();
 }
 
 // MULAI SAAT BUKA
