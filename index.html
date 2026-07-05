@@ -6,53 +6,40 @@
     <title>LIMSTORE - Top Up Game Resmi</title>
     <style>
         * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
-        :root {
-            --utama: #00D4FF;
-            --latar: #0A0E17;
-            --kartu: #131927;
-            --batas: #1E293B;
-            --teks: #F8FAFC;
-            --abu: #94A3B8;
-            --sukses: #10B981;
-            --peringatan: #F59E0B;
-            --bahaya: #EF4444;
-            --ungu: #8B5CF6;
-        }
-        body {background:var(--latar); color:var(--teks); min-height:100vh; padding-bottom:90px; background-image:radial-gradient(circle at top, rgba(0,212,255,0.05) 0%, transparent 70%);}
+        :root {--utama:#00D4FF; --latar:#0A0E17; --kartu:#131927; --batas:#1E293B; --teks:#F8FAFC; --abu:#94A3B8; --ungu:#8B5CF6;}
+        body {background:var(--latar); color:var(--teks); min-height:100vh; padding-bottom:100px;}
         .halaman {display:none; padding:20px 16px;}
         .halaman.aktif {display:block;}
 
         /* Header */
-        .atas {display:flex; align-items:center; justify-content:space-between; padding:16px; background:rgba(19,25,39,0.8); backdrop-filter:blur(8px); position:sticky; top:0; z-index:99; border-bottom:1px solid var(--batas);}
+        .atas {display:flex; align-items:center; justify-content:space-between; padding:16px; background:var(--kartu); border-bottom:1px solid var(--batas);}
         .logo {display:flex; align-items:center; gap:10px; font-size:22px; font-weight:800; color:var(--utama);}
         .ikon-logo {width:40px; height:40px; background:rgba(0,212,255,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;}
-        .menu-tombol {font-size:24px; color:var(--teks);}
 
         /* Pilih Game */
-        .judul-bagian {font-size:20px; font-weight:700; margin:20px 0 16px; border-left:4px solid var(--utama); padding-left:10px;}
+        .judul-bagian {font-size:20px; font-weight:700; margin:20px 0 16px; padding-left:10px; border-left:4px solid var(--utama);}
         .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
-        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; text-align:center; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s;}
-        .kartu-game:hover {transform:translateY(-5px); border-color:var(--utama); box-shadow:0 8px 24px rgba(0,212,255,0.15);}
-        .gambar-game {width:70px; height:70px; border-radius:12px; margin:0 auto 12px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:36px; overflow:hidden;}
+        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; text-align:center; border:1px solid var(--batas); cursor:pointer;}
+        .kartu-game:active {transform:scale(0.97); border-color:var(--utama);}
+        .gambar-game {width:70px; height:70px; border-radius:12px; margin:0 auto 12px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:36px;}
         .nama-game {font-weight:700; font-size:17px; margin-bottom:4px;}
-        .keterangan {font-size:13px; color:var(--abu); display:flex; align-items:center; justify-content:center; gap:5px; margin-top:4px;}
-        .keterangan::before {content:'🛡️';}
+        .keterangan {font-size:13px; color:var(--abu);}
 
-        /* Langkah & Tombol */
+        /* Tombol & Langkah */
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:20px; cursor:pointer;}
         .langkah {display:flex; align-items:center; gap:10px; margin-bottom:16px;}
-        .nomor-langkah {width:40px; height:40px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; font-size:18px;}
+        .nomor-langkah {width:40px; height:40px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; flex-shrink:0;}
         .judul-langkah {font-size:22px; font-weight:700;}
-        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:14px; border-radius:8px; font-size:14px; color:var(--abu); margin:12px 0; line-height:1.6;}
+        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:14px; border-radius:8px; font-size:14px; color:var(--abu); margin:12px 0;}
         .form-group {margin-bottom:18px;}
         label {display:block; font-size:15px; font-weight:600; margin-bottom:8px;}
         input {width:100%; padding:14px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
-        input:focus {outline:none; border-color:var(--utama); box-shadow:0 0 0 3px rgba(0,212,255,0.1);}
+        input:focus {outline:none; border-color:var(--utama);}
 
-        /* Pilih Nominal */
+        /* Nominal */
         .grid-nominal {display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; margin-bottom:20px;}
-        .kartu-nominal {background:var(--kartu); border-radius:12px; padding:18px 12px; border:2px solid var(--batas); cursor:pointer; transition:all 0.2s; text-align:center;}
-        .kartu-nominal.aktif {border-color:var(--utama); box-shadow:0 0 15px rgba(0,212,255,0.2); background:rgba(0,212,255,0.05);}
+        .kartu-nominal {background:var(--kartu); border-radius:12px; padding:18px 12px; border:2px solid var(--batas); cursor:pointer; text-align:center;}
+        .kartu-nominal.aktif {border-color:var(--utama); background:rgba(0,212,255,0.05);}
         .nama-nominal {font-weight:700; font-size:16px; margin-bottom:6px;}
         .harga-nominal {font-weight:700; color:var(--utama);}
 
@@ -61,85 +48,69 @@
         .baris-ringkasan {display:flex; justify-content:space-between; padding:8px 0; font-size:14px;}
         .baris-ringkasan.total {font-size:18px; font-weight:800; color:var(--utama); padding-top:8px; border-top:1px solid var(--batas); margin-top:8px;}
         .info-rek {background:linear-gradient(135deg, rgba(139,92,246,0.1), rgba(0,212,255,0.1)); border:1px solid var(--utama); padding:16px; border-radius:12px; margin:16px 0; line-height:1.8;}
-        .info-rek b {color:var(--utama);}
-        .unggah {border:2px dashed var(--batas); border-radius:12px; padding:30px 16px; text-align:center; cursor:pointer; margin:16px 0; transition:all 0.2s;}
-        .unggah:hover {border-color:var(--ungu); background:rgba(139,92,246,0.05);}
+        .unggah {border:2px dashed var(--batas); border-radius:12px; padding:30px 16px; text-align:center; cursor:pointer; margin:16px 0;}
         .unggah .ikon {font-size:40px; color:var(--ungu); margin-bottom:10px;}
         .unggah p {font-size:14px; color:var(--abu);}
-        .unggah p b {color:var(--teks);}
         .file-nama {margin-top:10px; color:var(--sukses); font-weight:600; font-size:13px;}
 
         /* Tombol Bawah */
-        .tombol-bawah {position:fixed; bottom:20px; left:16px; right:16px; padding:14px; background:linear-gradient(90deg, var(--utama), var(--ungu)); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; transition:transform 0.2s;}
-        .tombol-bawah:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed; transform:none;}
-        .tombol-bawah:hover:not(:disabled) {transform:scale(1.02);}
+        .tombol-bawah {position:fixed; bottom:20px; left:16px; right:16px; padding:14px; background:linear-gradient(90deg, var(--utama), var(--ungu)); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer;}
+        .tombol-bawah:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed;}
+        .tombol-bawah:active:not(:disabled) {transform:scale(0.98);}
         .link-admin {text-align:center; margin-top:30px; font-size:13px; color:var(--abu);}
         .link-admin a {color:var(--abu); text-decoration:none;}
-        .link-admin a:hover {color:var(--utama);}
     </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <div class="atas">
-    <div class="logo">
-        <div class="ikon-logo">🎮</div>
-        <div>LIMSTORE</div>
-    </div>
-    <div class="menu-tombol">☰</div>
+    <div class="logo"><div class="ikon-logo">🎮</div><div>LIMSTORE</div></div>
+    <div style="font-size:24px;">☰</div>
 </div>
 
-<!-- HALAMAN 1: PILIH GAME -->
+<!-- 1. PILIH GAME -->
 <div class="halaman aktif" id="halPilihGame">
     <div class="judul-bagian">PILIH GAME TOP UP</div>
     <div class="grid-game" id="daftarGame"></div>
-    <div class="link-admin"><a href="admin.html">🔐 Masuk Panel Admin & Kelola Pesanan</a></div>
+    <div class="link-admin"><a href="admin.html">🔐 Masuk Panel Admin</a></div>
 </div>
 
-<!-- HALAMAN 2: MASUKKAN DATA AKUN -->
+<!-- 2. ISI DATA AKUN -->
 <div class="halaman" id="halDataAkun">
-    <div class="tombol-kembali" onclick="kembaliKeGame()">← Kembali Pilih Game</div>
-    <div class="langkah">
-        <div class="nomor-langkah">1</div>
-        <div class="judul-langkah">MASUKKAN DATA AKUN</div>
-    </div>
-    <div class="gambar-game" style="width:90px; height:90px; margin:10px 0;" id="gambarGameTerpilih"></div>
-    <h1 id="namaGameTerpilih"></h1>
-    <p class="keterangan" style="margin-bottom:16px;">Proses Instan & 100% Legal</p>
-    <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID merupakan tanggung jawab pembeli sepenuhnya.</div>
+    <div class="tombol-kembali" onclick="gantiHalaman('halPilihGame')">← Kembali Pilih Game</div>
+    <div class="langkah"><div class="nomor-langkah">1</div><div class="judul-langkah">MASUKKAN DATA AKUN</div></div>
+    <div class="gambar-game" style="width:90px; height:90px; margin:10px 0;" id="ikonGame"></div>
+    <h1 id="namaGame"></h1>
+    <p class="keterangan" style="margin-bottom:16px;">🛡️ Proses Instan & 100% Legal</p>
+    <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID tanggung jawab pembeli.</div>
     <div class="form-group">
         <label id="labelId">User ID</label>
-        <input type="text" id="inputId" placeholder="Masukkan ID kamu di sini">
+        <input type="text" id="inputId" placeholder="Masukkan ID kamu di sini" oninput="cekId()">
     </div>
-    <button class="tombol-bawah" id="btnLanjutNominal" disabled onclick="lanjutKeNominal()">Lanjut Pilih Nominal</button>
+    <button class="tombol-bawah" id="btnLanjutNominal" disabled onclick="gantiHalaman('halPilihNominal'); tampilNominal()">Lanjut Pilih Nominal</button>
 </div>
 
-<!-- HALAMAN 3: PILIH NOMINAL -->
+<!-- 3. PILIH NOMINAL -->
 <div class="halaman" id="halPilihNominal">
-    <div class="tombol-kembali" onclick="kembaliKeDataAkun()">← Kembali Isi Data Akun</div>
-    <div class="langkah">
-        <div class="nomor-langkah">2</div>
-        <div class="judul-langkah">PILIH NOMINAL TOP UP</div>
-    </div>
+    <div class="tombol-kembali" onclick="gantiHalaman('halDataAkun')">← Kembali Isi Data Akun</div>
+    <div class="langkah"><div class="nomor-langkah">2</div><div class="judul-langkah">PILIH NOMINAL TOP UP</div></div>
     <div class="grid-nominal" id="daftarNominal"></div>
-    <button class="tombol-bawah" id="btnLanjutKontak" disabled onclick="lanjutKeKontak()">Lanjut Isi Kontak</button>
+    <button class="tombol-bawah" id="btnLanjutKontak" disabled onclick="gantiHalaman('halKontakBayar'); isiRingkasan()">Lanjut Isi Kontak</button>
 </div>
 
-<!-- HALAMAN 4: DETAIL KONTAK & BAYAR -->
+<!-- 4. KONTAK & BAYAR -->
 <div class="halaman" id="halKontakBayar">
-    <div class="tombol-kembali" onclick="kembaliKeNominal()">← Kembali Pilih Nominal</div>
-    <div class="langkah">
-        <div class="nomor-langkah">3</div>
-        <div class="judul-langkah">DETAIL KONTAK & BAYAR</div>
-    </div>
+    <div class="tombol-kembali" onclick="gantiHalaman('halPilihNominal')">← Kembali Pilih Nominal</div>
+    <div class="langkah"><div class="nomor-langkah">3</div><div class="judul-langkah">DETAIL KONTAK & BAYAR</div></div>
     <div class="form-group">
         <label>Nama Lengkap</label>
-        <input type="text" id="namaPembeli" placeholder="Masukkan nama lengkap kamu">
+        <input type="text" id="namaPembeli" placeholder="Masukkan nama lengkap">
     </div>
     <div class="form-group">
         <label>Nomor WhatsApp</label>
         <input type="text" id="waPembeli" placeholder="Contoh: 0812xxxxxxx">
-        <p style="font-size:12px; color:var(--abu); margin-top:4px;">Bukti pesanan akan dikirim via WhatsApp</p>
+        <p style="font-size:12px; color:var(--abu); margin-top:4px;">Bukti pesanan dikirim ke WA ini</p>
     </div>
     <div class="ringkasan">
         <h4 style="margin-bottom:12px; color:var(--utama);">RINGKASAN PESANAN</h4>
@@ -150,96 +121,78 @@
     <div class="info-rek" id="infoPembayaran"></div>
     <div class="unggah" onclick="document.getElementById('buktiBayar').click()">
         <div class="ikon">📄</div>
-        <p>Klik untuk upload bukti pembayaran<br><b>(JPG/PNG, Maks 5MB)</b></p>
-        <input type="file" id="buktiBayar" accept="image/*" style="display:none;">
+        <p>Klik upload bukti pembayaran<br><b>(JPG/PNG, Maks 5MB)</b></p>
+        <input type="file" id="buktiBayar" accept="image/*" style="display:none;" onchange="tampilNamaFile()">
         <div class="file-nama" id="namaFile"></div>
     </div>
     <button class="tombol-bawah" onclick="kirimPesanan()">BELI SEKARANG & KIRIM</button>
 </div>
 
 <script>
-let dataToko, dataGame;
-let pesanan = {game:null, idGame:null, nominal:null, nama:null, wa:null, bukti:null};
+// DATA UTAMA (Bisa diubah di Admin nanti)
+let dataToko = {
+    namaPemilik:"Mungalim", waTujuan:"087794088983",
+    rekening:[
+        {nama:"GoPay", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
+        {nama:"DANA", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
+        {nama:"Bank Jago", nomor:"12345678", atasNama:"Mungalim", aktif:true}
+    ]
+};
+let dataGame = [
+    {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", nominal:[
+        {nama:"5 Diamonds", harga:900}, {nama:"12 Diamonds", harga:2500},
+        {nama:"50 Diamonds", harga:9500}, {nama:"140 Diamonds", harga:28000},
+        {nama:"720 Diamonds", harga:101000}, {nama:"860 Diamonds", harga:121000}
+    ]},
+    {nama:"Mobile Legends", ikon:"⚔️", labelId:"User ID", nominal:[
+        {nama:"112 Diamonds", harga:32000}, {nama:"240 Diamonds", harga:65000}
+    ]},
+    {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", nominal:[
+        {nama:"60 UC", harga:25000}, {nama:"325 UC", harga:115000}
+    ]}
+];
+let gameTerpilih = null, nominalTerpilih = null, idPembeli = "";
 
-// Ambil data dari Admin
-function ambilData(){
-    const t = localStorage.getItem('pengaturanToko');
-    const g = localStorage.getItem('dataGame');
-    
-    if(t) dataToko = JSON.parse(t);
-    else dataToko = {
-        namaPemilik:"Mungalim", waTujuan:"087794088983",
-        rekening:[
-            {nama:"GoPay", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
-            {nama:"DANA", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
-            {nama:"Bank Jago", nomor:"12345678", atasNama:"Mungalim", aktif:true}
-        ]
-    };
-
-    if(g) dataGame = JSON.parse(g);
-    else dataGame = [
-        {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", nominal:[
-            {nama:"5 Diamonds", harga:900}, {nama:"12 Diamonds", harga:2500},
-            {nama:"50 Diamonds", harga:9500}, {nama:"140 Diamonds", harga:28000},
-            {nama:"720 Diamonds", harga:101000}, {nama:"860 Diamonds", harga:121000}
-        ]},
-        {nama:"Mobile Legends", ikon:"⚔️", labelId:"User ID", nominal:[
-            {nama:"112 Diamonds", harga:32000}, {nama:"240 Diamonds", harga:65000}
-        ]},
-        {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", nominal:[
-            {nama:"60 UC", harga:25000}, {nama:"325 UC", harga:115000}
-        ]}
-    ];
+// Ganti Halaman (Fungsi Utama)
+function gantiHalaman(id){
+    document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
+    document.getElementById(id).classList.add('aktif');
 }
 
-// Tampilkan daftar game
+// Tampil Daftar Game
 function tampilGame(){
-    let html = '';
+    let html = "";
     dataGame.forEach(g => {
-        html += `<div class="kartu-game" onclick="bukaDataAkun('${g.nama}')">
+        html += `<div class="kartu-game" onclick="pilihGame('${g.nama}')">
                     <div class="gambar-game">${g.ikon}</div>
                     <div class="nama-game">${g.nama}</div>
-                    <div class="keterangan">Proses Instan & Resmi</div>
+                    <div class="keterangan">Pilih Sekarang</div>
                 </div>`;
     });
     document.getElementById('daftarGame').innerHTML = html;
 }
 
-// Buka halaman data akun
-function bukaDataAkun(namaGame){
-    pesanan.game = dataGame.find(g => g.nama === namaGame);
-    gantiHalaman('halDataAkun');
-    document.getElementById('gambarGameTerpilih').textContent = pesanan.game.ikon;
-    document.getElementById('namaGameTerpilih').textContent = pesanan.game.nama;
-    document.getElementById('labelId').textContent = pesanan.game.labelId;
-    document.getElementById('inputId').value = '';
+// Pilih Game
+function pilihGame(nama){
+    gameTerpilih = dataGame.find(g => g.nama === nama);
+    document.getElementById('ikonGame').textContent = gameTerpilih.ikon;
+    document.getElementById('namaGame').textContent = gameTerpilih.nama;
+    document.getElementById('labelId').textContent = gameTerpilih.labelId;
+    document.getElementById('inputId').value = "";
     document.getElementById('btnLanjutNominal').disabled = true;
-}
-
-// Cek input ID agar tombol aktif
-document.addEventListener('input', function(e){
-    if(e.target.id === 'inputId'){
-        pesanan.idGame = e.target.value.trim();
-        document.getElementById('btnLanjutNominal').disabled = pesanan.idGame.length < 4;
-    }
-});
-
-// Fungsi navigasi halaman
-function lanjutKeNominal(){
-    tampilNominal();
-    gantiHalaman('halPilihNominal');
-}
-function kembaliKeGame(){
-    gantiHalaman('halPilihGame');
-}
-function kembaliKeDataAkun(){
     gantiHalaman('halDataAkun');
 }
 
-// Tampilkan daftar nominal
+// Cek ID agar tombol aktif
+function cekId(){
+    idPembeli = document.getElementById('inputId').value.trim();
+    document.getElementById('btnLanjutNominal').disabled = idPembeli.length < 4;
+}
+
+// Tampil Nominal
 function tampilNominal(){
-    let html = '';
-    pesanan.game.nominal.forEach((n,i) => {
+    let html = "";
+    gameTerpilih.nominal.forEach((n, i) => {
         html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)">
                     <div class="nama-nominal">${n.nama}</div>
                     <div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div>
@@ -247,88 +200,65 @@ function tampilNominal(){
     });
     document.getElementById('daftarNominal').innerHTML = html;
     document.getElementById('btnLanjutKontak').disabled = true;
-    pesanan.nominal = null;
+    nominalTerpilih = null;
 }
 
-// Pilih nominal agar tombol aktif
+// Pilih Nominal
 function pilihNominal(index, el){
-    document.querySelectorAll('.kartu-nominal').forEach(e => e.classList.remove('aktif'));
+    document.querySelectorAll('.kartu-nominal').forEach(k => k.classList.remove('aktif'));
     el.classList.add('aktif');
-    pesanan.nominal = pesanan.game.nominal[index];
+    nominalTerpilih = gameTerpilih.nominal[index];
     document.getElementById('btnLanjutKontak').disabled = false;
 }
 
-// Lanjut ke halaman kontak & bayar
-function lanjutKeKontak(){
-    gantiHalaman('halKontakBayar');
-    // Isi ringkasan pesanan
-    document.getElementById('rincianItem').textContent = pesanan.nominal.nama;
-    document.getElementById('rincianHarga').textContent = `Rp ${pesanan.nominal.harga.toLocaleString('id-ID')}`;
-    document.getElementById('rincianTotal').textContent = `Rp ${pesanan.nominal.harga.toLocaleString('id-ID')}`;
-    // Tampilkan nomor rekening/ewallet kamu
-    let infoRek = `<h4 style="margin-bottom:12px; color:var(--teks);">💳 SILAKAN TRANSFER KE:</h4>`;
+// Isi Ringkasan & Rekening
+function isiRingkasan(){
+    document.getElementById('rincianItem').textContent = nominalTerpilih.nama;
+    document.getElementById('rincianHarga').textContent = `Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}`;
+    document.getElementById('rincianTotal').textContent = `Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}`;
+    
+    let infoRek = `<h4 style="margin-bottom:12px;">💳 SILAKAN TRANSFER KE:</h4>`;
     dataToko.rekening.filter(r => r.aktif).forEach(r => {
         infoRek += `<p><b>${r.nama}</b><br>Nomor: ${r.nomor}<br>a.n: ${r.atasNama}</p><br>`;
     });
-    infoRek += `<p style="font-size:13px; color:var(--abu);">Setelah transfer selesai, upload bukti pembayaran di bawah ini.</p>`;
+    infoRek += `<p style="font-size:13px; color:var(--abu);">Setelah transfer, upload bukti di bawah.</p>`;
     document.getElementById('infoPembayaran').innerHTML = infoRek;
 }
-function kembaliKeNominal(){
-    gantiHalaman('halPilihNominal');
+
+// Tampil Nama File
+function tampilNamaFile(){
+    const file = document.getElementById('buktiBayar').files[0];
+    if(file) document.getElementById('namaFile').textContent = "✅ File: " + file.name;
 }
 
-// Tampilkan nama file bukti bayar
-document.getElementById('buktiBayar').addEventListener('change', function(e){
-    const file = e.target.files[0];
-    if(file){
-        pesanan.bukti = file.name;
-        document.getElementById('namaFile').textContent = '✅ File terpilih: ' + file.name;
-    }
-});
-
-// Kirim pesanan ke Admin
+// Kirim Pesanan ke Admin
 function kirimPesanan(){
-    pesanan.nama = document.getElementById('namaPembeli').value.trim();
-    pesanan.wa = document.getElementById('waPembeli').value.trim();
+    const nama = document.getElementById('namaPembeli').value.trim();
+    const wa = document.getElementById('waPembeli').value.trim();
+    const bukti = document.getElementById('buktiBayar').files[0];
 
-    if(!pesanan.nama) return alert("Masukkan nama lengkap kamu terlebih dahulu!");
-    if(!pesanan.wa) return alert("Masukkan nomor WhatsApp kamu terlebih dahulu!");
-    if(!pesanan.bukti) return alert("Upload bukti pembayaran terlebih dahulu!");
+    if(!nama) return alert("Masukkan Nama Lengkap!");
+    if(!wa) return alert("Masukkan Nomor WhatsApp!");
+    if(!bukti) return alert("Upload Bukti Pembayaran!");
 
-    // Buat ID pesanan unik
     const idPesanan = 'LS-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const pesananBaru = {
-        id: idPesanan,
-        waktu: new Date().toLocaleString('id-ID'),
-        game: pesanan.game.nama,
-        item: pesanan.nominal.nama,
-        harga: pesanan.nominal.harga,
-        idTujuan: pesanan.idGame,
-        namaPembeli: pesanan.nama,
-        waPembeli: pesanan.wa,
-        bukti: pesanan.bukti,
+        id: idPesanan, waktu: new Date().toLocaleString('id-ID'),
+        game: gameTerpilih.nama, item: nominalTerpilih.nama, harga: nominalTerpilih.harga,
+        idTujuan: idPembeli, namaPembeli: nama, waPembeli: wa, bukti: bukti.name,
         status: 'MENUNGGU KONFIRMASI'
     };
 
-    // Simpan pesanan agar muncul di Admin
     let daftarPesanan = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
     daftarPesanan.unshift(pesananBaru);
     localStorage.setItem('daftarPesanan', JSON.stringify(daftarPesanan));
 
-    alert(`✅ PESANAN BERHASIL DIKIRIM!\n\nID Pesanan: ${idPesanan}\n\nKami akan segera cek pembayaran dan memproses pesananmu. Cek info terbaru di WhatsApp ya!`);
-    // Kembali ke halaman awal
+    alert(`✅ PESANAN BERHASIL!\nID: ${idPesanan}\nKami akan segera proses!`);
     gantiHalaman('halPilihGame');
 }
 
-// Fungsi ganti halaman
-function gantiHalaman(idHalaman){
-    document.querySelectorAll('.halaman').forEach(e => e.classList.remove('aktif'));
-    document.getElementById(idHalaman).classList.add('aktif');
-}
-
-// Jalankan pertama kali saat halaman dimuat
-ambilData();
-tampilGame();
+// MUTLAK: Jalankan saat halaman terbuka
+document.addEventListener('DOMContentLoaded', tampilGame);
 </script>
 </body>
 </html>
