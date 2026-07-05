@@ -3,154 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIMSTORE - Top Up Game Resmi</title>
+    <title>LIMSTORE - Top Up & Admin</title>
     <style>
         * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif !important;}
         :root {
-            --utama: #00D4FF;
-            --latar: #0A0E17;
-            --kartu: #131927;
-            --batas: #1E293B;
-            --teks: #F8FAFC;
-            --abu: #94A3B8;
-            --ungu: #8B5CF6;
-            --sukses: #10B981;
+            --utama: #00D4FF; --latar: #0A0E17; --kartu: #131927;
+            --batas: #1E293B; --teks: #F8FAFC; --abu: #94A3B8;
+            --ungu: #8B5CF6; --sukses: #10B981; --peringatan: #F59E0B; --bahaya: #EF4444;
         }
-        body {background:var(--latar); color:var(--teks); min-height:100vh; padding:20px 16px 120px;}
-
-        /* Header */
-        .atas {display:flex; align-items:center; justify-content:space-between; padding:16px; background:rgba(19,25,39,0.95); position:sticky; top:0; left:0; right:0; z-index:999; border-bottom:1px solid var(--batas); margin:-20px -16px 20px;}
+        body {background:var(--latar); color:var(--teks); min-height:100vh; padding:16px;}
+        .atas {display:flex; align-items:center; justify-content:space-between; padding:16px; background:rgba(19,25,39,0.95); position:sticky; top:0; left:0; right:0; z-index:999; border-bottom:1px solid var(--batas); margin:-16px -16px 20px;}
         .logo {display:flex; align-items:center; gap:10px; font-size:22px; font-weight:800; color:var(--utama);}
         .ikon-logo {width:40px; height:40px; background:rgba(0,212,255,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;}
+        .tombol-mode {padding:10px 16px; border-radius:8px; border:none; font-weight:600; cursor:pointer;}
+        .tombol-mode.toko {background:var(--utama); color:var(--latar); margin-right:8px;}
+        .tombol-mode.admin {background:var(--ungu); color:white;}
 
-        /* Halaman */
+        /* HALAMAN UMUM */
         .halaman {display:none !important;}
         .halaman.aktif {display:block !important;}
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:20px; cursor:pointer;}
-        .langkah {display:flex; align-items:center; gap:10px; margin:24px 0 16px;}
+        .langkah {display:flex; align-items:center; gap:10px; margin:20px 0 12px;}
         .nomor-langkah {width:40px; height:40px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; font-size:18px;}
-        .judul-langkah {font-size:22px; font-weight:700;}
-        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:14px; border-radius:8px; font-size:14px; color:var(--abu); margin:12px 0; line-height:1.6;}
-        .form-group {margin-bottom:18px;}
-        label {display:block; font-size:15px; font-weight:600; margin-bottom:8px;}
-        input {width:100%; padding:14px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
-        input:focus {outline:none; border-color:var(--utama);}
+        .judul-langkah {font-size:20px; font-weight:700;}
+        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:12px; border-radius:8px; font-size:13px; color:var(--abu); margin:12px 0;}
+        .form-group {margin-bottom:16px;}
+        label {display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
+        input, select {width:100%; padding:12px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
+        input:focus, select:focus {outline:none; border-color:var(--utama);}
 
-        /* Pilih Game */
-        .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
-        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; text-align:center; border:1px solid var(--batas); cursor:pointer; transition:all 0.2s;}
-        .kartu-game:active {transform:scale(0.97); border-color:var(--utama);}
-        .gambar-game {width:70px; height:70px; border-radius:12px; margin:0 auto 12px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:36px;}
-        .nama-game {font-weight:700; font-size:15px; margin-bottom:4px;}
-        .link-admin {text-align:center; margin-top:30px; font-size:13px; color:var(--abu);}
-        .link-admin a {color:var(--abu); text-decoration:none;}
+        /* PILIH GAME */
+        .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:12px;}
+        .kartu-game {background:var(--kartu); border-radius:12px; padding:18px 12px; text-align:center; border:1px solid var(--batas); cursor:pointer;}
+        .gambar-game {width:60px; height:60px; border-radius:10px; margin:0 auto 10px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:32px;}
+        .nama-game {font-weight:700; font-size:14px;}
 
-        /* Pilihan */
-        .grid-nominal, .grid-metode {display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:20px;}
-        .kartu-nominal, .kartu-metode {background:var(--kartu); border-radius:12px; padding:14px 10px; border:2px solid var(--batas); cursor:pointer; text-align:center; transition:all 0.2s;}
+        /* PILIH NOMINAL & METODE */
+        .grid-nominal, .grid-metode {display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:16px;}
+        .kartu-nominal, .kartu-metode {background:var(--kartu); border-radius:10px; padding:12px 8px; border:2px solid var(--batas); cursor:pointer; text-align:center;}
         .kartu-nominal.aktif, .kartu-metode.aktif {border-color:var(--utama); background:rgba(0,212,255,0.05);}
-        .nama-nominal, .nama-metode {font-weight:700; font-size:14px; margin-bottom:4px;}
-        .harga-nominal, .keterangan-metode {font-size:14px; font-weight:700; color:var(--utama);}
+        .nama-nominal {font-weight:700; font-size:14px; margin-bottom:4px;}
+        .harga-nominal {font-size:13px; font-weight:700; color:var(--utama);}
 
-        /* Tombol & Lainnya */
-        .tombol-beli {width:100%; padding:14px; background:linear-gradient(90deg, var(--utama), var(--ungu)); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; margin-top:10px; transition:all 0.2s;}
+        /* TOMBOL & RINGKASAN */
+        .tombol-beli {width:100%; padding:14px; background:linear-gradient(90deg, var(--utama), var(--ungu)); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; margin-top:8px;}
         .tombol-beli:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed;}
-        .ringkasan {background:var(--kartu); border-radius:12px; padding:16px; margin:16px 0; border:1px solid var(--batas);}
-        .baris-ringkasan {display:flex; justify-content:space-between; padding:8px 0; font-size:14px;}
-        .baris-ringkasan.total {font-size:18px; font-weight:800; color:var(--utama); padding-top:8px; border-top:1px solid var(--batas); margin-top:8px;}
-        .info-rek {background:linear-gradient(135deg, rgba(139,92,246,0.1), rgba(0,212,255,0.1)); border:1px solid var(--utama); padding:16px; border-radius:12px; margin:16px 0; line-height:1.8;}
-        .unggah {border:2px dashed var(--batas); border-radius:12px; padding:30px 16px; text-align:center; cursor:pointer; margin:16px 0; transition:all 0.2s;}
-        .unggah:hover {border-color:var(--ungu); background:rgba(139,92,246,0.05);}
-        .unggah .ikon {font-size:40px; color:var(--ungu); margin-bottom:10px;}
-        .unggah p {font-size:14px; color:var(--abu);}
-        .file-nama {margin-top:10px; color:var(--sukses); font-weight:600; font-size:13px;}
+        .ringkasan {background:var(--kartu); border-radius:12px; padding:14px; margin:14px 0; border:1px solid var(--batas);}
+        .baris-ringkasan {display:flex; justify-content:space-between; padding:6px 0; font-size:13px;}
+        .baris-ringkasan.total {font-size:16px; font-weight:800; color:var(--utama); padding-top:6px; border-top:1px solid var(--batas); margin-top:6px;}
+        .info-rek {background:linear-gradient(135deg, rgba(139,92,246,0.1), rgba(0,212,255,0.1)); border:1px solid var(--utama); padding:14px; border-radius:12px; margin:14px 0; line-height:1.7; font-size:14px;}
+        .unggah {border:2px dashed var(--batas); border-radius:12px; padding:24px 12px; text-align:center; cursor:pointer; margin:14px 0;}
+        .unggah .ikon {font-size:36px; color:var(--ungu); margin-bottom:8px;}
+        .unggah p {font-size:13px; color:var(--abu);}
+        .file-nama {margin-top:8px; color:var(--sukses); font-weight:600; font-size:12px;}
+
+        /* PANEL ADMIN */
+        .tab-admin {display:flex; gap:10px; margin-bottom:16px;}
+        .tab-btn {flex:1; padding:12px; border:none; border-radius:10px; font-weight:700; cursor:pointer; background:var(--kartu); color:var(--abu);}
+        .tab-btn.aktif {background:var(--utama); color:var(--latar);}
+        .kartu-pesanan {background:var(--kartu); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid var(--batas);}
+        .label-pesanan {font-size:12px; padding:4px 10px; border-radius:20px; font-weight:700; display:inline-block; margin-bottom:10px;}
+        .label-pesanan.menunggu {background:rgba(245,158,11,0.1); color:var(--peringatan); border:1px solid var(--peringatan);}
+        .label-pesanan.selesai {background:rgba(16,185,129,0.1); color:var(--sukses); border:1px solid var(--sukses);}
+        .label-pesanan.batal {background:rgba(239,68,68,0.1); color:var(--bahaya); border:1px solid var(--bahaya);}
+        .data-pesanan {font-size:13px; line-height:1.7; margin-bottom:10px;}
+        .data-pesanan span {color:var(--abu); min-width:90px; display:inline-block;}
+        .kosong {text-align:center; padding:40px 20px; color:var(--abu); font-size:14px;}
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- HEADER DENGAN PILIHAN MODE -->
 <div class="atas">
     <div class="logo"><div class="ikon-logo">🎮</div><div>LIMSTORE</div></div>
-    <div style="font-size:24px;">☰</div>
+    <div>
+        <button class="tombol-mode toko" id="btnModeToko" onclick="bukaModeToko()">🛒 Toko</button>
+        <button class="tombol-mode admin" id="btnModeAdmin" onclick="bukaModeAdmin()">🔐 Admin</button>
+    </div>
 </div>
 
-<!-- HALAMAN 1: PILIH GAME -->
-<div class="halaman aktif" id="halPilihGame">
-    <div class="judul-bagian" style="font-size:20px; font-weight:700; margin:20px 0 16px; border-left:4px solid var(--utama); padding-left:10px;">PILIH GAME TOP UP</div>
-    <div class="grid-game" id="daftarGame"></div>
-    <div class="link-admin"><a href="admin.html">🔐 Masuk Panel Admin & Kelola Pesanan</a></div>
+<!-- ============================================== -->
+<!-- BAGIAN 1: HALAMAN TOKO -->
+<div class="halaman aktif" id="halToko">
+    <!-- PILIH GAME -->
+    <div class="halaman aktif" id="halPilihGame">
+        <div class="judul-langkah" style="margin-bottom:16px;">PILIH GAME TOP UP</div>
+        <div class="grid-game" id="daftarGame"></div>
+    </div>
+
+    <!-- ISI DATA & PESANAN -->
+    <div class="halaman" id="halFormPesanan">
+        <div class="tombol-kembali" onclick="gantiHalamanToko('halPilihGame')">← Kembali Pilih Game</div>
+        <div class="langkah"><div class="nomor-langkah">1</div><div class="judul-langkah">DATA AKUN</div></div>
+        
+        <div class="gambar-game" style="width:80px; height:80px; margin:10px 0;" id="ikonGame"></div>
+        <h2 id="namaGame"></h2>
+        <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID tanggung jawab pembeli.</div>
+
+        <div class="form-group" id="wadahId">
+            <label id="labelIdUtama">User ID</label>
+            <input type="text" id="inputIdUtama" placeholder="Masukkan ID" oninput="cekLengkap()">
+        </div>
+        <div class="form-group" id="wadahServer" style="display:none;">
+            <label>Server ID</label>
+            <input type="text" id="inputServer" placeholder="Contoh: 1234" oninput="cekLengkap()">
+        </div>
+
+        <div class="langkah"><div class="nomor-langkah">2</div><div class="judul-langkah">PILIH NOMINAL</div></div>
+        <div class="grid-nominal" id="daftarNominal"></div>
+
+        <div class="langkah"><div class="nomor-langkah">3</div><div class="judul-langkah">PILIH METODE BAYAR</div></div>
+        <div class="grid-metode" id="daftarMetode"></div>
+
+        <div class="langkah"><div class="nomor-langkah">4</div><div class="judul-langkah">KONTAK</div></div>
+        <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="namaPembeli" placeholder="Nama kamu" oninput="cekLengkap()">
+        </div>
+        <div class="form-group">
+            <label>Nomor WhatsApp</label>
+            <input type="text" id="waPembeli" placeholder="08xxxxxxx" oninput="cekLengkap()">
+        </div>
+
+        <button class="tombol-beli" id="btnLanjut" disabled onclick="gantiHalamanToko('halPembayaran')">LANJUT KE PEMBAYARAN</button>
+    </div>
+
+    <!-- KONFIRMASI BAYAR -->
+    <div class="halaman" id="halPembayaran">
+        <div class="tombol-kembali" onclick="gantiHalamanToko('halFormPesanan')">← Kembali Ubah Pesanan</div>
+        <div class="langkah"><div class="nomor-langkah">5</div><div class="judul-langkah">INFO PEMBAYARAN</div></div>
+
+        <div class="ringkasan">
+            <h4 style="margin-bottom:10px; color:var(--utama);">RINGKASAN PESANAN</h4>
+            <div class="baris-ringkasan"><span>Game</span><span id="rincianGame"></span></div>
+            <div class="baris-ringkasan"><span>Item</span><span id="rincianItem"></span></div>
+            <div class="baris-ringkasan"><span>ID Akun</span><span id="rincianId"></span></div>
+            <div class="baris-ringkasan"><span>Metode</span><span id="rincianMetode"></span></div>
+            <div class="baris-ringkasan.total"><span>TOTAL</span><span id="rincianTotal"></span></div>
+        </div>
+
+        <div class="info-rek">
+            <h4 style="margin-bottom:10px;">💳 TRANSFER KE</h4>
+            <div id="infoRekening"></div>
+        </div>
+
+        <div class="unggah" onclick="document.getElementById('buktiBayar').click()">
+            <div class="ikon">📷</div>
+            <p>Klik upload bukti bayar<br>(JPG/PNG maks 5MB)</p>
+            <input type="file" id="buktiBayar" accept="image/*" style="display:none;" onchange="cekBukti()">
+            <div class="file-nama" id="namaFile"></div>
+        </div>
+
+        <button class="tombol-beli" id="btnKirim" disabled onclick="kirimPesanan()">✅ KIRIM PESANAN SELESAI</button>
+    </div>
 </div>
 
-<!-- HALAMAN 2: ISI DATA -->
-<div class="halaman" id="halFormPesanan">
-    <div class="tombol-kembali" onclick="gantiHalaman('halPilihGame')">← Kembali Pilih Game</div>
-    <div class="langkah"><div class="nomor-langkah">1</div><div class="judul-langkah">DATA AKUN</div></div>
+<!-- ============================================== -->
+<!-- BAGIAN 2: PANEL ADMIN -->
+<div class="halaman" id="halAdmin">
+    <div class="judul-langkah" style="margin-bottom:16px;">📋 PANEL KELOLA PESANAN</div>
     
-    <div class="gambar-game" style="width:90px; height:90px; margin:10px 0;" id="ikonGame"></div>
-    <h1 id="namaGame"></h1>
-    <p style="margin-bottom:16px; color:var(--abu);">🛡️ Proses Instan & 100% Legal</p>
-    <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID tanggung jawab pembeli.</div>
-
-    <!-- KOLOM ID OTOMATIS BERUBAH SESUAI GAME -->
-    <div class="form-group" id="wadahId">
-        <label id="labelIdUtama">User ID</label>
-        <input type="text" id="inputIdUtama" placeholder="Masukkan ID kamu di sini" oninput="cekLengkap()">
-    </div>
-    <div class="form-group" id="wadahServer" style="display:none;">
-        <label>Server ID / Zona</label>
-        <input type="text" id="inputServer" placeholder="Contoh: 1234" oninput="cekLengkap()">
+    <div class="tab-admin">
+        <button class="tab-btn aktif" onclick="filterPesanan('semua')">Semua</button>
+        <button class="tab-btn" onclick="filterPesanan('MENUNGGU KONFIRMASI')">Menunggu</button>
+        <button class="tab-btn" onclick="filterPesanan('SELESAI')">Selesai</button>
     </div>
 
-    <div class="langkah"><div class="nomor-langkah">2</div><div class="judul-langkah">PILIH NOMINAL</div></div>
-    <div class="grid-nominal" id="daftarNominal"></div>
-
-    <div class="langkah"><div class="nomor-langkah">3</div><div class="judul-langkah">PILIH METODE PEMBAYARAN</div></div>
-    <div class="grid-metode" id="daftarMetode"></div>
-
-    <div class="langkah"><div class="nomor-langkah">4</div><div class="judul-langkah">DETAIL KONTAK</div></div>
-    <div class="form-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="namaPembeli" placeholder="Masukkan nama lengkap" oninput="cekLengkap()">
-    </div>
-    <div class="form-group">
-        <label>Nomor WhatsApp</label>
-        <input type="text" id="waPembeli" placeholder="Contoh: 0812xxxxxxx" oninput="cekLengkap()">
-    </div>
-
-    <button class="tombol-beli" id="btnLanjutBayar" disabled onclick="gantiHalaman('halPembayaran')">BELI SEKARANG</button>
-</div>
-
-<!-- HALAMAN 3: INFO BAYAR & KONFIRMASI -->
-<div class="halaman" id="halPembayaran">
-    <div class="tombol-kembali" onclick="gantiHalaman('halFormPesanan')">← Kembali Ubah Pesanan</div>
-    <div class="langkah"><div class="nomor-langkah">5</div><div class="judul-langkah">INFO PEMBAYARAN</div></div>
-
-    <div class="ringkasan">
-        <h4 style="margin-bottom:12px; color:var(--utama);">RINGKASAN PESANAN</h4>
-        <div class="baris-ringkasan"><span>Game</span><span id="rincianGame"></span></div>
-        <div class="baris-ringkasan"><span>Item</span><span id="rincianItem"></span></div>
-        <div class="baris-ringkasan"><span>ID Akun</span><span id="rincianId"></span></div>
-        <div class="baris-ringkasan"><span>Metode Bayar</span><span id="rincianMetode"></span></div>
-        <div class="baris-ringkasan.total"><span>Total Bayar</span><span id="rincianTotal"></span></div>
-    </div>
-
-    <div class="info-rek">
-        <h4 style="margin-bottom:12px; color:var(--teks);">💳 SILAKAN TRANSFER KE:</h4>
-        <div id="infoRekeningTujuan"></div>
-    </div>
-
-    <div class="unggah" onclick="document.getElementById('buktiBayar').click()">
-        <div class="ikon">📄</div>
-        <p>Klik untuk upload bukti pembayaran<br><b>(JPG/PNG, Maks 5MB)</b></p>
-        <input type="file" id="buktiBayar" accept="image/*" style="display:none;" onchange="cekBukti()">
-        <div class="file-nama" id="namaFile"></div>
-    </div>
-
-    <button class="tombol-beli" id="btnKirim" disabled onclick="kirimPesanan()">KIRIM BUKTI & SELESAI</button>
+    <div id="daftarPesananAdmin"></div>
 </div>
 
 <script>
-// DATA REKENING TOKO
+// ================= DATA TOKO & GAME (SUDAH LENGKAP) =================
 const dataToko = {
     rekening: [
         { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
@@ -158,313 +181,232 @@ const dataToko = {
         { nama: "Bank Jago", nomor: "1234567890", atasNama: "Mungalim", aktif: true }
     ]
 };
-
-// DATA GAME (MAGIC CHASE SUDAH DITAMBAH BUTUH SERVER ID)
 const dataGame = [
-    {
-        nama:"Mobile Legends", ikon:"⚔️", 
-        labelId:"User ID", butuhServer:true, labelServer:"Server ID",
-        nominal:[
-            {nama:"5 Diamonds", harga:1600},
-            {nama:"10 Diamonds", harga:3500},
-            {nama:"12 Diamonds", harga:3800},
-            {nama:"14 Diamonds", harga:4450},
-            {nama:"18 Diamonds", harga:5590},
-            {nama:"19 Diamonds", harga:6000},
-            {nama:"28 Diamonds", harga:8650},
-            {nama:"36 Diamonds", harga:11200},
-            {nama:"44 Diamonds", harga:13500},
-            {nama:"46 Diamonds", harga:13900},
-            {nama:"54 Diamonds", harga:15287},
-            {nama:"71 Diamonds", harga:20500},
-            {nama:"74 Diamonds", harga:21500},
-            {nama:"85 Diamonds", harga:24700},
-            {nama:"88 Diamonds", harga:26800},
-            {nama:"110 Diamonds", harga:34200},
-            {nama:"113 Diamonds", harga:36000},
-            {nama:"128 Diamonds", harga:38000},
-            {nama:"148 Diamonds", harga:43000},
-            {nama:"170 Diamonds", harga:49000},
-            {nama:"176 Diamonds", harga:51000},
-            {nama:"184 Diamonds", harga:54000},
-            {nama:"222 Diamonds", harga:65000},
-            {nama:"240 Diamonds", harga:70000},
-            {nama:"258 Diamonds", harga:72000},
-            {nama:"277 Diamonds", harga:79000},
-            {nama:"284 Diamonds", harga:80000},
-            {nama:"296 Diamonds", harga:83000},
-            {nama:"301 Diamonds", harga:86000},
-            {nama:"305 Diamonds", harga:89000}
-        ]
-    },
-    {
-        nama:"Free Fire", ikon:"🔥", 
-        labelId:"Player ID", butuhServer:false,
-        nominal:[
-            {nama:"5 Diamonds", harga:1000},
-            {nama:"10 Diamonds", harga:2000},
-            {nama:"20 Diamonds", harga:4000},
-            {nama:"50 Diamonds", harga:8000},
-            {nama:"70 Diamonds", harga:10000},
-            {nama:"100 Diamonds", harga:17000},
-            {nama:"140 Diamonds", harga:20000},
-            {nama:"150 Diamonds", harga:23000},
-            {nama:"210 Diamonds", harga:31000},
-            {nama:"280 Diamonds", harga:41000},
-            {nama:"355 Diamonds", harga:50000},
-            {nama:"425 Diamonds", harga:61000},
-            {nama:"495 Diamonds", harga:71000},
-            {nama:"500 Diamonds", harga:72000},
-            {nama:"720 Diamonds", harga:101000},
-            {nama:"860 Diamonds", harga:121000}
-        ]
-    },
-    {
-        nama:"Free Fire Max", ikon:"🔥", 
-        labelId:"Player ID", butuhServer:false,
-        nominal:[
-            {nama:"5 Diamonds", harga:1000},
-            {nama:"10 Diamonds", harga:2000},
-            {nama:"20 Diamonds", harga:4000},
-            {nama:"50 Diamonds", harga:8000},
-            {nama:"70 Diamonds", harga:10000},
-            {nama:"100 Diamonds", harga:17000},
-            {nama:"140 Diamonds", harga:20000},
-            {nama:"150 Diamonds", harga:23000},
-            {nama:"210 Diamonds", harga:31000},
-            {nama:"280 Diamonds", harga:41000},
-            {nama:"355 Diamonds", harga:50000},
-            {nama:"425 Diamonds", harga:61000},
-            {nama:"495 Diamonds", harga:71000},
-            {nama:"500 Diamonds", harga:72000}
-        ]
-    },
-    {
-        nama:"Genshin Impact", ikon:"⚜️", 
-        labelId:"UID Server", butuhServer:false,
-        nominal:[
-            {nama:"60 Genesis Crystals", harga:16500},
-            {nama:"300+30 Genesis Crystals", harga:81000},
-            {nama:"980+110 Genesis Crystals", harga:255000},
-            {nama:"1980+260 Genesis Crystals", harga:489000},
-            {nama:"3280+600 Genesis Crystals", harga:815000}
-        ]
-    },
-    {
-        nama:"PUBG Mobile", ikon:"🎯", 
-        labelId:"Player ID", butuhServer:false,
-        nominal:[
-            {nama:"60 UC", harga:16800},
-            {nama:"120 UC", harga:33600},
-            {nama:"1500 + 300 Bonus UC", harga:419000},
-            {nama:"3000 + 850 Bonus UC", harga:839000},
-            {nama:"6000 + 2100 Bonus UC", harga:1678000},
-            {nama:"12000 + 4200 Bonus UC", harga:3356000}
-        ]
-    },
-    {
-        nama:"Honor of Kings", ikon:"👑", 
-        labelId:"User ID", butuhServer:false,
-        nominal:[
-            {nama:"80 Tokens", harga:17000},
-            {nama:"400 Tokens", harga:81000},
-            {nama:"560 Tokens", harga:109000},
-            {nama:"800 + 30 Tokens", harga:161000}
-        ]
-    },
-    {
-        nama:"Valorant", ikon:"🔫", 
-        labelId:"ID Agent", butuhServer:false,
-        nominal:[
-            {nama:"475 VP", harga:53719},
-            {nama:"1000 VP", harga:112000},
-            {nama:"1475 VP", harga:159159},
-            {nama:"2050 VP", harga:224000},
-            {nama:"2525 VP", harga:264597},
-            {nama:"3050 VP", harga:317317},
-            {nama:"3650 VP", harga:367213},
-            {nama:"4125 VP", harga:419932}
-        ]
-    },
-    {
-        nama:"Magic Chase", ikon:"💫", 
-        labelId:"User ID", butuhServer:true, labelServer:"Server ID",
-        nominal:[
-            {nama:"5 Diamond", harga:1580},
-            {nama:"Weekly Card", harga:33000},
-            {nama:"12 Diamonds", harga:3604},
-            {nama:"19 Diamonds", harga:5281},
-            {nama:"28 Diamonds", harga:7681},
-            {nama:"44 Diamonds", harga:12521},
-            {nama:"59 Diamonds", harga:16377},
-            {nama:"85 Diamonds", harga:23082},
-            {nama:"170 Diamonds", harga:45164},
-            {nama:"240 Diamonds", harga:63402},
-            {nama:"296 Diamonds", harga:77802},
-            {nama:"408 Diamonds", harga:106604},
-            {nama:"568 Diamonds", harga:145007},
-            {nama:"875 Diamonds", harga:221807}
-        ]
-    }
+    {nama:"Mobile Legends", ikon:"⚔️", labelId:"User ID", butuhServer:true, labelServer:"Server ID",
+    nominal:[
+        {nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500},{nama:"12 Diamonds", harga:3800},
+        {nama:"14 Diamonds", harga:4450},{nama:"18 Diamonds", harga:5590},{nama:"19 Diamonds", harga:6000},
+        {nama:"28 Diamonds", harga:8650},{nama:"36 Diamonds", harga:11200},{nama:"44 Diamonds", harga:13500},
+        {nama:"46 Diamonds", harga:13900},{nama:"54 Diamonds", harga:15287},{nama:"71 Diamonds", harga:20500},
+        {nama:"74 Diamonds", harga:21500},{nama:"85 Diamonds", harga:24700},{nama:"88 Diamonds", harga:26800},
+        {nama:"110 Diamonds", harga:34200},{nama:"113 Diamonds", harga:36000},{nama:"128 Diamonds", harga:38000},
+        {nama:"148 Diamonds", harga:43000},{nama:"170 Diamonds", harga:49000},{nama:"176 Diamonds", harga:51000},
+        {nama:"184 Diamonds", harga:54000},{nama:"222 Diamonds", harga:65000},{nama:"240 Diamonds", harga:70000},
+        {nama:"258 Diamonds", harga:72000},{nama:"277 Diamonds", harga:79000},{nama:"284 Diamonds", harga:80000},
+        {nama:"296 Diamonds", harga:83000},{nama:"301 Diamonds", harga:86000},{nama:"305 Diamonds", harga:89000}
+    ]},
+    {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", butuhServer:false,
+    nominal:[
+        {nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000},{nama:"20 Diamonds", harga:4000},
+        {nama:"50 Diamonds", harga:8000},{nama:"70 Diamonds", harga:10000},{nama:"100 Diamonds", harga:17000},
+        {nama:"140 Diamonds", harga:20000},{nama:"150 Diamonds", harga:23000},{nama:"210 Diamonds", harga:31000},
+        {nama:"280 Diamonds", harga:41000},{nama:"355 Diamonds", harga:50000},{nama:"425 Diamonds", harga:61000},
+        {nama:"495 Diamonds", harga:71000},{nama:"500 Diamonds", harga:72000},{nama:"720 Diamonds", harga:101000},
+        {nama:"860 Diamonds", harga:121000}
+    ]},
+    {nama:"Free Fire Max", ikon:"🔥", labelId:"Player ID", butuhServer:false,
+    nominal:[
+        {nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000},{nama:"20 Diamonds", harga:4000},
+        {nama:"50 Diamonds", harga:8000},{nama:"70 Diamonds", harga:10000},{nama:"100 Diamonds", harga:17000},
+        {nama:"140 Diamonds", harga:20000},{nama:"150 Diamonds", harga:23000},{nama:"210 Diamonds", harga:31000},
+        {nama:"280 Diamonds", harga:41000},{nama:"355 Diamonds", harga:50000},{nama:"425 Diamonds", harga:61000},
+        {nama:"495 Diamonds", harga:71000},{nama:"500 Diamonds", harga:72000}
+    ]},
+    {nama:"Genshin Impact", ikon:"⚜️", labelId:"UID Server", butuhServer:false,
+    nominal:[
+        {nama:"60 Genesis Crystals", harga:16500},{nama:"300+30 Genesis Crystals", harga:81000},
+        {nama:"980+110 Genesis Crystals", harga:255000},{nama:"1980+260 Genesis Crystals", harga:489000},
+        {nama:"3280+600 Genesis Crystals", harga:815000}
+    ]},
+    {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", butuhServer:false,
+    nominal:[
+        {nama:"60 UC", harga:16800},{nama:"120 UC", harga:33600},{nama:"1500+300 Bonus UC", harga:419000},
+        {nama:"3000+850 Bonus UC", harga:839000},{nama:"6000+2100 Bonus UC", harga:1678000},
+        {nama:"12000+4200 Bonus UC", harga:3356000}
+    ]},
+    {nama:"Honor of Kings", ikon:"👑", labelId:"User ID", butuhServer:false,
+    nominal:[
+        {nama:"80 Tokens", harga:17000},{nama:"400 Tokens", harga:81000},
+        {nama:"560 Tokens", harga:109000},{nama:"800+30 Tokens", harga:161000}
+    ]},
+    {nama:"Valorant", ikon:"🔫", labelId:"ID Agent", butuhServer:false,
+    nominal:[
+        {nama:"475 VP", harga:53719},{nama:"1000 VP", harga:112000},{nama:"1475 VP", harga:159159},
+        {nama:"2050 VP", harga:224000},{nama:"2525 VP", harga:264597},{nama:"3050 VP", harga:317317},
+        {nama:"3650 VP", harga:367213},{nama:"4125 VP", harga:419932}
+    ]},
+    {nama:"Magic Chase", ikon:"💫", labelId:"User ID", butuhServer:true, labelServer:"Server ID",
+    nominal:[
+        {nama:"5 Diamond", harga:1580},{nama:"Weekly Card", harga:33000},{nama:"12 Diamonds", harga:3604},
+        {nama:"19 Diamonds", harga:5281},{nama:"28 Diamonds", harga:7681},{nama:"44 Diamonds", harga:12521},
+        {nama:"59 Diamonds", harga:16377},{nama:"85 Diamonds", harga:23082},{nama:"170 Diamonds", harga:45164},
+        {nama:"240 Diamonds", harga:63402},{nama:"296 Diamonds", harga:77802},{nama:"408 Diamonds", harga:106604},
+        {nama:"568 Diamonds", harga:145007},{nama:"875 Diamonds", harga:221807}
+    ]}
 ];
 
-// VARIABEL PENYIMPANAN
-let gameTerpilih = null;
-let nominalTerpilih = null;
-let metodeTerpilih = null;
-let namaFileBukti = "";
+// VARIABEL
+let gameTerpilih = null, nominalTerpilih = null, metodeTerpilih = null, namaFileBukti = "";
 
-// GANTI HALAMAN
-function gantiHalaman(idTujuan) {
-    document.querySelectorAll('.halaman').forEach(h => {h.classList.remove('aktif'); h.style.display = 'none';});
-    document.getElementById(idTujuan).classList.add('aktif');
-    document.getElementById(idTujuan).style.display = 'block';
-    if(idTujuan === 'halPembayaran') isiInfoPembayaran();
+// ================= PERGANTIAN MODE UTAMA =================
+function bukaModeToko() {
+    document.getElementById('halToko').classList.add('aktif');
+    document.getElementById('halAdmin').classList.remove('aktif');
+    document.getElementById('btnModeToko').style.background = 'var(--utama)';
+    document.getElementById('btnModeToko').style.color = 'var(--latar)';
+    document.getElementById('btnModeAdmin').style.background = 'var(--kartu)';
+    document.getElementById('btnModeAdmin').style.color = 'var(--abu)';
+    tampilDaftarGame();
+}
+function bukaModeAdmin() {
+    document.getElementById('halAdmin').classList.add('aktif');
+    document.getElementById('halToko').classList.remove('aktif');
+    document.getElementById('btnModeAdmin').style.background = 'var(--ungu)';
+    document.getElementById('btnModeAdmin').style.color = 'white';
+    document.getElementById('btnModeToko').style.background = 'var(--kartu)';
+    document.getElementById('btnModeToko').style.color = 'var(--abu)';
+    tampilPesananAdmin();
+}
+function gantiHalamanToko(id) {
+    document.querySelectorAll('#halToko .halaman').forEach(h => h.classList.remove('aktif'));
+    document.getElementById(id).classList.add('aktif');
+    if(id === 'halPembayaran') isiInfoPembayaran();
 }
 
-// TAMPIL DAFTAR GAME
+// ================= FUNGSI TOKO =================
 function tampilDaftarGame() {
     let html = "";
-    dataGame.forEach(g => {
-        html += `<div class="kartu-game" onclick="pilihGame('${g.nama}')">
-                    <div class="gambar-game">${g.ikon}</div>
-                    <div class="nama-game">${g.nama}</div>
-                </div>`;
-    });
+    dataGame.forEach(g => html += `<div class="kartu-game" onclick="pilihGame('${g.nama}')"><div class="gambar-game">${g.ikon}</div><div class="nama-game">${g.nama}</div></div>`);
     document.getElementById('daftarGame').innerHTML = html;
 }
-
-// SAAT PILIH GAME
-function pilihGame(namaGame) {
-    gameTerpilih = dataGame.find(g => g.nama === namaGame);
+function pilihGame(nama) {
+    gameTerpilih = dataGame.find(g => g.nama === nama);
     document.getElementById('ikonGame').textContent = gameTerpilih.ikon;
     document.getElementById('namaGame').textContent = gameTerpilih.nama;
     document.getElementById('labelIdUtama').textContent = gameTerpilih.labelId;
-
-    // TAMPILKAN KOLOM SERVER JIKA DIBUTUHKAN
-    if(gameTerpilih.butuhServer) {
-        document.getElementById('wadahServer').style.display = 'block';
-    } else {
-        document.getElementById('wadahServer').style.display = 'none';
-    }
-
-    // RESET PILIHAN LAMA
-    nominalTerpilih = null; metodeTerpilih = null; namaFileBukti = "";
-    document.getElementById('inputIdUtama').value = "";
-    document.getElementById('inputServer').value = "";
-    document.getElementById('namaPembeli').value = "";
-    document.getElementById('waPembeli').value = "";
-    document.getElementById('namaFile').textContent = "";
-
-    tampilDaftarNominal();
-    tampilDaftarMetode();
-    gantiHalaman('halFormPesanan');
+    document.getElementById('wadahServer').style.display = gameTerpilih.butuhServer ? 'block' : 'none';
+    nominalTerpilih = metodeTerpilih = null; namaFileBukti = "";
+    document.getElementById('inputIdUtama').value = document.getElementById('inputServer').value = "";
+    document.getElementById('namaPembeli').value = document.getElementById('waPembeli').value = "";
+    tampilDaftarNominal(); tampilDaftarMetode();
+    gantiHalamanToko('halFormPesanan');
 }
-
-// TAMPIL NOMINAL & METODE
 function tampilDaftarNominal() {
     let html = "";
-    gameTerpilih.nominal.forEach((n, i) => {
-        html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)">
-                    <div class="nama-nominal">${n.nama}</div>
-                    <div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div>
-                </div>`;
-    });
+    gameTerpilih.nominal.forEach((n,i) => html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)"><div class="nama-nominal">${n.nama}</div><div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div></div>`);
     document.getElementById('daftarNominal').innerHTML = html;
 }
-function pilihNominal(index, el) {
+function pilihNominal(i, el) {
     document.querySelectorAll('.kartu-nominal').forEach(k => k.classList.remove('aktif'));
-    el.classList.add('aktif');
-    nominalTerpilih = gameTerpilih.nominal[index];
-    cekLengkap();
+    el.classList.add('aktif'); nominalTerpilih = gameTerpilih.nominal[i]; cekLengkap();
 }
 function tampilDaftarMetode() {
     let html = "";
-    dataToko.rekening.filter(r => r.aktif).forEach((m, i) => {
-        html += `<div class="kartu-metode" onclick="pilihMetode(${i}, this)">
-                    <div class="nama-metode">${m.nama}</div>
-                    <div class="keterangan-metode">Transfer Manual</div>
-                </div>`;
-    });
+    dataToko.rekening.filter(r=>r.aktif).forEach((m,i) => html += `<div class="kartu-metode" onclick="pilihMetode(${i}, this)"><div class="nama-nominal">${m.nama}</div><div class="keterangan-metode">Transfer Manual</div></div>`);
     document.getElementById('daftarMetode').innerHTML = html;
 }
-function pilihMetode(index, el) {
+function pilihMetode(i, el) {
     document.querySelectorAll('.kartu-metode').forEach(k => k.classList.remove('aktif'));
-    el.classList.add('aktif');
-    metodeTerpilih = dataToko.rekening.filter(r => r.aktif)[index];
-    cekLengkap();
+    el.classList.add('aktif'); metodeTerpilih = dataToko.rekening.filter(r=>r.aktif)[i]; cekLengkap();
 }
-
-// ISI INFO PEMBAYARAN
+function cekLengkap() {
+    const id = document.getElementById('inputIdUtama').value.trim();
+    const server = document.getElementById('inputServer').value.trim();
+    const nama = document.getElementById('namaPembeli').value.trim();
+    const wa = document.getElementById('waPembeli').value.trim();
+    let ok = id && nama && wa && nominalTerpilih && metodeTerpilih;
+    if(gameTerpilih.butuhServer) ok = ok && server;
+    document.getElementById('btnLanjut').disabled = !ok;
+}
 function isiInfoPembayaran() {
     document.getElementById('rincianGame').textContent = gameTerpilih.nama;
     document.getElementById('rincianItem').textContent = nominalTerpilih.nama;
-    // GABUNGKAN ID + SERVER JIKA ADA
     let idLengkap = document.getElementById('inputIdUtama').value.trim();
     if(gameTerpilih.butuhServer) idLengkap += ` (Server: ${document.getElementById('inputServer').value.trim()})`;
     document.getElementById('rincianId').textContent = idLengkap;
     document.getElementById('rincianMetode').textContent = metodeTerpilih.nama;
     document.getElementById('rincianTotal').textContent = `Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}`;
-    document.getElementById('infoRekeningTujuan').innerHTML = `
-        <p><b>${metodeTerpilih.nama}</b><br>Nomor: ${metodeTerpilih.nomor}<br>Atas Nama: ${metodeTerpilih.atasNama}</p>
-    `;
+    document.getElementById('infoRekening').innerHTML = `<b>${metodeTerpilih.nama}</b><br>No: ${metodeTerpilih.nomor}<br>a.n: ${metodeTerpilih.atasNama}`;
 }
-
-// CEK KELENGKAPAN ISIAN
-function cekLengkap() {
-    const idUtama = document.getElementById('inputIdUtama').value.trim();
-    const server = document.getElementById('inputServer').value.trim();
-    const nama = document.getElementById('namaPembeli').value.trim();
-    const wa = document.getElementById('waPembeli').value.trim();
-    let lengkap = idUtama && nama && wa && nominalTerpilih && metodeTerpilih;
-    if(gameTerpilih.butuhServer) lengkap = lengkap && server;
-    document.getElementById('btnLanjutBayar').disabled = !lengkap;
-}
-
-// CEK BUKTI BAYAR
 function cekBukti() {
     const file = document.getElementById('buktiBayar').files[0];
-    if(file) {
-        namaFileBukti = file.name;
-        document.getElementById('namaFile').textContent = "✅ Bukti: " + namaFileBukti;
-        document.getElementById('btnKirim').disabled = false;
-    } else {
-        namaFileBukti = "";
-        document.getElementById('namaFile').textContent = "";
-        document.getElementById('btnKirim').disabled = true;
-    }
+    if(file) {namaFileBukti = file.name; document.getElementById('namaFile').textContent = "✅ " + namaFileBukti; document.getElementById('btnKirim').disabled = false;}
+    else {namaFileBukti = ""; document.getElementById('namaFile').textContent = ""; document.getElementById('btnKirim').disabled = true;}
 }
-
-// KIRIM PESANAN
 function kirimPesanan() {
     let idAkun = document.getElementById('inputIdUtama').value.trim();
     if(gameTerpilih.butuhServer) idAkun += ` | Server: ${document.getElementById('inputServer').value.trim()}`;
-
-    const pesananBaru = {
-        id: 'LS-' + Date.now(),
-        waktu: new Date().toLocaleString('id-ID'),
-        game: gameTerpilih.nama,
-        item: nominalTerpilih.nama,
-        harga: nominalTerpilih.harga,
-        metodeBayar: metodeTerpilih.nama,
-        idTujuan: idAkun,
-        namaPembeli: document.getElementById('namaPembeli').value.trim(),
-        waPembeli: document.getElementById('waPembeli').value.trim(),
-        buktiBayar: namaFileBukti,
-        status: 'MENUNGGU KONFIRMASI'
+    const baru = {
+        id: 'LS-' + Date.now(), waktu: new Date().toLocaleString('id-ID'),
+        game: gameTerpilih.nama, item: nominalTerpilih.nama, harga: nominalTerpilih.harga,
+        metode: metodeTerpilih.nama, idTujuan: idAkun, namaPembeli: document.getElementById('namaPembeli').value.trim(),
+        waPembeli: document.getElementById('waPembeli').value.trim(), bukti: namaFileBukti, status: 'MENUNGGU KONFIRMASI'
     };
-
-    // SIMPAN KE PENYIMPANAN LOKAL
-    let daftarPesanan = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
-    daftarPesanan.unshift(pesananBaru);
-    localStorage.setItem('daftarPesanan', JSON.stringify(daftarPesanan));
-
-    alert(`✅ PESANAN BERHASIL!\nID Pesanan: ${pesananBaru.id}\nSemua data sudah tersimpan lengkap!`);
-    gantiHalaman('halPilihGame');
+    let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
+    list.unshift(baru);
+    localStorage.setItem('daftarPesanan', JSON.stringify(list));
+    alert(`✅ Pesanan Berhasil!\nID: ${baru.id}\nCek di Panel Admin ya!`);
+    bukaModeToko(); gantiHalamanToko('halPilihGame');
 }
 
-// MULAI SAAT BUKA HALAMAN
-document.addEventListener('DOMContentLoaded', tampilDaftarGame);
+// ================= FUNGSI ADMIN =================
+function tampilPesananAdmin(filter = 'semua') {
+    let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
+    if(filter !== 'semua') list = list.filter(p => p.status === filter);
+    if(list.length === 0) {
+        document.getElementById('daftarPesananAdmin').innerHTML = `<div class="kosong">📭 Belum ada pesanan masuk</div>`;
+        return;
+    }
+    let html = "";
+    list.forEach(p => {
+        let kelasStatus = p.status.includes('MENUNGGU') ? 'menunggu' : (p.status.includes('SELESAI') ? 'selesai' : 'batal');
+        html += `<div class="kartu-pesanan">
+            <span class="label-pesanan ${kelasStatus}">${p.status}</span>
+            <div class="data-pesanan">
+                <p><span>ID Pesanan:</span> ${p.id}</p>
+                <p><span>Waktu:</span> ${p.waktu}</p>
+                <p><span>Game:</span> ${p.game}</p>
+                <p><span>Item:</span> ${p.item} - Rp ${p.harga.toLocaleString('id-ID')}</p>
+                <p><span>ID Tujuan:</span> ${p.idTujuan}</p>
+                <p><span>Metode:</span> ${p.metode}</p>
+                <p><span>Pembeli:</span> ${p.namaPembeli} / ${p.waPembeli}</p>
+                <p><span>Bukti:</span> ${p.bukti || 'Belum diunggah'}</p>
+            </div>
+            <select onchange="ubahStatus('${p.id}', this.value)" style="margin-bottom:8px;">
+                <option value="MENUNGGU KONFIRMASI" ${p.status==='MENUNGGU KONFIRMASI'?'selected':''}>Menunggu Konfirmasi</option>
+                <option value="SELESAI" ${p.status==='SELESAI'?'selected':''}>Selesai Diproses</option>
+                <option value="DIBATALKAN" ${p.status==='DIBATALKAN'?'selected':''}>Dibatalkan</option>
+            </select>
+            <button onclick="hapusPesanan('${p.id}')" style="width:100%; padding:10px; background:var(--bahaya); color:white; border:none; border-radius:8px; margin-top:4px; cursor:pointer;">🗑️ Hapus Pesanan</button>
+        </div>`;
+    });
+    document.getElementById('daftarPesananAdmin').innerHTML = html;
+}
+function filterPesanan(status) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('aktif'));
+    event.target.classList.add('aktif');
+    tampilPesananAdmin(status);
+}
+function ubahStatus(idBaru, statusBaru) {
+    let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
+    const index = list.findIndex(p => p.id === idBaru);
+    if(index !== -1) {
+        list[index].status = statusBaru;
+        localStorage.setItem('daftarPesanan', JSON.stringify(list));
+        tampilPesananAdmin();
+    }
+}
+function hapusPesanan(idHapus) {
+    if(confirm('Yakin mau hapus pesanan ini? Data tidak bisa dikembalikan!')) {
+        let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
+        list = list.filter(p => p.id !== idHapus);
+        localStorage.setItem('daftarPesanan', JSON.stringify(list));
+        tampilPesananAdmin();
+    }
+}
+
+// MULAI SAAT BUKA
+document.addEventListener('DOMContentLoaded', bukaModeToko);
 </script>
 </body>
 </html>
