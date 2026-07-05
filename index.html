@@ -35,26 +35,26 @@
         .kartu-game:hover {transform:translateY(-5px); border-color:var(--utama); box-shadow:0 8px 24px rgba(0,212,255,0.15);}
         .gambar-game {width:70px; height:70px; border-radius:12px; margin:0 auto 12px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:36px; overflow:hidden;}
         .nama-game {font-weight:700; font-size:17px; margin-bottom:4px;}
-        .keterangan {font-size:13px; color:var(--abu); display:flex; align-items:center; justify-content:center; gap:5px;}
+        .keterangan {font-size:13px; color:var(--abu); display:flex; align-items:center; justify-content:center; gap:5px; margin-top:4px;}
         .keterangan::before {content:'🛡️';}
 
-        /* Langkah */
+        /* Langkah & Tombol */
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:20px; cursor:pointer;}
         .langkah {display:flex; align-items:center; gap:10px; margin-bottom:16px;}
-        .nomor-langkah {width:32px; height:32px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;}
-        .judul-langkah {font-size:20px; font-weight:700;}
-        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:12px; border-radius:8px; font-size:13px; color:var(--abu); margin:12px 0; line-height:1.6;}
-        .form-group {margin-bottom:16px;}
-        label {display:block; font-size:14px; font-weight:600; margin-bottom:6px;}
+        .nomor-langkah {width:40px; height:40px; background:var(--utama); color:var(--latar); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; font-size:18px;}
+        .judul-langkah {font-size:22px; font-weight:700;}
+        .info-bantuan {background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:14px; border-radius:8px; font-size:14px; color:var(--abu); margin:12px 0; line-height:1.6;}
+        .form-group {margin-bottom:18px;}
+        label {display:block; font-size:15px; font-weight:600; margin-bottom:8px;}
         input {width:100%; padding:14px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
         input:focus {outline:none; border-color:var(--utama); box-shadow:0 0 0 3px rgba(0,212,255,0.1);}
 
         /* Pilih Nominal */
-        .grid-nominal {display:grid; grid-template-columns:repeat(2, 1fr); gap:14px;}
+        .grid-nominal {display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; margin-bottom:20px;}
         .kartu-nominal {background:var(--kartu); border-radius:12px; padding:18px 12px; border:2px solid var(--batas); cursor:pointer; transition:all 0.2s; text-align:center;}
         .kartu-nominal.aktif {border-color:var(--utama); box-shadow:0 0 15px rgba(0,212,255,0.2); background:rgba(0,212,255,0.05);}
         .nama-nominal {font-weight:700; font-size:16px; margin-bottom:6px;}
-        .harga-nominal {font-weight:15px; font-weight:700; color:var(--utama);}
+        .harga-nominal {font-weight:700; color:var(--utama);}
 
         /* Ringkasan & Bayar */
         .ringkasan {background:var(--kartu); border-radius:12px; padding:16px; margin:16px 0; border:1px solid var(--batas);}
@@ -104,14 +104,14 @@
         <div class="judul-langkah">MASUKKAN DATA AKUN</div>
     </div>
     <div class="gambar-game" style="width:90px; height:90px; margin:10px 0;" id="gambarGameTerpilih"></div>
-    <h2 id="namaGameTerpilih"></h2>
-    <p class="keterangan">Proses Instan & 100% Legal</p>
+    <h1 id="namaGameTerpilih"></h1>
+    <p class="keterangan" style="margin-bottom:16px;">Proses Instan & 100% Legal</p>
     <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID merupakan tanggung jawab pembeli sepenuhnya.</div>
     <div class="form-group">
-        <label id="labelId">Player ID</label>
+        <label id="labelId">User ID</label>
         <input type="text" id="inputId" placeholder="Masukkan ID kamu di sini">
     </div>
-    <button class="tombol-bawah" id="btnLanjutNominal" disabled onclick="lanjutKeNominal">Lanjut Pilih Nominal</button>
+    <button class="tombol-bawah" id="btnLanjutNominal" disabled onclick="lanjutKeNominal()">Lanjut Pilih Nominal</button>
 </div>
 
 <!-- HALAMAN 3: PILIH NOMINAL -->
@@ -216,22 +216,27 @@ function bukaDataAkun(namaGame){
     document.getElementById('btnLanjutNominal').disabled = true;
 }
 
-// Cek input ID
-document.addEventListener('input', e => {
+// Cek input ID agar tombol aktif
+document.addEventListener('input', function(e){
     if(e.target.id === 'inputId'){
-        pesanan.idGame = e.target.value;
-        document.getElementById('btnLanjutNominal').disabled = pesanan.idGame.trim().length < 4;
+        pesanan.idGame = e.target.value.trim();
+        document.getElementById('btnLanjutNominal').disabled = pesanan.idGame.length < 4;
     }
 });
 
-// Lanjut ke nominal
+// Fungsi navigasi halaman
 function lanjutKeNominal(){
     tampilNominal();
     gantiHalaman('halPilihNominal');
 }
-function kembaliKeDataAkun(){ gantiHalaman('halDataAkun'); }
+function kembaliKeGame(){
+    gantiHalaman('halPilihGame');
+}
+function kembaliKeDataAkun(){
+    gantiHalaman('halDataAkun');
+}
 
-// Tampilkan nominal
+// Tampilkan daftar nominal
 function tampilNominal(){
     let html = '';
     pesanan.game.nominal.forEach((n,i) => {
@@ -245,7 +250,7 @@ function tampilNominal(){
     pesanan.nominal = null;
 }
 
-// Pilih nominal
+// Pilih nominal agar tombol aktif
 function pilihNominal(index, el){
     document.querySelectorAll('.kartu-nominal').forEach(e => e.classList.remove('aktif'));
     el.classList.add('aktif');
@@ -253,10 +258,10 @@ function pilihNominal(index, el){
     document.getElementById('btnLanjutKontak').disabled = false;
 }
 
-// Lanjut ke kontak & bayar
+// Lanjut ke halaman kontak & bayar
 function lanjutKeKontak(){
     gantiHalaman('halKontakBayar');
-    // Isi ringkasan
+    // Isi ringkasan pesanan
     document.getElementById('rincianItem').textContent = pesanan.nominal.nama;
     document.getElementById('rincianHarga').textContent = `Rp ${pesanan.nominal.harga.toLocaleString('id-ID')}`;
     document.getElementById('rincianTotal').textContent = `Rp ${pesanan.nominal.harga.toLocaleString('id-ID')}`;
@@ -265,13 +270,15 @@ function lanjutKeKontak(){
     dataToko.rekening.filter(r => r.aktif).forEach(r => {
         infoRek += `<p><b>${r.nama}</b><br>Nomor: ${r.nomor}<br>a.n: ${r.atasNama}</p><br>`;
     });
-    infoRek += `<p style="font-size:13px; color:var(--abu);">Setelah transfer, upload bukti di bawah ini.</p>`;
+    infoRek += `<p style="font-size:13px; color:var(--abu);">Setelah transfer selesai, upload bukti pembayaran di bawah ini.</p>`;
     document.getElementById('infoPembayaran').innerHTML = infoRek;
 }
-function kembaliKeNominal(){ gantiHalaman('halPilihNominal'); }
+function kembaliKeNominal(){
+    gantiHalaman('halPilihNominal');
+}
 
-// Tangkap file bukti
-document.getElementById('buktiBayar').addEventListener('change', e => {
+// Tampilkan nama file bukti bayar
+document.getElementById('buktiBayar').addEventListener('change', function(e){
     const file = e.target.files[0];
     if(file){
         pesanan.bukti = file.name;
@@ -279,16 +286,16 @@ document.getElementById('buktiBayar').addEventListener('change', e => {
     }
 });
 
-// Kirim pesanan & simpan ke Admin
+// Kirim pesanan ke Admin
 function kirimPesanan(){
     pesanan.nama = document.getElementById('namaPembeli').value.trim();
     pesanan.wa = document.getElementById('waPembeli').value.trim();
 
-    if(!pesanan.nama) return alert("Masukkan nama lengkap kamu!");
-    if(!pesanan.wa) return alert("Masukkan nomor WhatsApp kamu!");
-    if(!pesanan.bukti) return alert("Upload bukti pembayaran dulu!");
+    if(!pesanan.nama) return alert("Masukkan nama lengkap kamu terlebih dahulu!");
+    if(!pesanan.wa) return alert("Masukkan nomor WhatsApp kamu terlebih dahulu!");
+    if(!pesanan.bukti) return alert("Upload bukti pembayaran terlebih dahulu!");
 
-    // Buat ID Pesanan Unik
+    // Buat ID pesanan unik
     const idPesanan = 'LS-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const pesananBaru = {
         id: idPesanan,
@@ -303,23 +310,23 @@ function kirimPesanan(){
         status: 'MENUNGGU KONFIRMASI'
     };
 
-    // Simpan ke daftar pesanan yang bisa dilihat Admin
+    // Simpan pesanan agar muncul di Admin
     let daftarPesanan = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
     daftarPesanan.unshift(pesananBaru);
     localStorage.setItem('daftarPesanan', JSON.stringify(daftarPesanan));
 
-    alert(`✅ PESANAN BERHASIL DITERIMA!\n\nID Pesanan: ${idPesanan}\n\nKami akan segera cek pembayaran dan proses pesananmu. Cek info di WhatsApp ya!`);
+    alert(`✅ PESANAN BERHASIL DIKIRIM!\n\nID Pesanan: ${idPesanan}\n\nKami akan segera cek pembayaran dan memproses pesananmu. Cek info terbaru di WhatsApp ya!`);
     // Kembali ke halaman awal
     gantiHalaman('halPilihGame');
 }
 
 // Fungsi ganti halaman
-function gantiHalaman(id){
+function gantiHalaman(idHalaman){
     document.querySelectorAll('.halaman').forEach(e => e.classList.remove('aktif'));
-    document.getElementById(id).classList.add('aktif');
+    document.getElementById(idHalaman).classList.add('aktif');
 }
 
-// Jalankan pertama kali
+// Jalankan pertama kali saat halaman dimuat
 ambilData();
 tampilGame();
 </script>
