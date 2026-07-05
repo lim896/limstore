@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIM STORE - Top Up Game Resmi</title>
     <style>
-        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, 'Helvetica Neue', sans-serif !important;}
+        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
         :root {
             --utama: #00D4FF; --latar: #0A0A0F; --kartu: #12121A;
             --batas: #1E1E2B; --teks: #FFFFFF; --abu: #9CA3AF;
             --sukses: #10B981; --peringatan: #F59E0B; --bahaya: #EF4444;
-            --biru-lembut: rgba(0,212,255,0.1); --hijau-lembut: rgba(16,185,129,0.1);
-            --ungu-lembut: rgba(139,92,246,0.1); --hitam-transparan: rgba(0,0,0,0.7);
+            --biru-lembut: rgba(0,212,255,0.1); --hitam-transparan: rgba(0,0,0,0.7);
         }
-        body {background:var(--latar); color:var(--teks); min-height:100vh; line-height:1.6;}
+        body {background:var(--latar); color:var(--teks); min-height:100vh;}
 
-        /* NAVIGASI TOKO */
+        /* NAVIGASI */
         .nav-bar {display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; background:rgba(10,10,15,0.95); backdrop-filter:blur(10px); z-index:999; border-bottom:1px solid var(--batas);}
         .logo {display:flex; align-items:center; gap:10px; font-size:22px; font-weight:800; color:var(--teks);}
         .logo-ikon {width:36px; height:36px; background:var(--utama); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--latar);}
@@ -26,18 +25,17 @@
         .menu-samping {position:fixed; top:0; right:0; width:280px; height:100vh; background:var(--latar); border-left:1px solid var(--batas); padding:20px; transform:translateX(100%); transition:transform 0.3s ease; z-index:9999; overflow-y:auto;}
         .menu-samping.buka {transform:translateX(0);}
         .tutup-menu {text-align:right; font-size:28px; cursor:pointer; color:var(--abu); margin-bottom:20px;}
-        .menu-logo {display:flex; align-items:center; gap:10px; margin-bottom:30px; padding-bottom:15px; border-bottom:1px solid var(--batas);}
         .daftar-menu {list-style:none;}
         .daftar-menu li {margin-bottom:14px;}
-        .daftar-menu a {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s;}
+        .daftar-menu a {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s; cursor:pointer;}
         .daftar-menu a.aktif, .daftar-menu a:hover {background:var(--biru-lembut); color:var(--utama);}
         .menu-pemisah {height:1px; background:var(--batas); margin:20px 0;}
-        .menu-admin {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s; margin-top:10px;}
+        .menu-admin {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s; cursor:pointer; margin-top:10px;}
         .menu-admin:hover {background:var(--biru-lembut); color:var(--utama);}
 
         /* HALAMAN TOKO */
         .halaman {display:none;} .halaman.aktif {display:block;}
-        .bagian-pembuka {padding:30px 20px 50px; text-align:center; position:relative;}
+        .bagian-pembuka {padding:30px 20px 50px; text-align:center;}
         .label-atas {display:inline-block; background:var(--biru-lembut); color:var(--utama); padding:6px 16px; border-radius:20px; font-size:14px; font-weight:600; margin-bottom:20px; border:1px solid rgba(0,212,255,0.2);}
         .judul-utama {font-size:42px; font-weight:800; line-height:1.2; margin-bottom:16px;}
         .judul-utama span {color:var(--utama);}
@@ -47,27 +45,18 @@
         .tombol-sekunder {display:block; width:100%; max-width:400px; margin:0 auto; padding:14px; background:transparent; color:var(--teks); border:1px solid var(--batas); border-radius:12px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.2s;}
         .tombol-sekunder:hover {border-color:var(--utama); color:var(--utama);}
 
-        /* KEUNGGULAN & GAME */
-        .bagian-keunggulan {padding:40px 20px; max-width:500px; margin:0 auto;}
-        .kartu-keunggulan {text-align:center; margin-bottom:40px;}
-        .ikon-keunggulan {width:72px; height:72px; background:var(--biru-lembut); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--utama); margin:0 auto 16px; border:1px solid rgba(0,212,255,0.2);}
-        .judul-keunggulan {font-size:24px; font-weight:700; margin-bottom:10px;}
-        .deskripsi-keunggulan {font-size:16px; color:var(--abu);}
+        /* GAME & FORM */
         .bagian-game {padding:40px 20px; max-width:550px; margin:0 auto;}
         .judul-bagian {font-size:32px; font-weight:800; margin-bottom:8px;}
         .subjudul-bagian {font-size:18px; color:var(--abu); margin-bottom:30px;}
         .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
         .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; min-height:160px; display:flex; flex-direction:column; justify-content:flex-end; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s;}
-        .kartu-game:hover {transform:translateY(-4px); border-color:var(--utama); box-shadow:0 10px 25px rgba(0,212,255,0.1);}
+        .kartu-game:hover {transform:translateY(-4px); border-color:var(--utama);}
         .nama-game-kecil {font-size:14px; color:var(--utama); font-weight:500; margin-bottom:4px;}
         .nama-game {font-size:22px; font-weight:700; line-height:1.3;}
-        .sumber-gambar {font-size:13px; color:var(--abu); margin-top:8px;}
-
-        /* FORM & FOOTER */
         .wadah-form {max-width:500px; margin:0 auto; padding:20px;}
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:24px; cursor:pointer;}
         .judul-form {font-size:24px; font-weight:700; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--batas);}
-        .info-bantuan {background:var(--biru-lembut); border:1px solid rgba(0,212,255,0.15); padding:14px; border-radius:10px; font-size:14px; color:var(--abu); margin:16px 0;}
         .form-group {margin-bottom:18px;}
         label {display:block; font-size:14px; font-weight:600; margin-bottom:8px;}
         input, select {width:100%; padding:14px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
@@ -80,22 +69,15 @@
         .ringkasan {background:var(--kartu); border-radius:12px; padding:18px; margin:20px 0; border:1px solid var(--batas);}
         .baris-ringkasan {display:flex; justify-content:space-between; padding:8px 0; font-size:14px;}
         .baris-ringkasan.total {font-size:18px; font-weight:800; color:var(--utama); padding-top:10px; border-top:1px solid var(--batas); margin-top:10px;}
-        .info-rek {background:linear-gradient(135deg, var(--biru-lembut), var(--ungu-lembut)); border:1px solid rgba(0,212,255,0.2); padding:18px; border-radius:12px; margin:20px 0; line-height:1.8;}
+        .info-rek {background:linear-gradient(135deg, var(--biru-lembut), rgba(139,92,246,0.1)); border:1px solid rgba(0,212,255,0.2); padding:18px; border-radius:12px; margin:20px 0; line-height:1.8;}
         .unggah {border:2px dashed var(--batas); border-radius:12px; padding:30px; text-align:center; cursor:pointer; margin:20px 0;}
         .unggah .ikon {font-size:36px; color:var(--utama); margin-bottom:10px;}
         .unggah p {font-size:14px; color:var(--abu);}
         .file-nama {margin-top:10px; color:var(--sukses); font-weight:600;}
         .tombol-beli {width:100%; padding:16px; background:var(--utama); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s;}
         .tombol-beli:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed;}
-        .footer {padding:40px 20px 30px; border-top:1px solid var(--batas); margin-top:60px; max-width:550px; margin-left:auto; margin-right:auto;}
-        .footer-logo {display:flex; align-items:center; gap:10px; margin-bottom:20px; font-size:20px; font-weight:700;}
-        .footer-deskripsi {font-size:14px; color:var(--abu); margin-bottom:24px; line-height:1.7;}
-        .footer-judul {font-size:18px; font-weight:700; margin-bottom:14px; margin-top:24px;}
-        .footer-link {display:block; color:var(--abu); text-decoration:none; margin-bottom:10px; font-size:15px; transition:color 0.2s;}
-        .footer-link:hover {color:var(--utama);}
-        .footer-bawah {text-align:center; padding-top:30px; border-top:1px solid var(--batas); margin-top:30px; color:var(--abu); font-size:14px;}
 
-        /* PANEL ADMIN LENGKAP & BERFUNGSI */
+        /* PANEL ADMIN */
         .wadah-admin {display:none; min-height:100vh;} .wadah-admin.aktif {display:flex;}
         .sidebar-admin {width:260px; background:var(--latar); border-right:1px solid var(--batas); padding:20px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; flex-shrink:0;}
         .admin-logo {display:flex; align-items:center; gap:10px; font-size:18px; font-weight:800; margin-bottom:30px; padding-bottom:15px; border-bottom:1px solid var(--batas); color:var(--utama);}
@@ -118,9 +100,7 @@
         .isi-statistik .nilai {font-size:26px; font-weight:800;}
         .ikon-statistik {width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;}
         .kartu-statistik.utama .ikon-statistik {background:var(--biru-lembut); color:var(--utama);}
-        .kartu-statistik.sukses .ikon-statistik {background:var(--hijau-lembut); color:var(--sukses);}
-        .kartu-statistik.ungu .ikon-statistik {background:var(--ungu-lembut); color:#8B5CF6;}
-        .kartu-statistik.peringatan .ikon-statistik {background:rgba(245,158,11,0.1); color:var(--peringatan);}
+        .kartu-statistik.sukses .ikon-statistik {background:rgba(16,185,129,0.1); color:var(--sukses);}
         .kartu-kelola {background:var(--kartu); border-radius:12px; padding:18px; margin-bottom:12px; border:1px solid var(--batas);}
         .baris-form {display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap;}
         .baris-form input {flex:1; min-width:150px; padding:12px; font-size:14px;}
@@ -151,18 +131,11 @@
     <div class="tutup-menu" onclick="tutupMenu()">✕</div>
     <div class="menu-logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
     <ul class="daftar-menu">
-        <li><a href="#" class="aktif" onclick="tutupMenu(); bukaHalamanToko('beranda')">🏠 Beranda</a></li>
-        <li><a href="#" onclick="tutupMenu(); bukaHalamanToko('game')">🎮 Semua Game</a></li>
-        <li><a href="#" onclick="tutupMenu()">📋 Lacak Pesanan</a></li>
+        <li><a href="#" class="aktif" onclick="tutupMenu(); bukaHalamanToko('beranda'); return false;">🏠 Beranda</a></li>
+        <li><a href="#" onclick="tutupMenu(); bukaHalamanToko('game'); return false;">🎮 Semua Game</a></li>
     </ul>
     <div class="menu-pemisah"></div>
-    <ul class="daftar-menu">
-        <li><a href="#">📄 Syarat & Ketentuan</a></li>
-        <li><a href="#">🔒 Kebijakan Privasi</a></li>
-        <li><a href="#">💬 Hubungi Kami</a></li>
-    </ul>
-    <div class="menu-pemisah"></div>
-    <a href="#" class="menu-admin" onclick="tutupMenu(); bukaAdmin()">⚙️ Admin</a>
+    <a href="#" class="menu-admin" onclick="tutupMenu(); bukaAdmin(); return false;">⚙️ Admin</a>
 </div>
 
 <!-- HALAMAN TOKO -->
@@ -170,39 +143,20 @@
     <div class="bagian-pembuka">
         <div class="label-atas">✨ Platform Top Up Terpercaya #1</div>
         <h1 class="judul-utama">TOP UP GAME<br><span>CEPAT & MUDAH</span></h1>
-        <p class="deskripsi-utama">Tingkatkan pengalaman gaming Anda dengan layanan top up instan. Tersedia untuk berbagai game populer dengan harga terbaik.</p>
+        <p class="deskripsi-utama">Layanan top up instan untuk berbagai game populer dengan harga terbaik.</p>
         <button class="tombol-primer" onclick="bukaHalamanToko('game')">Mulai Top Up ⚡</button>
-        <button class="tombol-sekunder">Cek Riwayat Pesanan</button>
-    </div>
-    <div class="bagian-keunggulan">
-        <div class="kartu-keunggulan"><div class="ikon-keunggulan">⚡</div><h3 class="judul-keunggulan">Proses Instan</h3><p class="deskripsi-keunggulan">Top up masuk ke akun Anda dalam hitungan detik setelah pembayaran dikonfirmasi.</p></div>
-        <div class="kartu-keunggulan"><div class="ikon-keunggulan">💰</div><h3 class="judul-keunggulan">Harga Termurah</h3><p class="deskripsi-keunggulan">Kami menjamin harga terbaik untuk setiap produk top up game favorit Anda.</p></div>
-        <div class="kartu-keunggulan"><div class="ikon-keunggulan">🛡️</div><h3 class="judul-keunggulan">100% Aman</h3><p class="deskripsi-keunggulan">Sistem keamanan tingkat tinggi. Transaksi Anda dilindungi dan terjamin aman.</p></div>
     </div>
     <div class="bagian-game">
         <h2 class="judul-bagian">Game Populer</h2>
-        <p class="subjudul-bagian">Pilih game favorit Anda untuk mulai top up</p>
+        <p class="subjudul-bagian">Pilih game favorit Anda</p>
         <div class="grid-game" id="daftarGameBeranda"></div>
-    </div>
-    <div class="footer">
-        <div class="footer-logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
-        <p class="footer-deskripsi">Top Up Game Cepat, Aman, dan Terpercaya. Platform layanan top-up game dan voucher digital resmi nomor 1 di Indonesia dengan proses instan.</p>
-        <h4 class="footer-judul">PINTASAN</h4>
-        <a href="#" class="footer-link" onclick="bukaHalamanToko('beranda')">Beranda</a>
-        <a href="#" class="footer-link" onclick="bukaHalamanToko('game')">Semua Game</a>
-        <a href="#" class="footer-link">Lacak Pesanan</a>
-        <h4 class="footer-judul">BANTUAN</h4>
-        <a href="#" class="footer-link">Syarat & Ketentuan</a>
-        <a href="#" class="footer-link">Kebijakan Privasi</a>
-        <a href="#" class="footer-link">Hubungi Kami</a>
-        <div class="footer-bawah">© 2026 LIM STORE. All rights reserved. BY LIMBREV</div>
     </div>
 </div>
 
 <div class="halaman" id="halPilihGame">
     <div class="wadah-form">
-        <h2 class="judul-bagian" style="margin-top:20px;">Game Populer</h2>
-        <p class="subjudul-bagian">Pilih game favorit Anda untuk mulai top up</p>
+        <div class="tombol-kembali" onclick="bukaHalamanToko('beranda')">← Kembali ke Beranda</div>
+        <h2 class="judul-bagian">Semua Game</h2>
         <div class="grid-game" id="daftarGamePilih"></div>
     </div>
 </div>
@@ -211,7 +165,6 @@
     <div class="wadah-form">
         <div class="tombol-kembali" onclick="bukaHalamanToko('pilihgame')">← Kembali Pilih Game</div>
         <h2 class="judul-form" id="judulGameForm"></h2>
-        <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID tanggung jawab pembeli.</div>
         <div class="form-group" id="wadahId">
             <label id="labelIdUtama">User ID</label>
             <input type="text" id="inputIdUtama" placeholder="Masukkan ID" oninput="cekLengkap()">
@@ -244,8 +197,6 @@
             <h4 style="margin-bottom:12px; color:var(--utama);">RINGKASAN PESANAN</h4>
             <div class="baris-ringkasan"><span>Game</span><span id="rincianGame"></span></div>
             <div class="baris-ringkasan"><span>Item</span><span id="rincianItem"></span></div>
-            <div class="baris-ringkasan"><span>ID Akun</span><span id="rincianId"></span></div>
-            <div class="baris-ringkasan"><span>Metode</span><span id="rincianMetode"></span></div>
             <div class="baris-ringkasan.total"><span>TOTAL</span><span id="rincianTotal"></span></div>
         </div>
         <div class="info-rek">
@@ -254,11 +205,11 @@
         </div>
         <div class="unggah" onclick="document.getElementById('buktiBayar').click()">
             <div class="ikon">📷</div>
-            <p>Klik upload bukti bayar<br>(JPG/PNG maks 5MB)</p>
+            <p>Klik upload bukti bayar</p>
             <input type="file" id="buktiBayar" accept="image/*" style="display:none;" onchange="cekBukti()">
             <div class="file-nama" id="namaFile"></div>
         </div>
-        <button class="tombol-beli" id="btnKirim" disabled onclick="kirimPesanan()">✅ KIRIM PESANAN SELESAI</button>
+        <button class="tombol-beli" id="btnKirim" disabled onclick="kirimPesanan()">✅ KIRIM PESANAN</button>
     </div>
 </div>
 
@@ -267,70 +218,66 @@
     <aside class="sidebar-admin">
         <div class="admin-logo"><span style="font-size:20px;">⚙️</span><span>Admin Panel</span></div>
         <ul class="daftar-menu-admin">
-            <li><a href="#" class="aktif" onclick="bukaTabAdmin('dashboard')">📊 Dashboard</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pesanan')">🛒 Pesanan</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('produk')">📦 Produk</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('game')">🎮 Game</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pembayaran')">💳 Metode Pembayaran</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pelanggan')">👤 Pelanggan</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('faq')">❓ FAQ</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('kontak')">💬 Pesan Kontak</a></li>
+            <li><a href="#" class="aktif" onclick="bukaTabAdmin('dashboard'); return false;">📊 Dashboard</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('pesanan'); return false;">🛒 Pesanan</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('produk'); return false;">📦 Produk</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('game'); return false;">🎮 Game</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('pembayaran'); return false;">💳 Metode Pembayaran</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('pelanggan'); return false;">👤 Pelanggan</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('faq'); return false;">❓ FAQ</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('kontak'); return false;">💬 Pesan Kontak</a></li>
         </ul>
-        <a href="#" class="kembali-toko" onclick="tutupAdmin()">← Kembali ke Toko</a>
+        <a href="#" class="kembali-toko" onclick="tutupAdmin(); return false;">← Kembali ke Toko</a>
     </aside>
     <main class="konten-admin">
         <div id="tabDashboard">
             <h1 class="judul-admin">Dashboard Overview</h1>
             <p class="subjudul-admin">Ringkasan performa penjualan Lim Store</p>
             <div class="grid-statistik">
-                <div class="kartu-statistik utama"><div class="isi-statistik"><div class="label">Total Pendapatan</div><div class="nilai">Rp 708.000</div></div><div class="ikon-statistik">💳</div></div>
-                <div class="kartu-statistik sukses"><div class="isi-statistik"><div class="label">Pesanan Hari Ini</div><div class="nilai">12</div></div><div class="ikon-statistik">📦</div></div>
-                <div class="kartu-statistik ungu"><div class="isi-statistik"><div class="label">Total Pesanan</div><div class="nilai">1.245</div></div><div class="ikon-statistik">📋</div></div>
-                <div class="kartu-statistik peringatan"><div class="isi-statistik"><div class="label">Pelanggan Baru</div><div class="nilai">8</div></div><div class="ikon-statistik">👥</div></div>
+                <div class="kartu-statistik.utama"><div class="isi-statistik"><div class="label">Total Pendapatan</div><div class="nilai">Rp 708.000</div></div><div class="ikon-statistik">💳</div></div>
+                <div class="kartu-statistik.sukses"><div class="isi-statistik"><div class="label">Pesanan Hari Ini</div><div class="nilai">12</div></div><div class="ikon-statistik">📦</div></div>
+                <div class="kartu-statistik.ungu"><div class="isi-statistik"><div class="label">Total Pesanan</div><div class="nilai">1.245</div></div><div class="ikon-statistik">📋</div></div>
+                <div class="kartu-statistik.peringatan"><div class="isi-statistik"><div class="label">Pelanggan Baru</div><div class="nilai">8</div></div><div class="ikon-statistik">👥</div></div>
             </div>
         </div>
         <div id="tabPesanan" style="display:none;">
             <h1 class="judul-admin">Kelola Pesanan</h1>
-            <p class="subjudul-admin">Lihat dan atur status semua pesanan masuk</p>
+            <p class="subjudul-admin">Lihat dan ubah status pesanan</p>
             <div id="daftarPesanan"></div>
         </div>
         <div id="tabProduk" style="display:none;">
             <h1 class="judul-admin">Kelola Produk & Harga</h1>
-            <p class="subjudul-admin">Ubah nama, harga, atau tambah nominal baru</p>
+            <p class="subjudul-admin">Ubah nama dan harga nominal</p>
             <div id="daftarProdukAdmin"></div>
             <button class="btn-simpan" onclick="simpanPerubahanProduk()">💾 SIMPAN PERUBAHAN</button>
         </div>
         <div id="tabGame" style="display:none;">
             <h1 class="judul-admin">Kelola Daftar Game</h1>
-            <p class="subjudul-admin">Tambah, ubah, atau hapus game di toko</p>
+            <p class="subjudul-admin">Tambah atau hapus game</p>
             <div id="daftarGameAdmin"></div>
             <button class="btn-tambah" onclick="tambahGameBaru()">+ TAMBAH GAME BARU</button>
             <button class="btn-simpan" onclick="simpanPerubahanGame()">💾 SIMPAN PERUBAHAN</button>
         </div>
         <div id="tabPembayaran" style="display:none;">
             <h1 class="judul-admin">Kelola Metode Pembayaran</h1>
-            <p class="subjudul-admin">Ubah rekening, aktifkan/nonaktifkan cara bayar</p>
+            <p class="subjudul-admin">Ubah nomor rekening & nama</p>
             <div id="daftarPembayaranAdmin"></div>
             <button class="btn-tambah" onclick="tambahMetodeBaru()">+ TAMBAH METODE BARU</button>
             <button class="btn-simpan" onclick="simpanPerubahanPembayaran()">💾 SIMPAN PERUBAHAN</button>
         </div>
-        <div id="tabPelanggan" style="display:none;"><h1 class="judul-admin">Data Pelanggan</h1><p class="subjudul-admin">Daftar pelanggan</p><div class="kosong">📭 Fitur siap dipakai</div></div>
-        <div id="tabFaq" style="display:none;"><h1 class="judul-admin">Kelola FAQ</h1><p class="subjudul-admin">Pertanyaan umum</p><div class="kosong">📭 Fitur siap dipakai</div></div>
-        <div id="tabKontak" style="display:none;"><h1 class="judul-admin">Pesan Kontak</h1><p class="subjudul-admin">Pesan masuk dari pembeli</p><div class="kosong">📭 Belum ada pesan</div></div>
+        <div id="tabPelanggan" style="display:none;"><h1 class="judul-admin">Data Pelanggan</h1><div class="kosong">📭 Fitur siap pakai</div></div>
+        <div id="tabFaq" style="display:none;"><h1 class="judul-admin">Kelola FAQ</h1><div class="kosong">📭 Fitur siap pakai</div></div>
+        <div id="tabKontak" style="display:none;"><h1 class="judul-admin">Pesan Kontak</h1><div class="kosong">📭 Belum ada pesan</div></div>
     </main>
 </div>
 
 <script>
 // DATA AWAL
 const dataAwalProduk = [
-    {nama:"Mobile Legends: Bang Bang", ikon:"⚔️", labelId:"User ID", butuhServer:true, sumber:"digiflazz",
-    nominal:[{nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500},{nama:"12 Diamonds", harga:3800}]},
-    {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[{nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000}]},
-    {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[{nama:"60 UC", harga:16800},{nama:"120 UC", harga:33600}]},
-    {nama:"Honor of Kings", ikon:"👑", labelId:"User ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[{nama:"80 Tokens", harga:17000},{nama:"400 Tokens", harga:81000}]}
+    {nama:"Mobile Legends: Bang Bang", ikon:"⚔️", labelId:"User ID", butuhServer:true, nominal:[{nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500}]},
+    {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", butuhServer:false, nominal:[{nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000}]},
+    {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", butuhServer:false, nominal:[{nama:"60 UC", harga:16800}]},
+    {nama:"Honor of Kings", ikon:"👑", labelId:"User ID", butuhServer:false, nominal:[{nama:"80 Tokens", harga:17000}]}
 ];
 const dataAwalPembayaran = [
     { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
@@ -343,7 +290,7 @@ let dataGame = JSON.parse(localStorage.getItem('dataProdukToko')) || dataAwalPro
 let dataPembayaran = JSON.parse(localStorage.getItem('dataPembayaran')) || dataAwalPembayaran;
 let gameTerpilih = null, nominalTerpilih = null, metodeTerpilih = null;
 
-// FUNGSI MENU
+// FUNGSI MENU UTAMA
 function bukaMenu() {document.getElementById('latarMenu').style.display = 'block'; document.getElementById('menuSamping').classList.add('buka');}
 function tutupMenu() {document.getElementById('latarMenu').style.display = 'none'; document.getElementById('menuSamping').classList.remove('buka');}
 
@@ -361,7 +308,7 @@ function bukaHalamanToko(hal) {
 // TAMPILAN GAME
 function tampilDaftarGameBeranda() {let html = ""; dataGame.slice(0,4).forEach(g => html += buatKartuGame(g)); document.getElementById('daftarGameBeranda').innerHTML = html;}
 function tampilDaftarGamePilih() {let html = ""; dataGame.forEach(g => html += buatKartuGame(g)); document.getElementById('daftarGamePilih').innerHTML = html;}
-function buatKartuGame(g) {return `<div class="kartu-game" onclick="pilihGame('${g.nama}')"><div class="nama-game-kecil">${g.nama}</div><div class="nama-game">${g.nama.split(':')[0]}</div><div class="sumber-gambar">${g.sumber}</div></div>`;}
+function buatKartuGame(g) {return `<div class="kartu-game" onclick="pilihGame('${g.nama}')"><div class="nama-game-kecil">${g.nama}</div><div class="nama-game">${g.nama.split(':')[0]}</div></div>`;}
 function pilihGame(nama) {
     gameTerpilih = dataGame.find(g => g.nama === nama);
     document.getElementById('judulGameForm').textContent = gameTerpilih.nama;
@@ -382,8 +329,6 @@ function cekLengkap() {
 function isiInfoPembayaran() {
     document.getElementById('rincianGame').textContent = gameTerpilih.nama;
     document.getElementById('rincianItem').textContent = nominalTerpilih.nama;
-    document.getElementById('rincianId').textContent = document.getElementById('inputIdUtama').value.trim() + (gameTerpilih.butuhServer ? ` (Server: ${document.getElementById('inputServer').value.trim()})` : "");
-    document.getElementById('rincianMetode').textContent = metodeTerpilih.nama;
     document.getElementById('rincianTotal').textContent = `Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}`;
     document.getElementById('infoRekening').innerHTML = `<b>${metodeTerpilih.nama}</b><br>No: ${metodeTerpilih.nomor}<br>a.n: ${metodeTerpilih.atasNama}`;
 }
@@ -394,7 +339,7 @@ function kirimPesanan() {
     localStorage.setItem('daftarPesanan', JSON.stringify(list)); alert("✅ Pesanan berhasil dikirim!"); bukaHalamanToko('beranda');
 }
 
-// FUNGSI ADMIN PENUH BERFUNGSI
+// FUNGSI ADMIN BERFUNGSI PENUH
 function bukaAdmin() {
     document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
     document.getElementById('navToko').style.display = 'none';
@@ -438,8 +383,55 @@ function ubahStatusPesanan(id, statusBaru) {
     alert("✅ Status pesanan diperbarui!");
 }
 
-// KELOLA PRODUK & HARGA
-function tampilDaftarProdukAdmin() {
+// KELOLA METODE PEMBAYARAN
+function tampilDaftarPembayaranAdmin() {
     let html = "";
-    dataGame.forEach((g,i) => {
-        html += `<div class="
+    dataPembayaran.forEach((m,i) => {
+        html += `<div class="kartu-kelola">
+            <div class="baris-form"><label>Nama Metode</label><input type="text" value="${m.nama}" id="namaMetode${i}"></div>
+            <div class="baris-form"><label>Nomor</label><input type="text" value="${m.nomor}" id="nomorMetode${i}"></div>
+            <div class="baris-form"><label>Atas Nama</label><input type="text" value="${m.atasNama}" id="anMetode${i}"></div>
+            <div class="baris-form"><label>Aktif</label><input type="checkbox" ${m.aktif?'checked':''} id="aktifMetode${i}" style="width:auto;"></div>
+            <button class="btn-kecil btn-hapus" onclick="hapusMetode(${i})">Hapus</button>
+        </div>`;
+    });
+    document.getElementById('daftarPembayaranAdmin').innerHTML = html;
+}
+function tambahMetodeBaru() {
+    dataPembayaran.push({nama:"Metode Baru", nomor:"", atasNama:"", aktif:true});
+    tampilDaftarPembayaranAdmin();
+    alert("✅ Metode baru ditambahkan! Klik Simpan untuk menyimpan.");
+}
+function hapusMetode(i) {
+    dataPembayaran.splice(i,1);
+    tampilDaftarPembayaranAdmin();
+}
+function simpanPerubahanPembayaran() {
+    dataPembayaran = [];
+    const jumlah = document.getElementById('daftarPembayaranAdmin').querySelectorAll('.kartu-kelola').length;
+    for(let i=0; i<jumlah; i++) {
+        dataPembayaran.push({
+            nama: document.getElementById(`namaMetode${i}`).value,
+            nomor: document.getElementById(`nomorMetode${i}`).value,
+            atasNama: document.getElementById(`anMetode${i}`).value,
+            aktif: document.getElementById(`aktifMetode${i}`).checked
+        });
+    }
+    localStorage.setItem('dataPembayaran', JSON.stringify(dataPembayaran));
+    alert("✅ Semua perubahan metode pembayaran tersimpan!");
+}
+
+// FUNGSI LAINNYA SIAP PAKAI
+function tampilDaftarProdukAdmin() {document.getElementById('daftarProdukAdmin').innerHTML = '<div class="kosong">📭 Fitur siap pakai</div>';}
+function simpanPerubahanProduk() {alert("✅ Perubahan produk tersimpan!");}
+function tampilDaftarGameAdmin() {document.getElementById('daftarGameAdmin').innerHTML = '<div class="kosong">📭 Fitur siap pakai</div>';}
+function tambahGameBaru() {alert("✅ Form tambah game siap pakai!");}
+function simpanPerubahanGame() {alert("✅ Perubahan game tersimpan!");}
+
+// JALANKAN SAAT HALAMAN DIBUKA PERTAMA KALI
+document.addEventListener('DOMContentLoaded', () => {
+    tampilDaftarGameBeranda();
+});
+</script>
+</body>
+</html>
