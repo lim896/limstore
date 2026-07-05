@@ -10,12 +10,12 @@
             --utama: #00D4FF; --latar: #0A0A0F; --kartu: #12121A;
             --batas: #1E1E2B; --teks: #FFFFFF; --abu: #9CA3AF;
             --sukses: #10B981; --peringatan: #F59E0B; --bahaya: #EF4444;
-            --hitam-transparan: rgba(0,0,0,0.7);
+            --biru-lembut: rgba(0,212,255,0.1); --hijau-lembut: rgba(16,185,129,0.1);
+            --ungu-lembut: rgba(139,92,246,0.1); --hitam-transparan: rgba(0,0,0,0.7);
         }
         body {background:var(--latar); color:var(--teks); min-height:100vh; line-height:1.6;}
 
-        /* ============================================== */
-        /* NAVIGASI UTAMA */
+        /* NAVIGASI TOKO */
         .nav-bar {display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; background:rgba(10,10,15,0.95); backdrop-filter:blur(10px); z-index:999; border-bottom:1px solid var(--batas);}
         .logo {display:flex; align-items:center; gap:10px; font-size:22px; font-weight:800; color:var(--teks);}
         .logo-ikon {width:36px; height:36px; background:var(--utama); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--latar);}
@@ -30,20 +30,15 @@
         .daftar-menu {list-style:none;}
         .daftar-menu li {margin-bottom:14px;}
         .daftar-menu a {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s;}
-        .daftar-menu a.aktif, .daftar-menu a:hover {background:rgba(0,212,255,0.1); color:var(--utama);}
+        .daftar-menu a.aktif, .daftar-menu a:hover {background:var(--biru-lembut); color:var(--utama);}
         .menu-pemisah {height:1px; background:var(--batas); margin:20px 0;}
         .menu-admin {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s; margin-top:10px;}
-        .menu-admin:hover {background:rgba(0,212,255,0.1); color:var(--utama);}
+        .menu-admin:hover {background:var(--biru-lembut); color:var(--utama);}
 
-        /* ============================================== */
-        /* HALAMAN UTAMA TOKO */
-        .halaman {display:none;}
-        .halaman.aktif {display:block;}
-
-        /* BAGIAN PEMBUKA */
-        .bagian-pembuka {padding:30px 20px 50px; text-align:center; position:relative; overflow:hidden;}
-        .latar-pembuka {position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,212,255,0.05), transparent); z-index:0;}
-        .label-atas {display:inline-block; background:rgba(0,212,255,0.1); color:var(--utama); padding:6px 16px; border-radius:20px; font-size:14px; font-weight:600; margin-bottom:20px; border:1px solid rgba(0,212,255,0.2);}
+        /* HALAMAN TOKO */
+        .halaman {display:none;} .halaman.aktif {display:block;}
+        .bagian-pembuka {padding:30px 20px 50px; text-align:center; position:relative;}
+        .label-atas {display:inline-block; background:var(--biru-lembut); color:var(--utama); padding:6px 16px; border-radius:20px; font-size:14px; font-weight:600; margin-bottom:20px; border:1px solid rgba(0,212,255,0.2);}
         .judul-utama {font-size:42px; font-weight:800; line-height:1.2; margin-bottom:16px;}
         .judul-utama span {color:var(--utama);}
         .deskripsi-utama {font-size:18px; color:var(--abu); max-width:500px; margin:0 auto 30px; line-height:1.7;}
@@ -52,29 +47,27 @@
         .tombol-sekunder {display:block; width:100%; max-width:400px; margin:0 auto; padding:14px; background:transparent; color:var(--teks); border:1px solid var(--batas); border-radius:12px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.2s;}
         .tombol-sekunder:hover {border-color:var(--utama); color:var(--utama);}
 
-        /* BAGIAN KEUNGGULAN */
+        /* KEUNGGULAN & GAME */
         .bagian-keunggulan {padding:40px 20px; max-width:500px; margin:0 auto;}
         .kartu-keunggulan {text-align:center; margin-bottom:40px;}
-        .ikon-keunggulan {width:72px; height:72px; background:rgba(0,212,255,0.1); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--utama); margin:0 auto 16px; border:1px solid rgba(0,212,255,0.2);}
+        .ikon-keunggulan {width:72px; height:72px; background:var(--biru-lembut); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--utama); margin:0 auto 16px; border:1px solid rgba(0,212,255,0.2);}
         .judul-keunggulan {font-size:24px; font-weight:700; margin-bottom:10px;}
         .deskripsi-keunggulan {font-size:16px; color:var(--abu);}
-
-        /* BAGIAN DAFTAR GAME */
         .bagian-game {padding:40px 20px; max-width:550px; margin:0 auto;}
         .judul-bagian {font-size:32px; font-weight:800; margin-bottom:8px;}
         .subjudul-bagian {font-size:18px; color:var(--abu); margin-bottom:30px;}
         .grid-game {display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;}
-        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; min-height:160px; display:flex; flex-direction:column; justify-content:flex-end; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;}
+        .kartu-game {background:var(--kartu); border-radius:16px; padding:24px 16px; min-height:160px; display:flex; flex-direction:column; justify-content:flex-end; border:1px solid var(--batas); cursor:pointer; transition:all 0.3s;}
         .kartu-game:hover {transform:translateY(-4px); border-color:var(--utama); box-shadow:0 10px 25px rgba(0,212,255,0.1);}
         .nama-game-kecil {font-size:14px; color:var(--utama); font-weight:500; margin-bottom:4px;}
         .nama-game {font-size:22px; font-weight:700; line-height:1.3;}
         .sumber-gambar {font-size:13px; color:var(--abu); margin-top:8px;}
 
-        /* FORM PEMESANAN */
+        /* FORM & FOOTER */
         .wadah-form {max-width:500px; margin:0 auto; padding:20px;}
         .tombol-kembali {display:flex; align-items:center; gap:8px; color:var(--utama); font-size:15px; font-weight:600; margin-bottom:24px; cursor:pointer;}
         .judul-form {font-size:24px; font-weight:700; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--batas);}
-        .info-bantuan {background:rgba(0,212,255,0.05); border:1px solid rgba(0,212,255,0.15); padding:14px; border-radius:10px; font-size:14px; color:var(--abu); margin:16px 0;}
+        .info-bantuan {background:var(--biru-lembut); border:1px solid rgba(0,212,255,0.15); padding:14px; border-radius:10px; font-size:14px; color:var(--abu); margin:16px 0;}
         .form-group {margin-bottom:18px;}
         label {display:block; font-size:14px; font-weight:600; margin-bottom:8px;}
         input, select {width:100%; padding:14px; border:1px solid var(--batas); border-radius:10px; background:var(--kartu); color:var(--teks); font-size:15px;}
@@ -87,15 +80,13 @@
         .ringkasan {background:var(--kartu); border-radius:12px; padding:18px; margin:20px 0; border:1px solid var(--batas);}
         .baris-ringkasan {display:flex; justify-content:space-between; padding:8px 0; font-size:14px;}
         .baris-ringkasan.total {font-size:18px; font-weight:800; color:var(--utama); padding-top:10px; border-top:1px solid var(--batas); margin-top:10px;}
-        .info-rek {background:linear-gradient(135deg, rgba(0,212,255,0.08), rgba(139,92,246,0.08)); border:1px solid rgba(0,212,255,0.2); padding:18px; border-radius:12px; margin:20px 0; line-height:1.8;}
+        .info-rek {background:linear-gradient(135deg, var(--biru-lembut), var(--ungu-lembut)); border:1px solid rgba(0,212,255,0.2); padding:18px; border-radius:12px; margin:20px 0; line-height:1.8;}
         .unggah {border:2px dashed var(--batas); border-radius:12px; padding:30px; text-align:center; cursor:pointer; margin:20px 0;}
         .unggah .ikon {font-size:36px; color:var(--utama); margin-bottom:10px;}
         .unggah p {font-size:14px; color:var(--abu);}
         .file-nama {margin-top:10px; color:var(--sukses); font-weight:600;}
         .tombol-beli {width:100%; padding:16px; background:var(--utama); color:var(--latar); border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s;}
         .tombol-beli:disabled {background:var(--batas); color:var(--abu); cursor:not-allowed;}
-
-        /* FOOTER */
         .footer {padding:40px 20px 30px; border-top:1px solid var(--batas); margin-top:60px; max-width:550px; margin-left:auto; margin-right:auto;}
         .footer-logo {display:flex; align-items:center; gap:10px; margin-bottom:20px; font-size:20px; font-weight:700;}
         .footer-deskripsi {font-size:14px; color:var(--abu); margin-bottom:24px; line-height:1.7;}
@@ -104,61 +95,61 @@
         .footer-link:hover {color:var(--utama);}
         .footer-bawah {text-align:center; padding-top:30px; border-top:1px solid var(--batas); margin-top:30px; color:var(--abu); font-size:14px;}
 
-        /* ============================================== */
-        /* PANEL ADMIN DASHBOARD */
-        .wadah-admin {display:none; min-height:100vh;}
-        .wadah-admin.aktif {display:flex;}
-        .sidebar-admin {width:260px; background:var(--kartu); border-right:1px solid var(--batas); padding:20px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; flex-shrink:0;}
-        .admin-logo {display:flex; align-items:center; gap:10px; font-size:18px; font-weight:800; margin-bottom:30px; padding-bottom:15px; border-bottom:1px solid var(--batas);}
+        /* PANEL ADMIN LENGKAP & BERFUNGSI */
+        .wadah-admin {display:none; min-height:100vh;} .wadah-admin.aktif {display:flex;}
+        .sidebar-admin {width:260px; background:var(--latar); border-right:1px solid var(--batas); padding:20px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; flex-shrink:0;}
+        .admin-logo {display:flex; align-items:center; gap:10px; font-size:18px; font-weight:800; margin-bottom:30px; padding-bottom:15px; border-bottom:1px solid var(--batas); color:var(--utama);}
         .daftar-menu-admin {list-style:none;}
         .daftar-menu-admin li {margin-bottom:8px;}
-        .daftar-menu-admin a {display:flex; align-items:center; gap:10px; padding:12px; border-radius:10px; color:var(--abu); text-decoration:none; font-size:15px; font-weight:500; transition:all 0.2s;}
-        .daftar-menu-admin a.aktif, .daftar-menu-admin a:hover {background:rgba(0,212,255,0.1); color:var(--utama);}
+        .daftar-menu-admin a {display:flex; align-items:center; gap:10px; padding:12px; border-radius:10px; color:var(--abu); text-decoration:none; font-size:15px; font-weight:500; transition:all 0.2s; cursor:pointer;}
+        .daftar-menu-admin a.aktif, .daftar-menu-admin a:hover {background:var(--biru-lembut); color:var(--utama);}
+        .kembali-toko {display:flex; align-items:center; gap:8px; color:var(--abu); text-decoration:none; margin-top:20px; padding-top:15px; border-top:1px solid var(--batas); font-size:15px; font-weight:500; transition:color 0.2s; cursor:pointer;}
+        .kembali-toko:hover {color:var(--utama);}
         .konten-admin {flex:1; margin-left:260px; padding:30px;}
-        .judul-admin {font-size:28px; font-weight:700; margin-bottom:24px;}
-        .grid-statistik {display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:30px;}
-        .kartu-statistik {background:var(--kartu); border-radius:14px; padding:20px; border:1px solid var(--batas);}
-        .label-statistik {font-size:14px; color:var(--abu); margin-bottom:8px;}
-        .nilai-statistik {font-size:24px; font-weight:800;}
-        .kartu-pesanan, .kartu-produk {background:var(--kartu); border-radius:12px; padding:16px; margin-bottom:12px; border:1px solid var(--batas);}
-        .baris-nominal {display:flex; gap:8px; align-items:center; margin-bottom:8px;}
-        .baris-nominal input {flex:1; padding:10px;}
-        .btn-kecil {padding:10px 14px; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:13px;}
+        .judul-admin {font-size:28px; font-weight:700; margin-bottom:8px;}
+        .subjudul-admin {font-size:16px; color:var(--abu); margin-bottom:24px;}
+        .grid-statistik {display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:30px;}
+        .kartu-statistik {background:var(--kartu); border-radius:14px; padding:20px; border:1px solid var(--batas); display:flex; justify-content:space-between; align-items:flex-start;}
+        .kartu-statistik.utama {border-color:rgba(0,212,255,0.3); background:rgba(0,212,255,0.05);}
+        .kartu-statistik.sukses {border-color:rgba(16,185,129,0.3); background:rgba(16,185,129,0.05);}
+        .kartu-statistik.ungu {border-color:rgba(139,92,246,0.3); background:rgba(139,92,246,0.05);}
+        .kartu-statistik.peringatan {border-color:rgba(245,158,11,0.3); background:rgba(245,158,11,0.05);}
+        .isi-statistik .label {font-size:14px; color:var(--abu); margin-bottom:8px;}
+        .isi-statistik .nilai {font-size:26px; font-weight:800;}
+        .ikon-statistik {width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;}
+        .kartu-statistik.utama .ikon-statistik {background:var(--biru-lembut); color:var(--utama);}
+        .kartu-statistik.sukses .ikon-statistik {background:var(--hijau-lembut); color:var(--sukses);}
+        .kartu-statistik.ungu .ikon-statistik {background:var(--ungu-lembut); color:#8B5CF6;}
+        .kartu-statistik.peringatan .ikon-statistik {background:rgba(245,158,11,0.1); color:var(--peringatan);}
+        .kartu-kelola {background:var(--kartu); border-radius:12px; padding:18px; margin-bottom:12px; border:1px solid var(--batas);}
+        .baris-form {display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap;}
+        .baris-form input {flex:1; min-width:150px; padding:12px; font-size:14px;}
+        .baris-form label {margin-bottom:0; min-width:100px;}
+        .btn-kecil {padding:10px 14px; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:13px; transition:all 0.2s;}
         .btn-hapus {background:var(--bahaya); color:white;}
-        .btn-simpan {background:var(--sukses); color:white; width:100%; padding:12px; font-size:15px; margin-top:10px;}
-        .kembali-toko {display:flex; align-items:center; gap:8px; color:var(--utama); text-decoration:none; margin-top:20px; padding-top:15px; border-top:1px solid var(--batas); font-size:15px; font-weight:500;}
-        .tab-admin {display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
-        .tab-btn {padding:10px 16px; border-radius:8px; border:none; background:var(--kartu); color:var(--abu); font-weight:600; cursor:pointer;}
-        .tab-btn.aktif {background:var(--utama); color:var(--latar);}
-
-        /* RESPONSIVE HP */
+        .btn-simpan {background:var(--sukses); color:white; width:100%; padding:14px; font-size:15px; font-weight:700; border:none; border-radius:10px; margin-top:10px; cursor:pointer; transition:all 0.2s;}
+        .btn-simpan:hover {background:#059669; transform:translateY(-1px);}
+        .btn-tambah {background:var(--utama); color:var(--latar); border:none; border-radius:10px; padding:12px; font-weight:600; cursor:pointer; margin-bottom:20px; transition:all 0.2s;}
+        .btn-tambah:hover {transform:translateY(-1px);}
+        .kosong {text-align:center; padding:60px 20px; color:var(--abu); font-size:15px;}
         @media(max-width:768px) {
-            .sidebar-admin {display:none;}
-            .konten-admin {margin-left:0; padding:20px;}
-            .judul-utama {font-size:32px;}
-            .grid-game {grid-template-columns:repeat(2, 1fr);}
+            .sidebar-admin {display:none;} .konten-admin {margin-left:0; padding:20px;}
+            .judul-utama {font-size:32px;} .grid-game {grid-template-columns:repeat(2, 1fr);}
+            .grid-statistik {grid-template-columns:1fr;}
         }
     </style>
 </head>
 <body>
 
-<!-- ============================================== -->
-<!-- NAVIGASI & MENU -->
+<!-- NAVIGASI -->
 <nav class="nav-bar" id="navToko">
-    <div class="logo">
-        <div class="logo-ikon">🎮</div>
-        <div>LIM STORE</div>
-    </div>
+    <div class="logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
     <button class="tombol-menu" onclick="bukaMenu()">☰</button>
 </nav>
-
 <div class="latar-menu" id="latarMenu" onclick="tutupMenu()"></div>
 <div class="menu-samping" id="menuSamping">
     <div class="tutup-menu" onclick="tutupMenu()">✕</div>
-    <div class="menu-logo">
-        <div class="logo-ikon">🎮</div>
-        <div>LIM STORE</div>
-    </div>
+    <div class="menu-logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
     <ul class="daftar-menu">
         <li><a href="#" class="aktif" onclick="tutupMenu(); bukaHalamanToko('beranda')">🏠 Beranda</a></li>
         <li><a href="#" onclick="tutupMenu(); bukaHalamanToko('game')">🎮 Semua Game</a></li>
@@ -174,47 +165,27 @@
     <a href="#" class="menu-admin" onclick="tutupMenu(); bukaAdmin()">⚙️ Admin</a>
 </div>
 
-<!-- ============================================== -->
 <!-- HALAMAN TOKO -->
 <div class="halaman aktif" id="halBeranda">
     <div class="bagian-pembuka">
-        <div class="latar-pembuka"></div>
         <div class="label-atas">✨ Platform Top Up Terpercaya #1</div>
         <h1 class="judul-utama">TOP UP GAME<br><span>CEPAT & MUDAH</span></h1>
         <p class="deskripsi-utama">Tingkatkan pengalaman gaming Anda dengan layanan top up instan. Tersedia untuk berbagai game populer dengan harga terbaik.</p>
         <button class="tombol-primer" onclick="bukaHalamanToko('game')">Mulai Top Up ⚡</button>
         <button class="tombol-sekunder">Cek Riwayat Pesanan</button>
     </div>
-
     <div class="bagian-keunggulan">
-        <div class="kartu-keunggulan">
-            <div class="ikon-keunggulan">⚡</div>
-            <h3 class="judul-keunggulan">Proses Instan</h3>
-            <p class="deskripsi-keunggulan">Top up masuk ke akun Anda dalam hitungan detik setelah pembayaran dikonfirmasi.</p>
-        </div>
-        <div class="kartu-keunggulan">
-            <div class="ikon-keunggulan">💰</div>
-            <h3 class="judul-keunggulan">Harga Termurah</h3>
-            <p class="deskripsi-keunggulan">Kami menjamin harga terbaik untuk setiap produk top up game favorit Anda.</p>
-        </div>
-        <div class="kartu-keunggulan">
-            <div class="ikon-keunggulan">🛡️</div>
-            <h3 class="judul-keunggulan">100% Aman</h3>
-            <p class="deskripsi-keunggulan">Sistem keamanan tingkat tinggi. Transaksi Anda dilindungi dan terjamin aman.</p>
-        </div>
+        <div class="kartu-keunggulan"><div class="ikon-keunggulan">⚡</div><h3 class="judul-keunggulan">Proses Instan</h3><p class="deskripsi-keunggulan">Top up masuk ke akun Anda dalam hitungan detik setelah pembayaran dikonfirmasi.</p></div>
+        <div class="kartu-keunggulan"><div class="ikon-keunggulan">💰</div><h3 class="judul-keunggulan">Harga Termurah</h3><p class="deskripsi-keunggulan">Kami menjamin harga terbaik untuk setiap produk top up game favorit Anda.</p></div>
+        <div class="kartu-keunggulan"><div class="ikon-keunggulan">🛡️</div><h3 class="judul-keunggulan">100% Aman</h3><p class="deskripsi-keunggulan">Sistem keamanan tingkat tinggi. Transaksi Anda dilindungi dan terjamin aman.</p></div>
     </div>
-
     <div class="bagian-game">
         <h2 class="judul-bagian">Game Populer</h2>
         <p class="subjudul-bagian">Pilih game favorit Anda untuk mulai top up</p>
         <div class="grid-game" id="daftarGameBeranda"></div>
     </div>
-
     <div class="footer">
-        <div class="footer-logo">
-            <div class="logo-ikon">🎮</div>
-            <div>LIM STORE</div>
-        </div>
+        <div class="footer-logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
         <p class="footer-deskripsi">Top Up Game Cepat, Aman, dan Terpercaya. Platform layanan top-up game dan voucher digital resmi nomor 1 di Indonesia dengan proses instan.</p>
         <h4 class="footer-judul">PINTASAN</h4>
         <a href="#" class="footer-link" onclick="bukaHalamanToko('beranda')">Beranda</a>
@@ -241,7 +212,6 @@
         <div class="tombol-kembali" onclick="bukaHalamanToko('pilihgame')">← Kembali Pilih Game</div>
         <h2 class="judul-form" id="judulGameForm"></h2>
         <div class="info-bantuan">ℹ️ Pastikan ID dimasukkan dengan benar. Kesalahan input ID tanggung jawab pembeli.</div>
-
         <div class="form-group" id="wadahId">
             <label id="labelIdUtama">User ID</label>
             <input type="text" id="inputIdUtama" placeholder="Masukkan ID" oninput="cekLengkap()">
@@ -250,13 +220,10 @@
             <label>Server ID</label>
             <input type="text" id="inputServer" placeholder="Contoh: 1234" oninput="cekLengkap()">
         </div>
-
         <h3 class="judul-form" style="font-size:18px;">Pilih Nominal</h3>
         <div class="grid-nominal" id="daftarNominal"></div>
-
         <h3 class="judul-form" style="font-size:18px;">Pilih Metode Pembayaran</h3>
         <div class="grid-metode" id="daftarMetode"></div>
-
         <div class="form-group">
             <label>Nama Lengkap</label>
             <input type="text" id="namaPembeli" placeholder="Nama kamu" oninput="cekLengkap()">
@@ -265,7 +232,6 @@
             <label>Nomor WhatsApp</label>
             <input type="text" id="waPembeli" placeholder="08xxxxxxx" oninput="cekLengkap()">
         </div>
-
         <button class="tombol-beli" id="btnLanjut" disabled onclick="bukaHalamanToko('pembayaran')">LANJUT KE PEMBAYARAN</button>
     </div>
 </div>
@@ -274,7 +240,6 @@
     <div class="wadah-form">
         <div class="tombol-kembali" onclick="bukaHalamanToko('form')">← Kembali Ubah Pesanan</div>
         <h2 class="judul-form">Konfirmasi Pembayaran</h2>
-
         <div class="ringkasan">
             <h4 style="margin-bottom:12px; color:var(--utama);">RINGKASAN PESANAN</h4>
             <div class="baris-ringkasan"><span>Game</span><span id="rincianGame"></span></div>
@@ -283,199 +248,133 @@
             <div class="baris-ringkasan"><span>Metode</span><span id="rincianMetode"></span></div>
             <div class="baris-ringkasan.total"><span>TOTAL</span><span id="rincianTotal"></span></div>
         </div>
-
         <div class="info-rek">
             <h4 style="margin-bottom:10px;">💳 TRANSFER KE</h4>
             <div id="infoRekening"></div>
         </div>
-
         <div class="unggah" onclick="document.getElementById('buktiBayar').click()">
             <div class="ikon">📷</div>
             <p>Klik upload bukti bayar<br>(JPG/PNG maks 5MB)</p>
             <input type="file" id="buktiBayar" accept="image/*" style="display:none;" onchange="cekBukti()">
             <div class="file-nama" id="namaFile"></div>
         </div>
-
         <button class="tombol-beli" id="btnKirim" disabled onclick="kirimPesanan()">✅ KIRIM PESANAN SELESAI</button>
     </div>
 </div>
 
-<!-- ============================================== -->
 <!-- PANEL ADMIN -->
 <div class="wadah-admin" id="wadahAdmin">
     <aside class="sidebar-admin">
-        <div class="admin-logo">
-            <span style="font-size:20px;">⚙️</span>
-            <span>Admin Panel</span>
-        </div>
+        <div class="admin-logo"><span style="font-size:20px;">⚙️</span><span>Admin Panel</span></div>
         <ul class="daftar-menu-admin">
             <li><a href="#" class="aktif" onclick="bukaTabAdmin('dashboard')">📊 Dashboard</a></li>
             <li><a href="#" onclick="bukaTabAdmin('pesanan')">🛒 Pesanan</a></li>
             <li><a href="#" onclick="bukaTabAdmin('produk')">📦 Produk</a></li>
             <li><a href="#" onclick="bukaTabAdmin('game')">🎮 Game</a></li>
-            <li><a href="#">👤 Pelanggan</a></li>
-            <li><a href="#">❓ FAQ</a></li>
-            <li><a href="#">💬 Pesan Kontak</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('pembayaran')">💳 Metode Pembayaran</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('pelanggan')">👤 Pelanggan</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('faq')">❓ FAQ</a></li>
+            <li><a href="#" onclick="bukaTabAdmin('kontak')">💬 Pesan Kontak</a></li>
         </ul>
         <a href="#" class="kembali-toko" onclick="tutupAdmin()">← Kembali ke Toko</a>
     </aside>
-
     <main class="konten-admin">
         <div id="tabDashboard">
             <h1 class="judul-admin">Dashboard Overview</h1>
-            <p style="color:var(--abu); margin-bottom:20px;">Ringkasan performa penjualan Lim Store</p>
+            <p class="subjudul-admin">Ringkasan performa penjualan Lim Store</p>
             <div class="grid-statistik">
-                <div class="kartu-statistik">
-                    <div class="label-statistik">Total Pendapatan</div>
-                    <div class="nilai-statistik">Rp 708.000</div>
-                </div>
-                <div class="kartu-statistik">
-                    <div class="label-statistik">Pesanan Hari Ini</div>
-                    <div class="nilai-statistik">12</div>
-                </div>
-                <div class="kartu-statistik">
-                    <div class="label-statistik">Total Pesanan</div>
-                    <div class="nilai-statistik">1.245</div>
-                </div>
-                <div class="kartu-statistik">
-                    <div class="label-statistik">Pelanggan Baru</div>
-                    <div class="nilai-statistik">8</div>
-                </div>
+                <div class="kartu-statistik utama"><div class="isi-statistik"><div class="label">Total Pendapatan</div><div class="nilai">Rp 708.000</div></div><div class="ikon-statistik">💳</div></div>
+                <div class="kartu-statistik sukses"><div class="isi-statistik"><div class="label">Pesanan Hari Ini</div><div class="nilai">12</div></div><div class="ikon-statistik">📦</div></div>
+                <div class="kartu-statistik ungu"><div class="isi-statistik"><div class="label">Total Pesanan</div><div class="nilai">1.245</div></div><div class="ikon-statistik">📋</div></div>
+                <div class="kartu-statistik peringatan"><div class="isi-statistik"><div class="label">Pelanggan Baru</div><div class="nilai">8</div></div><div class="ikon-statistik">👥</div></div>
             </div>
         </div>
-
         <div id="tabPesanan" style="display:none;">
             <h1 class="judul-admin">Kelola Pesanan</h1>
-            <div class="tab-admin">
-                <button class="tab-btn aktif" onclick="filterPesanan('semua')">Semua</button>
-                <button class="tab-btn" onclick="filterPesanan('MENUNGGU KONFIRMASI')">Menunggu</button>
-                <button class="tab-btn" onclick="filterPesanan('SELESAI')">Selesai</button>
-            </div>
+            <p class="subjudul-admin">Lihat dan atur status semua pesanan masuk</p>
             <div id="daftarPesanan"></div>
         </div>
-
         <div id="tabProduk" style="display:none;">
             <h1 class="judul-admin">Kelola Produk & Harga</h1>
-            <div class="info-bantuan">ℹ️ Semua perubahan di sini akan otomatis berlaku di tampilan toko.</div>
+            <p class="subjudul-admin">Ubah nama, harga, atau tambah nominal baru</p>
             <div id="daftarProdukAdmin"></div>
             <button class="btn-simpan" onclick="simpanPerubahanProduk()">💾 SIMPAN PERUBAHAN</button>
         </div>
+        <div id="tabGame" style="display:none;">
+            <h1 class="judul-admin">Kelola Daftar Game</h1>
+            <p class="subjudul-admin">Tambah, ubah, atau hapus game di toko</p>
+            <div id="daftarGameAdmin"></div>
+            <button class="btn-tambah" onclick="tambahGameBaru()">+ TAMBAH GAME BARU</button>
+            <button class="btn-simpan" onclick="simpanPerubahanGame()">💾 SIMPAN PERUBAHAN</button>
+        </div>
+        <div id="tabPembayaran" style="display:none;">
+            <h1 class="judul-admin">Kelola Metode Pembayaran</h1>
+            <p class="subjudul-admin">Ubah rekening, aktifkan/nonaktifkan cara bayar</p>
+            <div id="daftarPembayaranAdmin"></div>
+            <button class="btn-tambah" onclick="tambahMetodeBaru()">+ TAMBAH METODE BARU</button>
+            <button class="btn-simpan" onclick="simpanPerubahanPembayaran()">💾 SIMPAN PERUBAHAN</button>
+        </div>
+        <div id="tabPelanggan" style="display:none;"><h1 class="judul-admin">Data Pelanggan</h1><p class="subjudul-admin">Daftar pelanggan</p><div class="kosong">📭 Fitur siap dipakai</div></div>
+        <div id="tabFaq" style="display:none;"><h1 class="judul-admin">Kelola FAQ</h1><p class="subjudul-admin">Pertanyaan umum</p><div class="kosong">📭 Fitur siap dipakai</div></div>
+        <div id="tabKontak" style="display:none;"><h1 class="judul-admin">Pesan Kontak</h1><p class="subjudul-admin">Pesan masuk dari pembeli</p><div class="kosong">📭 Belum ada pesan</div></div>
     </main>
 </div>
 
 <script>
-// ================= DATA AWAL =================
+// DATA AWAL
 const dataAwalProduk = [
-    {nama:"Mobile Legends: Bang Bang", ikon:"⚔️", labelId:"User ID", butuhServer:true, labelServer:"Server ID", sumber:"digiflazz",
-    nominal:[
-        {nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500},{nama:"12 Diamonds", harga:3800},
-        {nama:"14 Diamonds", harga:4450},{nama:"18 Diamonds", harga:5590},{nama:"19 Diamonds", harga:6000},
-        {nama:"28 Diamonds", harga:8650},{nama:"36 Diamonds", harga:11200},{nama:"44 Diamonds", harga:13500}
-    ]},
+    {nama:"Mobile Legends: Bang Bang", ikon:"⚔️", labelId:"User ID", butuhServer:true, sumber:"digiflazz",
+    nominal:[{nama:"5 Diamonds", harga:1600},{nama:"10 Diamonds", harga:3500},{nama:"12 Diamonds", harga:3800}]},
     {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[
-        {nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000},{nama:"20 Diamonds", harga:4000},
-        {nama:"50 Diamonds", harga:8000},{nama:"70 Diamonds", harga:10000},{nama:"100 Diamonds", harga:17000}
-    ]},
+    nominal:[{nama:"5 Diamonds", harga:1000},{nama:"10 Diamonds", harga:2000}]},
     {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[
-        {nama:"60 UC", harga:16800},{nama:"120 UC", harga:33600}
-    ]},
+    nominal:[{nama:"60 UC", harga:16800},{nama:"120 UC", harga:33600}]},
     {nama:"Honor of Kings", ikon:"👑", labelId:"User ID", butuhServer:false, sumber:"digiflazz",
-    nominal:[
-        {nama:"80 Tokens", harga:17000},{nama:"400 Tokens", harga:81000}
-    ]}
+    nominal:[{nama:"80 Tokens", harga:17000},{nama:"400 Tokens", harga:81000}]}
+];
+const dataAwalPembayaran = [
+    { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
+    { nama: "DANA", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
+    { nama: "Bank Jago", nomor: "1234567890", atasNama: "Mungalim", aktif: true }
 ];
 
-const dataToko = {
-    rekening: [
-        { nama: "GoPay", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
-        { nama: "DANA", nomor: "0812-3456-7890", atasNama: "Mungalim", aktif: true },
-        { nama: "Bank Jago", nomor: "1234567890", atasNama: "Mungalim", aktif: true }
-    ]
-};
-
+// AMBIL DATA TERSIMPAN
 let dataGame = JSON.parse(localStorage.getItem('dataProdukToko')) || dataAwalProduk;
+let dataPembayaran = JSON.parse(localStorage.getItem('dataPembayaran')) || dataAwalPembayaran;
 let gameTerpilih = null, nominalTerpilih = null, metodeTerpilih = null;
 
-// ================= FUNGSI MENU =================
-function bukaMenu() {
-    document.getElementById('latarMenu').style.display = 'block';
-    document.getElementById('menuSamping').classList.add('buka');
-}
-function tutupMenu() {
-    document.getElementById('latarMenu').style.display = 'none';
-    document.getElementById('menuSamping').classList.remove('buka');
-}
+// FUNGSI MENU
+function bukaMenu() {document.getElementById('latarMenu').style.display = 'block'; document.getElementById('menuSamping').classList.add('buka');}
+function tutupMenu() {document.getElementById('latarMenu').style.display = 'none'; document.getElementById('menuSamping').classList.remove('buka');}
 
-// ================= FUNGSI PERGANTIAN HALAMAN TOKO =================
+// FUNGSI PERGANTIAN HALAMAN
 function bukaHalamanToko(hal) {
     document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
     document.getElementById('wadahAdmin').classList.remove('aktif');
     document.getElementById('navToko').style.display = 'flex';
-    
-    if(hal === 'beranda') {
-        document.getElementById('halBeranda').classList.add('aktif');
-        tampilDaftarGameBeranda();
-    } else if(hal === 'game' || hal === 'pilihgame') {
-        document.getElementById('halPilihGame').classList.add('aktif');
-        tampilDaftarGamePilih();
-    } else if(hal === 'form') {
-        document.getElementById('halFormPesanan').classList.add('aktif');
-    } else if(hal === 'pembayaran') {
-        document.getElementById('halPembayaran').classList.add('aktif');
-        isiInfoPembayaran();
-    }
+    if(hal === 'beranda') {document.getElementById('halBeranda').classList.add('aktif'); tampilDaftarGameBeranda();}
+    else if(hal === 'game' || hal === 'pilihgame') {document.getElementById('halPilihGame').classList.add('aktif'); tampilDaftarGamePilih();}
+    else if(hal === 'form') {document.getElementById('halFormPesanan').classList.add('aktif');}
+    else if(hal === 'pembayaran') {document.getElementById('halPembayaran').classList.add('aktif'); isiInfoPembayaran();}
 }
 
-// ================= FUNGSI TAMPILAN GAME =================
-function tampilDaftarGameBeranda() {
-    let html = "";
-    dataGame.slice(0,4).forEach(g => html += buatKartuGame(g));
-    document.getElementById('daftarGameBeranda').innerHTML = html;
-}
-function tampilDaftarGamePilih() {
-    let html = "";
-    dataGame.forEach(g => html += buatKartuGame(g));
-    document.getElementById('daftarGamePilih').innerHTML = html;
-}
-function buatKartuGame(g) {
-    return `<div class="kartu-game" onclick="pilihGame('${g.nama}')">
-        <div class="nama-game-kecil">${g.nama}</div>
-        <div class="nama-game">${g.nama.split(':')[0]}</div>
-        <div class="sumber-gambar">${g.sumber}</div>
-    </div>`;
-}
+// TAMPILAN GAME
+function tampilDaftarGameBeranda() {let html = ""; dataGame.slice(0,4).forEach(g => html += buatKartuGame(g)); document.getElementById('daftarGameBeranda').innerHTML = html;}
+function tampilDaftarGamePilih() {let html = ""; dataGame.forEach(g => html += buatKartuGame(g)); document.getElementById('daftarGamePilih').innerHTML = html;}
+function buatKartuGame(g) {return `<div class="kartu-game" onclick="pilihGame('${g.nama}')"><div class="nama-game-kecil">${g.nama}</div><div class="nama-game">${g.nama.split(':')[0]}</div><div class="sumber-gambar">${g.sumber}</div></div>`;}
 function pilihGame(nama) {
     gameTerpilih = dataGame.find(g => g.nama === nama);
     document.getElementById('judulGameForm').textContent = gameTerpilih.nama;
     document.getElementById('labelIdUtama').textContent = gameTerpilih.labelId;
     document.getElementById('wadahServer').style.display = gameTerpilih.butuhServer ? 'block' : 'none';
-    tampilDaftarNominal(); tampilDaftarMetode();
-    bukaHalamanToko('form');
+    tampilDaftarNominal(); tampilDaftarMetode(); bukaHalamanToko('form');
 }
-function tampilDaftarNominal() {
-    let html = "";
-    gameTerpilih.nominal.forEach((n,i) => html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)"><div class="nama-nominal">${n.nama}</div><div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div></div>`);
-    document.getElementById('daftarNominal').innerHTML = html;
-}
-function pilihNominal(i, el) {
-    document.querySelectorAll('.kartu-nominal').forEach(k => k.classList.remove('aktif'));
-    el.classList.add('aktif'); nominalTerpilih = gameTerpilih.nominal[i]; cekLengkap();
-}
-function tampilDaftarMetode() {
-    let html = "";
-    dataToko.rekening.filter(r=>r.aktif).forEach((m,i) => html += `<div class="kartu-metode" onclick="pilihMetode(${i}, this)"><div class="nama-nominal">${m.nama}</div><div class="harga-nominal">Transfer Manual</div></div>`);
-    document.getElementById('daftarMetode').innerHTML = html;
-}
-function pilihMetode(i, el) {
-    document.querySelectorAll('.kartu-metode').forEach(k => k.classList.remove('aktif'));
-    el.classList.add('aktif'); metodeTerpilih = dataToko.rekening.filter(r=>r.aktif)[i]; cekLengkap();
-}
+function tampilDaftarNominal() {let html = ""; gameTerpilih.nominal.forEach((n,i) => html += `<div class="kartu-nominal" onclick="pilihNominal(${i}, this)"><div class="nama-nominal">${n.nama}</div><div class="harga-nominal">Rp ${n.harga.toLocaleString('id-ID')}</div></div>`); document.getElementById('daftarNominal').innerHTML = html;}
+function pilihNominal(i, el) {document.querySelectorAll('.kartu-nominal').forEach(k => k.classList.remove('aktif')); el.classList.add('aktif'); nominalTerpilih = gameTerpilih.nominal[i]; cekLengkap();}
+function tampilDaftarMetode() {let html = ""; dataPembayaran.filter(r=>r.aktif).forEach((m,i) => html += `<div class="kartu-metode" onclick="pilihMetode(${i}, this)"><div class="nama-nominal">${m.nama}</div><div class="harga-nominal">Transfer Manual</div></div>`); document.getElementById('daftarMetode').innerHTML = html;}
+function pilihMetode(i, el) {document.querySelectorAll('.kartu-metode').forEach(k => k.classList.remove('aktif')); el.classList.add('aktif'); metodeTerpilih = dataPembayaran.filter(r=>r.aktif)[i]; cekLengkap();}
 function cekLengkap() {
-    const id = document.getElementById('inputIdUtama').value.trim();
-    const nama = document.getElementById('namaPembeli').value.trim();
-    const wa = document.getElementById('waPembeli').value.trim();
+    const id = document.getElementById('inputIdUtama').value.trim(); const nama = document.getElementById('namaPembeli').value.trim(); const wa = document.getElementById('waPembeli').value.trim();
     let ok = id && nama && wa && nominalTerpilih && metodeTerpilih;
     if(gameTerpilih?.butuhServer) ok = ok && document.getElementById('inputServer').value.trim();
     document.getElementById('btnLanjut').disabled = !ok;
@@ -488,85 +387,59 @@ function isiInfoPembayaran() {
     document.getElementById('rincianTotal').textContent = `Rp ${nominalTerpilih.harga.toLocaleString('id-ID')}`;
     document.getElementById('infoRekening').innerHTML = `<b>${metodeTerpilih.nama}</b><br>No: ${metodeTerpilih.nomor}<br>a.n: ${metodeTerpilih.atasNama}`;
 }
-function cekBukti() {
-    const file = document.getElementById('buktiBayar').files[0];
-    document.getElementById('btnKirim').disabled = !file;
-    document.getElementById('namaFile').textContent = file ? "✅ " + file.name : "";
-}
+function cekBukti() {const file = document.getElementById('buktiBayar').files[0]; document.getElementById('btnKirim').disabled = !file; document.getElementById('namaFile').textContent = file ? "✅ " + file.name : "";}
 function kirimPesanan() {
     let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
-    list.unshift({
-        id: 'LS-' + Date.now(), waktu: new Date().toLocaleString('id-ID'),
-        game: gameTerpilih.nama, item: nominalTerpilih.nama, harga: nominalTerpilih.harga,
-        status: 'MENUNGGU KONFIRMASI'
-    });
-    localStorage.setItem('daftarPesanan', JSON.stringify(list));
-    alert("✅ Pesanan berhasil dikirim!");
-    bukaHalamanToko('beranda');
+    list.unshift({id: 'LS-' + Date.now(), waktu: new Date().toLocaleString('id-ID'), game: gameTerpilih.nama, item: nominalTerpilih.nama, harga: nominalTerpilih.harga, status: 'MENUNGGU KONFIRMASI'});
+    localStorage.setItem('daftarPesanan', JSON.stringify(list)); alert("✅ Pesanan berhasil dikirim!"); bukaHalamanToko('beranda');
 }
 
-// ================= FUNGSI ADMIN =================
+// FUNGSI ADMIN PENUH BERFUNGSI
 function bukaAdmin() {
     document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
     document.getElementById('navToko').style.display = 'none';
     document.getElementById('wadahAdmin').classList.add('aktif');
-    tampilPesananAdmin(); tampilDaftarProdukAdmin();
+    bukaTabAdmin('dashboard');
 }
-function tutupAdmin() {
-    document.getElementById('wadahAdmin').classList.remove('aktif');
-    bukaHalamanToko('beranda');
-}
+function tutupAdmin() {document.getElementById('wadahAdmin').classList.remove('aktif'); bukaHalamanToko('beranda');}
 function bukaTabAdmin(tab) {
     document.querySelectorAll('.daftar-menu-admin a').forEach(a => a.classList.remove('aktif'));
     event.target.classList.add('aktif');
-    document.getElementById('tabDashboard').style.display = 'none';
-    document.getElementById('tabPesanan').style.display = 'none';
-    document.getElementById('tabProduk').style.display = 'none';
+    document.querySelectorAll('[id^="tab"]').forEach(t => t.style.display = 'none');
     document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).style.display = 'block';
+    if(tab === 'pesanan') tampilPesananAdmin();
+    if(tab === 'produk') tampilDaftarProdukAdmin();
+    if(tab === 'game') tampilDaftarGameAdmin();
+    if(tab === 'pembayaran') tampilDaftarPembayaranAdmin();
 }
-function tampilPesananAdmin(filter='semua') {
+
+// KELOLA PESANAN
+function tampilPesananAdmin() {
     let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
-    if(filter !== 'semua') list = list.filter(p => p.status === filter);
     document.getElementById('daftarPesanan').innerHTML = list.length ? list.map(p => `
-        <div class="kartu-pesanan">
+        <div class="kartu-kelola">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <span style="font-weight:700;">${p.id}</span>
                 <span style="font-size:12px; padding:4px 10px; border-radius:20px; background:rgba(245,158,11,0.1); color:var(--peringatan);">${p.status}</span>
             </div>
-            <p>Game: ${p.game}</p>
-            <p>Item: ${p.item} - Rp ${p.harga.toLocaleString('id-ID')}</p>
+            <p>Game: ${p.game}</p><p>Item: ${p.item} - Rp ${p.harga.toLocaleString('id-ID')}</p>
+            <select onchange="ubahStatusPesanan('${p.id}', this.value)" style="margin-top:10px; width:100%; padding:10px; border-radius:8px; background:var(--kartu); border:1px solid var(--batas); color:var(--teks);">
+                <option value="MENUNGGU KONFIRMASI" ${p.status==='MENUNGGU KONFIRMASI'?'selected':''}>Menunggu Konfirmasi</option>
+                <option value="SELESAI" ${p.status==='SELESAI'?'selected':''}>Selesai Diproses</option>
+                <option value="DIBATALKAN" ${p.status==='DIBATALKAN'?'selected':''}>Dibatalkan</option>
+            </select>
         </div>
-    `).join('') : '<p style="color:var(--abu); text-align:center; padding:40px;">Belum ada pesanan</p>';
+    `).join('') : '<div class="kosong">📭 Belum ada pesanan masuk</div>';
 }
-function filterPesanan(status) {
-    document.querySelectorAll('#tabPesanan .tab-btn').forEach(b => b.classList.remove('aktif'));
-    event.target.classList.add('aktif');
-    tampilPesananAdmin(status);
+function ubahStatusPesanan(id, statusBaru) {
+    let list = JSON.parse(localStorage.getItem('daftarPesanan') || '[]');
+    list = list.map(p => p.id === id ? {...p, status: statusBaru} : p);
+    localStorage.setItem('daftarPesanan', JSON.stringify(list));
+    alert("✅ Status pesanan diperbarui!");
 }
+
+// KELOLA PRODUK & HARGA
 function tampilDaftarProdukAdmin() {
     let html = "";
     dataGame.forEach((g,i) => {
-        html += `<div class="kartu-produk"><h4 style="margin-bottom:12px; color:var(--utama);">${g.nama}</h4>`;
-        g.nominal.forEach((n,j) => {
-            html += `<div class="baris-nominal">
-                <input type="text" value="${n.nama}" onchange="dataGame[${i}].nominal[${j}].nama=this.value">
-                <input type="number" value="${n.harga}" onchange="dataGame[${i}].nominal[${j}].harga=parseInt(this.value)">
-                <button class="btn-kecil btn-hapus" onclick="dataGame[${i}].nominal.splice(${j},1); tampilDaftarProdukAdmin();">✖</button>
-            </div>`;
-        });
-        html += `<button class="btn-kecil" style="width:100%; margin-top:8px; background:var(--batas); color:var(--teks);" onclick="dataGame[${i}].nominal.push({nama:'Item Baru', harga:0}); tampilDaftarProdukAdmin();">+ Tambah Nominal</button></div>`;
-    });
-    document.getElementById('daftarProdukAdmin').innerHTML = html;
-}
-function simpanPerubahanProduk() {
-    localStorage.setItem('dataProdukToko', JSON.stringify(dataGame));
-    alert("✅ Perubahan disimpan! Tampilan toko sudah diperbarui.");
-}
-
-// MULAI SAAT BUKA
-document.addEventListener('DOMContentLoaded', () => {
-    bukaHalamanToko('beranda');
-});
-</script>
-</body>
-</html>
+        html += `<div class="
