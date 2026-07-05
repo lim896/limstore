@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - LimStore</title>
+    <title>Panel Admin - Kelola Pesanan & Toko</title>
     <style>
         * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif;}
         :root {
@@ -14,7 +14,9 @@
             --teks: #F8FAFC;
             --abu: #94A3B8;
             --sukses: #10B981;
+            --peringatan: #F59E0B;
             --bahaya: #EF4444;
+            --ungu: #8B5CF6;
         }
         body {background:var(--latar); color:var(--teks); padding:20px; min-height:100vh;}
         .login {max-width:420px; margin:60px auto; background:var(--kartu); padding:24px; border-radius:14px; border:1px solid var(--batas);}
@@ -22,7 +24,7 @@
         .login input {width:100%; padding:12px; margin:8px 0; border:1px solid var(--batas); border-radius:8px; background:var(--latar); color:var(--teks); font-size:15px;}
         .login button {width:100%; padding:12px; margin-top:10px; background:var(--utama); color:var(--latar); border:none; border-radius:8px; font-weight:700; cursor:pointer;}
         
-        .admin {display:none; max-width:550px; margin:0 auto;}
+        .admin {display:none; max-width:600px; margin:0 auto;}
         .kembali {display:inline-block; color:var(--utama); text-decoration:none; margin-bottom:15px;}
         .menu {display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
         .menu button {flex:1; min-width:100px; padding:10px; border:none; border-radius:8px; background:var(--kartu); color:var(--teks); border:1px solid var(--batas); cursor:pointer; font-weight:600;}
@@ -32,58 +34,66 @@
         .isi {display:none; background:var(--kartu); padding:20px; border-radius:14px; border:1px solid var(--batas); margin-bottom:20px;}
         .isi h3 {margin-bottom:15px; color:var(--utama);}
         label {display:block; font-size:14px; font-weight:600; margin-bottom:6px; margin-top:12px;}
-        input {width:100%; padding:10px; border:1px solid var(--batas); border-radius:8px; background:var(--latar); color:var(--teks); font-size:15px;}
+        input, select {width:100%; padding:10px; border:1px solid var(--batas); border-radius:8px; background:var(--latar); color:var(--teks); font-size:15px;}
         .tombol-simpan {width:100%; padding:12px; margin-top:18px; background:var(--sukses); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer;}
         .baris {padding:12px; margin:10px 0; border:1px solid var(--batas); border-radius:8px;}
         .tombol-hapus {padding:6px 10px; background:var(--bahaya); color:white; border:none; border-radius:6px; margin-top:8px; cursor:pointer; font-size:13px;}
         .tombol-tambah {padding:10px; background:var(--utama); color:var(--latar); border:none; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:600;}
         .info {font-size:13px; color:var(--abu); margin-top:5px;}
+        .status {padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; display:inline-block; margin:8px 0;}
+        .status.menunggu {background:rgba(245,158,11,0.1); color:var(--peringatan); border:1px solid var(--peringatan);}
+        .status.proses {background:rgba(0,212,255,0.1); color:var(--utama); border:1px solid var(--utama);}
+        .status.selesai {background:rgba(16,185,129,0.1); color:var(--sukses); border:1px solid var(--sukses);}
+        .status.batal {background:rgba(239,68,68,0.1); color:var(--bahaya); border:1px solid var(--bahaya);}
+        .detail-pesanan {font-size:13px; line-height:1.7; margin:8px 0;}
     </style>
 </head>
 <body>
 
 <!-- HALAMAN LOGIN -->
 <div class="login" id="halLogin">
-    <h2>🔐 MASUK ADMIN</h2>
+    <h2>🔐 MASUK ADMIN LIMSTORE</h2>
     <input type="text" id="user" placeholder="Nama Pengguna">
     <input type="password" id="pass" placeholder="Kata Sandi">
-    <button onclick="cekMasuk()">Masuk</button>
+    <button onclick="cekMasuk()">Masuk ke Panel</button>
 </div>
 
-<!-- HALAMAN ADMIN -->
+<!-- HALAMAN UTAMA ADMIN -->
 <div class="admin" id="halAdmin">
     <a href="index.html" class="kembali">← Kembali ke Toko</a>
-    <h2 style="margin-bottom:15px;">PANEL KELOLA TOKO</h2>
+    <h2 style="margin-bottom:15px;">PANEL KELOLA TOKO & PESANAN</h2>
 
     <div class="menu">
-        <button class="aktif" onclick="bukaTab('profil')">Profil</button>
-        <button onclick="bukaTab('bayar')">Cara Bayar</button>
-        <button onclick="bukaTab('game')">Kelola Game</button>
-        <button class="merah" onclick="keluar()">Keluar</button>
+        <button class="aktif" onclick="bukaTab('pesanan')">📦 Pesanan</button>
+        <button onclick="bukaTab('rekening')">💳 Rekening</button>
+        <button onclick="bukaTab('game')">🎮 Kelola Game</button>
+        <button class="merah" onclick="keluar()">🚪 Keluar</button>
     </div>
 
-    <!-- TAB PROFIL -->
-    <div id="profil" class="isi" style="display:block;">
-        <h3>Data Toko & Pemilik</h3>
-        <label>Nama Pemilik Rekening/E-Wallet:</label>
+    <!-- TAB 1: KELOLA PESANAN -->
+    <div id="pesanan" class="isi" style="display:block;">
+        <h3>Daftar Pesanan Masuk</h3>
+        <div class="info">Semua pesanan dari pembeli akan muncul di sini secara otomatis</div>
+        <div id="daftarPesanan"></div>
+    </div>
+
+    <!-- TAB 2: REKENING & EWALLET -->
+    <div id="rekening" class="isi">
+        <h3>Nomor Tujuan Pembayaran</h3>
+        <div class="info">Isi nomor rekening/ewallet kamu yang akan ditampilkan ke pembeli</div>
+        <label>Nama Pemilik Utama:</label>
         <input type="text" id="namaPemilik">
-        <label>Nomor WhatsApp Kirim Bukti:</label>
+        <label>Nomor WhatsApp Kirim Info:</label>
         <input type="text" id="waTujuan">
-        <button class="tombol-simpan" onclick="simpanProfil()">Simpan</button>
+        <div id="daftarRekening"></div>
+        <button class="tombol-tambah" onclick="tambahRekening()">+ Tambah Metode Bayar</button>
+        <button class="tombol-simpan" onclick="simpanRekening()">Simpan Semua</button>
     </div>
 
-    <!-- TAB CARA BAYAR -->
-    <div id="bayar" class="isi">
-        <h3>Kelola Metode Pembayaran</h3>
-        <div id="daftarMetode"></div>
-        <button class="tombol-tambah" onclick="tambahMetode()">+ Tambah Metode</button>
-        <button class="tombol-simpan" onclick="simpanMetode()">Simpan Semua</button>
-    </div>
-
-    <!-- TAB KELOLA GAME & NOMINAL -->
+    <!-- TAB 3: KELOLA GAME & NOMINAL -->
     <div id="game" class="isi">
         <h3>Tambah/Ubah/Hapus Game & Nominal</h3>
-        <div class="info">💡 Tekan nama game untuk buka daftar nominalnya</div>
+        <div class="info">Perubahan di sini langsung muncul di halaman toko</div>
         <div id="daftarGameAdmin"></div>
         <button class="tombol-tambah" onclick="tambahGame()">+ Tambah Game Baru</button>
         <button class="tombol-simpan" onclick="simpanSemuaGame()">Simpan Semua Perubahan</button>
@@ -92,7 +102,7 @@
 
 <script>
 const AKUN = {user:"admin", sandi:"123456"};
-let pengaturan, dataGame;
+let pengaturan, dataGame, daftarPesanan;
 
 // Cek Login
 function cekMasuk(){
@@ -102,87 +112,170 @@ function cekMasuk(){
         localStorage.setItem('loginAdmin', 'aktif');
         document.getElementById('halLogin').style.display = 'none';
         document.getElementById('halAdmin').style.display = 'block';
-        muatData();
-    }else alert("Salah nama pengguna atau sandi!");
+        muatSemuaData();
+    }else alert("❌ Nama pengguna atau sandi salah!");
 }
 
-// Muat Data
-function muatData(){
+// Muat semua data
+function muatSemuaData(){
+    // Data Toko & Rekening
     const t = localStorage.getItem('pengaturanToko');
     const g = localStorage.getItem('dataGame');
+    const p = localStorage.getItem('daftarPesanan');
     
     if(t) pengaturan = JSON.parse(t);
-    else pengaturan = {namaPemilik:"Mungalim", waTujuan:"087794088983", bayar:[
-        {id:"gopay", nama:"GoPay", nomor:"0812xxxxxxx", aktif:true},
-        {id:"dana", nama:"DANA", nomor:"0812xxxxxxx", aktif:true},
-        {id:"ovo", nama:"OVO", nomor:"0812xxxxxxx", aktif:true},
-        {id:"jago", nama:"Bank Jago", nomor:"12345678", aktif:true}
+    else pengaturan = {namaPemilik:"Mungalim", waTujuan:"087794088983", rekening:[
+        {nama:"GoPay", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
+        {nama:"DANA", nomor:"0812xxxxxxx", atasNama:"Mungalim", aktif:true},
+        {nama:"Bank Jago", nomor:"12345678", atasNama:"Mungalim", aktif:true}
     ]};
 
     if(g) dataGame = JSON.parse(g);
     else dataGame = [
-        {nama:"Mobile Legends", ikon:"⚔️", nominal:[
-            {nama:"5 Diamonds", harga:1000}, {nama:"10 Diamonds", harga:2000},
-            {nama:"20 Diamonds", harga:4000}, {nama:"50 Diamonds", harga:8000},
-            {nama:"70 Diamonds", harga:10000}, {nama:"100 Diamonds", harga:17000},
-            {nama:"140 Diamonds", harga:20000}, {nama:"150 Diamonds", harga:23000},
-            {nama:"210 Diamonds", harga:31000}, {nama:"280 Diamonds", harga:41000},
-            {nama:"355 Diamonds", harga:50000}, {nama:"425 Diamonds", harga:61000}
+        {nama:"Free Fire", ikon:"🔥", labelId:"Player ID", nominal:[
+            {nama:"5 Diamonds", harga:900}, {nama:"12 Diamonds", harga:2500},
+            {nama:"50 Diamonds", harga:9500}, {nama:"140 Diamonds", harga:28000},
+            {nama:"720 Diamonds", harga:101000}, {nama:"860 Diamonds", harga:121000}
         ]},
-        {nama:"Free Fire", ikon:"🔥", nominal:[
-            {nama:"5 Diamond", harga:900}, {nama:"12 Diamond", harga:2500},
-            {nama:"50 Diamond", harga:9500}, {nama:"140 Diamond", harga:28000},
-            {nama:"7290 Diamond", harga:1400000}
+        {nama:"Mobile Legends", ikon:"⚔️", labelId:"User ID", nominal:[
+            {nama:"112 Diamonds", harga:32000}, {nama:"240 Diamonds", harga:65000}
         ]},
-        {nama:"PUBG Mobile", ikon:"🎯", nominal:[
-            {nama:"60 UC", harga:25000}, {nama:"325 UC", harga:115000},
-            {nama:"660 UC", harga:230000}
+        {nama:"PUBG Mobile", ikon:"🎯", labelId:"Player ID", nominal:[
+            {nama:"60 UC", harga:25000}, {nama:"325 UC", harga:115000}
         ]}
     ];
 
-    tampilForm();
+    daftarPesanan = p ? JSON.parse(p) : [];
+
+    tampilkanSemua();
 }
 
-// Tampilkan Form
-function tampilForm(){
+// Tampilkan semua bagian
+function tampilkanSemua(){
+    tampilPesanan();
+    tampilFormRekening();
+    tampilFormGame();
+}
+
+// 1. Tampilkan Daftar Pesanan
+function tampilPesanan(){
+    let html = '';
+    if(daftarPesanan.length === 0){
+        html = '<p style="text-align:center; color:var(--abu); padding:30px;">Belum ada pesanan masuk</p>';
+    }else{
+        daftarPesanan.forEach((psn, i) => {
+            const kelasStatus = psn.status.includes('MENUNGGU') ? 'menunggu' : 
+                               psn.status.includes('PROSES') ? 'proses' :
+                               psn.status.includes('SELESAI') ? 'selesai' : 'batal';
+            html += `<div class="baris">
+                <h4 style="color:var(--utama);">📦 ${psn.id}</h4>
+                <span class="status ${kelasStatus}">${psn.status}</span>
+                <div class="detail-pesanan">
+                    Waktu: ${psn.waktu}<br>
+                    Game: ${psn.game}<br>
+                    Item: ${psn.item}<br>
+                    Harga: Rp ${psn.harga.toLocaleString('id-ID')}<br>
+                    ID Tujuan: ${psn.idTujuan}<br>
+                    Nama Pembeli: ${psn.namaPembeli}<br>
+                    WA Pembeli: ${psn.waPembeli}<br>
+                    Bukti Bayar: <b>${psn.bukti}</b>
+                </div>
+                <label>Ubah Status Pesanan:</label>
+                <select onchange="ubahStatus(${i}, this.value)">
+                    <option value="MENUNGGU KONFIRMASI" ${psn.status==='MENUNGGU KONFIRMASI'?'selected':''}>MENUNGGU KONFIRMASI</option>
+                    <option value="SEDANG DIPROSES" ${psn.status==='SEDANG DIPROSES'?'selected':''}>SEDANG DIPROSES</option>
+                    <option value="SELESAI & DIKIRIM" ${psn.status==='SELESAI & DIKIRIM'?'selected':''}>SELESAI & DIKIRIM</option>
+                    <option value="DIBATALKAN" ${psn.status==='DIBATALKAN'?'selected':''}>DIBATALKAN</option>
+                </select>
+                <button class="tombol-hapus" onclick="hapusPesanan(${i})">Hapus Pesanan Ini</button>
+            </div>`;
+        });
+    }
+    document.getElementById('daftarPesanan').innerHTML = html;
+}
+
+// Fungsi kelola pesanan
+function ubahStatus(index, statusBaru){
+    daftarPesanan[index].status = statusBaru;
+    localStorage.setItem('daftarPesanan', JSON.stringify(daftarPesanan));
+    alert("✅ Status pesanan berhasil diubah!");
+    tampilPesanan();
+}
+function hapusPesanan(index){
+    if(confirm("Yakin hapus pesanan ini? Tidak bisa dikembalikan!")){
+        daftarPesanan.splice(index, 1);
+        localStorage.setItem('daftarPesanan', JSON.stringify(daftarPesanan));
+        tampilPesanan();
+    }
+}
+
+// 2. Tampilkan Form Rekening
+function tampilFormRekening(){
     document.getElementById('namaPemilik').value = pengaturan.namaPemilik;
     document.getElementById('waTujuan').value = pengaturan.waTujuan;
-
-    // Tampil Metode Bayar
-    let htmlBayar = '';
-    pengaturan.bayar.forEach((cb,i) => {
-        htmlBayar += `<div class="baris">
-            <label><input type="checkbox" id="cbAktif${i}" ${cb.aktif?'checked':''}> Tampilkan</label>
+    
+    let html = '';
+    pengaturan.rekening.forEach((r,i) => {
+        html += `<div class="baris">
+            <label><input type="checkbox" id="rekAktif${i}" ${r.aktif?'checked':''}> Tampilkan di Toko</label>
             <label>Nama Metode:</label>
-            <input type="text" id="cbNama${i}" value="${cb.nama}">
+            <input type="text" id="rekNama${i}" value="${r.nama}">
             <label>Nomor/Rekening:</label>
-            <input type="text" id="cbNomor${i}" value="${cb.nomor}">
-            <button class="tombol-hapus" onclick="hapusMetode(${i})">Hapus</button>
+            <input type="text" id="rekNomor${i}" value="${r.nomor}">
+            <label>Atas Nama:</label>
+            <input type="text" id="rekAtas${i}" value="${r.atasNama}">
+            <button class="tombol-hapus" onclick="hapusRekening(${i})">Hapus Metode</button>
         </div>`;
     });
-    document.getElementById('daftarMetode').innerHTML = htmlBayar;
+    document.getElementById('daftarRekening').innerHTML = html;
+}
+function tambahRekening(){
+    pengaturan.rekening.push({nama:"", nomor:"", atasNama:"", aktif:true});
+    tampilFormRekening();
+}
+function hapusRekening(i){
+    if(confirm("Yakin hapus?")){ pengaturan.rekening.splice(i,1); tampilFormRekening(); }
+}
+function simpanRekening(){
+    pengaturan.namaPemilik = document.getElementById('namaPemilik').value;
+    pengaturan.waTujuan = document.getElementById('waTujuan').value;
+    pengaturan.rekening = [];
+    document.querySelectorAll('#daftarRekening .baris').forEach((b,i) => {
+        pengaturan.rekening.push({
+            nama:document.getElementById(`rekNama${i}`).value,
+            nomor:document.getElementById(`rekNomor${i}`).value,
+            atasNama:document.getElementById(`rekAtas${i}`).value,
+            aktif:document.getElementById(`rekAktif${i}`).checked
+        });
+    });
+    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
+    alert("✅ Data rekening tersimpan! Buka toko lalu refresh ya.");
+}
 
-    // Tampil Game & Nominal
-    let htmlGame = '';
+// 3. Tampilkan Form Kelola Game
+function tampilFormGame(){
+    let html = '';
     dataGame.forEach((g,i) => {
-        htmlGame += `<div class="baris">
+        html += `<div class="baris">
             <label>Nama Game:</label>
             <input type="text" id="gNama${i}" value="${g.nama}">
             <label>Ikon/Emoji Game:</label>
             <input type="text" id="gIkon${i}" value="${g.ikon}">
+            <label>Label Input ID:</label>
+            <input type="text" id="gLabel${i}" value="${g.labelId}">
             <h4 style="margin-top:12px; color:var(--utama);">Daftar Nominal ${g.nama}:</h4>
             <div id="nominalList${i}"></div>
             <button class="tombol-tambah" style="margin-bottom:8px;" onclick="tambahNominal(${i})">+ Tambah Nominal</button>
             <button class="tombol-hapus" onclick="hapusGame(${i})">Hapus Game Ini</button>
         </div>`;
     });
-    document.getElementById('daftarGameAdmin').innerHTML = htmlGame;
+    document.getElementById('daftarGameAdmin').innerHTML = html;
 
-    // Isi daftar nominal tiap game
+    // Isi nominal tiap game
     dataGame.forEach((g,i) => {
         let htmlNom = '';
         g.nominal.forEach((n,j) => {
-            htmlNom += `<div style="padding:8px; border-bottom:1px solid var(--batas);">
+            htmlNom += `<div style="padding:8px 0; border-bottom:1px solid var(--batas);">
                 <input type="text" placeholder="Nama Item" id="nNama${i}-${j}" value="${n.nama}" style="width:48%; margin-right:4%;">
                 <input type="number" placeholder="Harga" id="nHarga${i}-${j}" value="${n.harga}" style="width:48%;">
             </div>`;
@@ -190,32 +283,16 @@ function tampilForm(){
         document.getElementById(`nominalList${i}`).innerHTML = htmlNom;
     });
 }
-
-// Fungsi Simpan
-function simpanProfil(){
-    pengaturan.namaPemilik = document.getElementById('namaPemilik').value;
-    pengaturan.waTujuan = document.getElementById('waTujuan').value;
-    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
-    alert("✅ Profil tersimpan! Buka toko lalu refresh ya.");
-}
-function simpanMetode(){
-    pengaturan.bayar = [];
-    document.querySelectorAll('#daftarMetode .baris').forEach((b,i) => {
-        pengaturan.bayar.push({
-            id:`bayar${i}`, nama:document.getElementById(`cbNama${i}`).value,
-            nomor:document.getElementById(`cbNomor${i}`).value,
-            aktif:document.getElementById(`cbAktif${i}`).checked
-        });
-    });
-    localStorage.setItem('pengaturanToko', JSON.stringify(pengaturan));
-    alert("✅ Metode pembayaran tersimpan!");
-}
+function tambahGame(){ dataGame.push({nama:"Game Baru", ikon:"🎮", labelId:"ID Akun", nominal:[{nama:"Item Baru", harga:0}]}); tampilFormGame(); }
+function hapusGame(i){ if(confirm("Yakin hapus game ini beserta semua nominalnya?")){ dataGame.splice(i,1); tampilFormGame(); } }
+function tambahNominal(i){ dataGame[i].nominal.push({nama:"", harga:0}); tampilFormGame(); }
 function simpanSemuaGame(){
     dataGame = [];
     document.querySelectorAll('#daftarGameAdmin .baris').forEach((b,i) => {
         const game = {
             nama:document.getElementById(`gNama${i}`).value,
             ikon:document.getElementById(`gIkon${i}`).value,
+            labelId:document.getElementById(`gLabel${i}`).value,
             nominal:[]
         };
         document.querySelectorAll(`#nominalList${i} > div`).forEach((n,j) => {
@@ -227,16 +304,10 @@ function simpanSemuaGame(){
         dataGame.push(game);
     });
     localStorage.setItem('dataGame', JSON.stringify(dataGame));
-    alert("✅ Semua perubahan game & nominal tersimpan! Buka toko lalu refresh ya.");
+    alert("✅ Semua perubahan game tersimpan! Buka toko lalu refresh ya.");
 }
 
-// Fungsi Tambah/Hapus
-function tambahMetode(){ pengaturan.bayar.push({id:"baru", nama:"", nomor:"", aktif:true}); tampilForm(); }
-function hapusMetode(i){ if(confirm("Yakin hapus?")){ pengaturan.bayar.splice(i,1); tampilForm(); } }
-function tambahGame(){ dataGame.push({nama:"Game Baru", ikon:"🎮", nominal:[{nama:"Item Baru", harga:0}]}); tampilForm(); }
-function hapusGame(i){ if(confirm("Yakin hapus game ini beserta semua nominalnya?")){ dataGame.splice(i,1); tampilForm(); } }
-function tambahNominal(i){ dataGame[i].nominal.push({nama:"", harga:0}); tampilForm(); }
-
+// Fungsi umum
 function bukaTab(id){
     document.querySelectorAll('.isi').forEach(e => e.style.display = 'none');
     document.querySelectorAll('.menu button').forEach(e => e.classList.remove('aktif'));
@@ -246,8 +317,7 @@ function bukaTab(id){
 function keluar(){ localStorage.removeItem('loginAdmin'); location.reload(); }
 
 // Cek otomatis login
-window.onload = ()=>{ if(localStorage.getItem('loginAdmin') === 'aktif'){ document.getElementById('halLogin').style.display = 'none'; document.getElementById('halAdmin').style.display = 'block'; muatData(); } }
+window.onload = ()=>{ if(localStorage.getItem('loginAdmin') === 'aktif'){ document.getElementById('halLogin').style.display = 'none'; document.getElementById('halAdmin').style.display = 'block'; muatSemuaData(); } }
 </script>
 </body>
-    </html>
-        
+</html>
