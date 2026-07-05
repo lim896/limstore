@@ -12,33 +12,64 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
-background:#0f1117;
+background:#0b0f16;
 color:white;
+overflow-x:hidden;
+}
+
+:root{
+--primary:#00d4ff;
+--card:#141b25;
+--card2:#1b2430;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(0,212,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,212,255,.05) 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+z-index:-1;
 }
 
 header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 20px;
-background:#151922;
 position:sticky;
 top:0;
 z-index:999;
+background:#101720;
+padding:15px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
 display:flex;
 align-items:center;
 gap:10px;
-font-weight:bold;
 font-size:20px;
-color:#00d4ff;
+font-weight:bold;
+color:var(--primary);
 cursor:pointer;
+}
+
+.logo-icon{
+font-size:24px;
 }
 
 .menu-btn{
@@ -47,64 +78,67 @@ cursor:pointer;
 }
 
 .hero{
-padding:70px 20px;
+padding:80px 20px;
 text-align:center;
-background:
-linear-gradient(
-180deg,
-#151922,
-#0f1117
-);
 }
 
 .hero h1{
-font-size:40px;
-color:#00d4ff;
-margin-bottom:15px;
+font-size:42px;
+color:var(--primary);
+margin-bottom:10px;
 }
 
 .hero h2{
-font-size:28px;
-margin-bottom:15px;
+font-size:30px;
+margin-bottom:20px;
 }
 
 .hero p{
-max-width:600px;
+max-width:650px;
 margin:auto;
+color:#c7c7c7;
 line-height:1.7;
-color:#bdbdbd;
 }
 
 .hero-buttons{
-margin-top:25px;
+margin-top:30px;
 display:flex;
 justify-content:center;
 gap:15px;
 flex-wrap:wrap;
 }
 
-.hero-buttons button{
-padding:12px 20px;
-border:none;
-border-radius:10px;
-background:#00d4ff;
+.hero-buttons a{
+background:var(--primary);
 color:black;
 font-weight:bold;
-cursor:pointer;
+text-decoration:none;
+padding:14px 20px;
+border-radius:12px;
 }
 
-.search-section{
+.search-box{
 padding:20px;
 }
 
-.search-section input{
+.search-box input{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
-border-radius:10px;
-font-size:16px;
-background:#1a1f2b;
+border-radius:12px;
+background:#151d28;
 color:white;
+font-size:16px;
+}
+
+.banner{
+margin:0 20px 20px;
+padding:15px;
+border-radius:15px;
+background:linear-gradient(135deg,#00d4ff,#0099cc);
+color:black;
+font-weight:bold;
+text-align:center;
 }
 
 .section-title{
@@ -114,40 +148,42 @@ font-weight:bold;
 }
 
 .games{
+padding:0 20px 20px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:15px;
-padding:20px;
 }
 
 .game-card{
-background:#1a1f2b;
-padding:20px;
+background:var(--card);
 border-radius:15px;
+padding:20px;
 text-align:center;
 cursor:pointer;
 transition:.3s;
+border:1px solid rgba(255,255,255,.05);
 }
 
 .game-card:hover{
-transform:translateY(-5px);
+transform:translateY(-4px);
 }
 
 .game-card h3{
-color:#00d4ff;
+color:var(--primary);
+font-size:16px;
 }
 
 footer{
-margin-top:50px;
-background:#151922;
+margin-top:40px;
+background:#101720;
 padding:30px 20px;
 }
 
 .footer-logo{
-font-size:22px;
+font-size:24px;
 font-weight:bold;
-color:#00d4ff;
-margin-bottom:15px;
+color:var(--primary);
+margin-bottom:10px;
 }
 
 .footer-grid{
@@ -162,14 +198,15 @@ margin-bottom:10px;
 }
 
 .footer-grid p{
-color:#bdbdbd;
+color:#bcbcbc;
 margin-bottom:8px;
 }
 
 .copyright{
-margin-top:20px;
+margin-top:25px;
 text-align:center;
 color:#777;
+font-size:14px;
 }
 
 .whatsapp{
@@ -181,10 +218,78 @@ height:60px;
 border-radius:50%;
 background:#25D366;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 font-size:28px;
 cursor:pointer;
+box-shadow:0 0 20px rgba(37,211,102,.4);
+}
+
+.sidebar{
+position:fixed;
+top:0;
+right:-320px;
+width:280px;
+height:100%;
+background:#111827;
+padding:25px;
+transition:.3s;
+z-index:2000;
+}
+
+.sidebar.active{
+right:0;
+}
+
+.sidebar h2{
+color:var(--primary);
+margin-bottom:20px;
+}
+
+.sidebar a{
+display:block;
+padding:15px 0;
+text-decoration:none;
+color:white;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.close-btn{
+font-size:28px;
+text-align:right;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+display:none;
+z-index:1500;
+}
+
+.overlay.active{
+display:block;
+}
+
+@media(max-width:500px){
+
+.games{
+grid-template-columns:1fr 1fr;
+}
+
+.hero h1{
+font-size:34px;
+}
+
+.hero h2{
+font-size:24px;
+}
+
 }
 
 </style>
@@ -192,13 +297,31 @@ cursor:pointer;
 
 <body>
 
+<div class="overlay" id="overlay"></div>
+
+<div class="sidebar" id="sidebar">
+
+<div class="close-btn" id="closeMenu">
+✕
+</div>
+
+<h2>LIM STORE</h2>
+
+<a href="#">🏠 Beranda</a>
+<a href="#">📦 Riwayat</a>
+<a href="#">❓ FAQ</a>
+<a href="#">📞 Kontak</a>
+
+</div>
+
 <header>
 
 <div class="logo" id="logoBtn">
-🎮 LIM STORE
+<div class="logo-icon">🎮</div>
+<div>LIM STORE</div>
 </div>
 
-<div class="menu-btn">
+<div class="menu-btn" id="openMenu">
 ☰
 </div>
 
@@ -218,56 +341,53 @@ untuk membantu setiap transaksi.
 
 <div class="hero-buttons">
 
-<button>
+<a href="#games">
 KATALOG GAME
-</button>
+</a>
 
-<button>
+<a href="#">
 LACAK PESANAN
-</button>
+</a>
 
 </div>
 
 </section>
 
-<section class="search-section">
+<div class="banner">
+🔥 PROMO HARI INI - Top Up Cepat & Aman
+</div>
+
+<div class="search-box">
 
 <input
 type="text"
+id="searchGame"
 placeholder="Cari Game..."
 >
 
-</section>
+</div>
 
-<div class="section-title">
+<div class="section-title" id="games">
 🔥 GAME POPULER
 </div>
 
-<section class="games">
+<section class="games" id="gamesContainer">
 
-<div class="game-card">
-<h3>Free Fire</h3>
-</div>
+<div class="game-card"><h3>Free Fire</h3></div>
 
-<div class="game-card">
-<h3>Mobile Legends</h3>
-</div>
+<div class="game-card"><h3>Mobile Legends</h3></div>
 
-<div class="game-card">
-<h3>PUBG Mobile</h3>
-</div>
+<div class="game-card"><h3>PUBG Mobile</h3></div>
 
-<div class="game-card">
-<h3>Genshin Impact</h3>
-</div>
+<div class="game-card"><h3>Genshin Impact</h3></div>
 
-<div class="game-card">
-<h3>Honor of Kings</h3>
-</div>
+<div class="game-card"><h3>Honor Of Kings</h3></div>
 
-<div class="game-card">
-<h3>Valorant</h3>
-</div>
+<div class="game-card"><h3>Valorant</h3></div>
+
+<div class="game-card"><h3>Free Fire MAX</h3></div>
+
+<div class="game-card"><h3>Magic Chess Go Go</h3></div>
 
 </section>
 
@@ -284,18 +404,24 @@ Top Up Cepat & Aman
 <div class="footer-grid">
 
 <div>
+
 <h4>Pintasan</h4>
+
 <p>Beranda</p>
 <p>Riwayat</p>
 <p>FAQ</p>
 <p>Kontak</p>
+
 </div>
 
 <div>
+
 <h4>Bantuan</h4>
+
 <p>Cara Pembayaran</p>
 <p>Kebijakan Privasi</p>
 <p>Hubungi Kami</p>
+
 </div>
 
 </div>
@@ -312,21 +438,76 @@ Top Up Cepat & Aman
 
 <script>
 
-let tapCount = 0;
+const sidebar =
+document.getElementById("sidebar");
+
+const overlay =
+document.getElementById("overlay");
+
+document
+.getElementById("openMenu")
+.onclick = ()=>{
+
+sidebar.classList.add("active");
+overlay.classList.add("active");
+
+};
+
+document
+.getElementById("closeMenu")
+.onclick = ()=>{
+
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+
+};
+
+overlay.onclick = ()=>{
+
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+
+};
+
+let adminTap = 0;
 
 document
 .getElementById("logoBtn")
 .addEventListener("click",()=>{
 
-tapCount++;
+adminTap++;
 
-if(tapCount >= 7){
+if(adminTap >= 7){
 
-alert("Login Admin Akan Muncul Di Versi Berikutnya");
+alert("Menu Admin Akan Ditambahkan Pada Bagian 2");
 
-tapCount = 0;
+adminTap = 0;
 
 }
+
+});
+
+document
+.getElementById("searchGame")
+.addEventListener("keyup",function(){
+
+let filter =
+this.value.toLowerCase();
+
+let cards =
+document.querySelectorAll(".game-card");
+
+cards.forEach(card=>{
+
+let text =
+card.innerText.toLowerCase();
+
+card.style.display =
+text.includes(filter)
+? "block"
+: "none";
+
+});
 
 });
 
