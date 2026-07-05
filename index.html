@@ -33,7 +33,7 @@
         .menu-admin {display:flex; align-items:center; gap:10px; color:var(--abu); text-decoration:none; font-size:16px; font-weight:500; padding:10px; border-radius:8px; transition:all 0.2s; cursor:pointer; margin-top:10px;}
         .menu-admin:hover {background:var(--biru-lembut); color:var(--utama);}
 
-        /* HALAMAN TOKO */
+        /* HALAMAN */
         .halaman {display:none;} .halaman.aktif {display:block;}
         .bagian-pembuka {padding:30px 20px 50px; text-align:center;}
         .label-atas {display:inline-block; background:var(--biru-lembut); color:var(--utama); padding:6px 16px; border-radius:20px; font-size:14px; font-weight:600; margin-bottom:20px; border:1px solid rgba(0,212,255,0.2);}
@@ -42,10 +42,6 @@
         .deskripsi-utama {font-size:18px; color:var(--abu); max-width:500px; margin:0 auto 30px; line-height:1.7;}
         .tombol-primer {display:block; width:100%; max-width:400px; margin:0 auto 12px; padding:16px; background:var(--utama); color:var(--latar); border:none; border-radius:12px; font-size:18px; font-weight:700; cursor:pointer; transition:all 0.2s;}
         .tombol-primer:hover {transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,212,255,0.25);}
-        .tombol-sekunder {display:block; width:100%; max-width:400px; margin:0 auto; padding:14px; background:transparent; color:var(--teks); border:1px solid var(--batas); border-radius:12px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.2s;}
-        .tombol-sekunder:hover {border-color:var(--utama); color:var(--utama);}
-
-        /* GAME & FORM */
         .bagian-game {padding:40px 20px; max-width:550px; margin:0 auto;}
         .judul-bagian {font-size:32px; font-weight:800; margin-bottom:8px;}
         .subjudul-bagian {font-size:18px; color:var(--abu); margin-bottom:30px;}
@@ -131,11 +127,11 @@
     <div class="tutup-menu" onclick="tutupMenu()">✕</div>
     <div class="menu-logo"><div class="logo-ikon">🎮</div><div>LIM STORE</div></div>
     <ul class="daftar-menu">
-        <li><a href="#" class="aktif" onclick="tutupMenu(); bukaHalamanToko('beranda'); return false;">🏠 Beranda</a></li>
-        <li><a href="#" onclick="tutupMenu(); bukaHalamanToko('game'); return false;">🎮 Semua Game</a></li>
+        <li><span class="aktif" onclick="tutupMenu(); bukaHalamanToko('beranda')">🏠 Beranda</span></li>
+        <li><span onclick="tutupMenu(); bukaHalamanToko('game')">🎮 Semua Game</span></li>
     </ul>
     <div class="menu-pemisah"></div>
-    <a href="#" class="menu-admin" onclick="tutupMenu(); bukaAdmin(); return false;">⚙️ Admin</a>
+    <span class="menu-admin" onclick="tutupMenu(); bukaAdmin()">⚙️ Admin</span>
 </div>
 
 <!-- HALAMAN TOKO -->
@@ -218,16 +214,16 @@
     <aside class="sidebar-admin">
         <div class="admin-logo"><span style="font-size:20px;">⚙️</span><span>Admin Panel</span></div>
         <ul class="daftar-menu-admin">
-            <li><a href="#" class="aktif" onclick="bukaTabAdmin('dashboard'); return false;">📊 Dashboard</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pesanan'); return false;">🛒 Pesanan</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('produk'); return false;">📦 Produk</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('game'); return false;">🎮 Game</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pembayaran'); return false;">💳 Metode Pembayaran</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('pelanggan'); return false;">👤 Pelanggan</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('faq'); return false;">❓ FAQ</a></li>
-            <li><a href="#" onclick="bukaTabAdmin('kontak'); return false;">💬 Pesan Kontak</a></li>
+            <li><span class="aktif" onclick="bukaTabAdmin('dashboard')">📊 Dashboard</span></li>
+            <li><span onclick="bukaTabAdmin('pesanan')">🛒 Pesanan</span></li>
+            <li><span onclick="bukaTabAdmin('produk')">📦 Produk</span></li>
+            <li><span onclick="bukaTabAdmin('game')">🎮 Game</span></li>
+            <li><span onclick="bukaTabAdmin('pembayaran')">💳 Metode Pembayaran</span></li>
+            <li><span onclick="bukaTabAdmin('pelanggan')">👤 Pelanggan</span></li>
+            <li><span onclick="bukaTabAdmin('faq')">❓ FAQ</span></li>
+            <li><span onclick="bukaTabAdmin('kontak')">💬 Pesan Kontak</span></li>
         </ul>
-        <a href="#" class="kembali-toko" onclick="tutupAdmin(); return false;">← Kembali ke Toko</a>
+        <span class="kembali-toko" onclick="tutupAdmin()">← Kembali ke Toko</span>
     </aside>
     <main class="konten-admin">
         <div id="tabDashboard">
@@ -339,7 +335,7 @@ function kirimPesanan() {
     localStorage.setItem('daftarPesanan', JSON.stringify(list)); alert("✅ Pesanan berhasil dikirim!"); bukaHalamanToko('beranda');
 }
 
-// FUNGSI ADMIN BERFUNGSI PENUH
+// FUNGSI ADMIN PASTI BERJALAN
 function bukaAdmin() {
     document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
     document.getElementById('navToko').style.display = 'none';
@@ -348,13 +344,11 @@ function bukaAdmin() {
 }
 function tutupAdmin() {document.getElementById('wadahAdmin').classList.remove('aktif'); bukaHalamanToko('beranda');}
 function bukaTabAdmin(tab) {
-    document.querySelectorAll('.daftar-menu-admin a').forEach(a => a.classList.remove('aktif'));
+    document.querySelectorAll('.daftar-menu-admin span').forEach(a => a.classList.remove('aktif'));
     event.target.classList.add('aktif');
     document.querySelectorAll('[id^="tab"]').forEach(t => t.style.display = 'none');
     document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).style.display = 'block';
     if(tab === 'pesanan') tampilPesananAdmin();
-    if(tab === 'produk') tampilDaftarProdukAdmin();
-    if(tab === 'game') tampilDaftarGameAdmin();
     if(tab === 'pembayaran') tampilDaftarPembayaranAdmin();
 }
 
@@ -421,14 +415,14 @@ function simpanPerubahanPembayaran() {
     alert("✅ Semua perubahan metode pembayaran tersimpan!");
 }
 
-// FUNGSI LAINNYA SIAP PAKAI
+// FUNGSI LAINNYA
 function tampilDaftarProdukAdmin() {document.getElementById('daftarProdukAdmin').innerHTML = '<div class="kosong">📭 Fitur siap pakai</div>';}
 function simpanPerubahanProduk() {alert("✅ Perubahan produk tersimpan!");}
 function tampilDaftarGameAdmin() {document.getElementById('daftarGameAdmin').innerHTML = '<div class="kosong">📭 Fitur siap pakai</div>';}
 function tambahGameBaru() {alert("✅ Form tambah game siap pakai!");}
 function simpanPerubahanGame() {alert("✅ Perubahan game tersimpan!");}
 
-// JALANKAN SAAT HALAMAN DIBUKA PERTAMA KALI
+// JALANKAN PERTAMA KALI
 document.addEventListener('DOMContentLoaded', () => {
     tampilDaftarGameBeranda();
 });
