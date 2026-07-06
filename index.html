@@ -3,309 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLAPPY ROCKET - LIM STORE</title>
+    <title>Toko Affiliate - LIM STORE</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
-        body { background: #050517; min-height: 100vh; }
+        :root { --utama: #fb5533; --gelap: #12121f; --card: #1e1e2f; --teks: #e2e8f0; --abu: #94a3b8; }
+        body { background: var(--gelap); color: var(--teks); padding-bottom: 80px; min-height: 100vh; }
 
-        /* === HALAMAN LOBBY UTAMA === */
-        #lobby { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; background: linear-gradient(180deg, #050517 0%, #1e1b4b 100%); }
-        #lobby h1 { font-size: 48px; color: #facc15; margin-bottom: 5px; text-shadow: 0 0 20px #facc15, 0 0 40px #facc1580; }
-        #lobby .sub { color: #a5b4fc; font-size: 18px; margin-bottom: 60px; }
-        .btn { width: 280px; padding: 16px; margin: 8px; font-size: 20px; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; }
-        .btn:hover { transform: scale(1.05); }
-        .btn-mulai { background: linear-gradient(90deg, #facc15, #f97316); color: #1e1b4b; }
-        .btn-cara { background: #312e81; color: #c7d2fe; border: 2px solid #6366f1; }
-        .btn-paling { color: #94a3b8; margin-top: 40px; font-size: 16px; }
+        /* === HEADER === */
+        header { background: var(--utama); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #fb553360; }
+        header h1 { font-size: 22px; color: white; }
 
-        /* === HALAMAN MAIN === */
-        #game { display: none; flex-direction: column; align-items: center; padding: 10px; min-height: 100vh; background: linear-gradient(180deg, #050517 0%, #312e81 100%); }
-        .atas { width: 100%; max-width: 400px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-        .skor-box { font-size: 32px; font-weight: bold; color: #facc15; text-shadow: 0 0 8px #facc15; }
-        #btnPause { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 20px; cursor: pointer; box-shadow: 0 0 10px #ef444480; }
-        #canvas { border: 3px solid #6366f1; border-radius: 12px; background: linear-gradient(180deg, #1e1b4b, #312e81); box-shadow: 0 0 20px #6366f160; max-width: 100%; height: auto; }
+        /* === MENU ATAS === */
+        .menu-atas { display: flex; justify-content: space-around; padding: 12px; background: var(--card); margin: 10px; border-radius: 10px; }
+        .tab { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--abu); }
+        .tab.aktif { background: var(--utama); color: white; }
 
-        /* === MENU PAUSE & GAME OVER === */
-        #menuOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 99; flex-direction: column; align-items: center; justify-content: center; }
-        #menuOverlay h2 { font-size: 40px; color: #facc15; margin-bottom: 10px; text-shadow: 0 0 15px #facc15; }
-        #menuOverlay .info { color: #a5b4fc; font-size: 20px; margin-bottom: 40px; }
-        .btn-pause { width: 240px; padding: 14px; margin: 6px; font-size: 19px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; }
-        .btn-resume { background: #22c55e; color: white; }
-        .btn-ulang { background: #3b82f6; color: white; }
-        .btn-lobby { background: #ef4444; color: white; }
+        /* === DAFTAR PRODUK === */
+        .judul { padding: 10px 15px; font-size: 18px; font-weight: bold; color: var(--utama); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.97); }
+        .card img { width: 100%; height: 150px; object-fit: cover; background: #2d2d3f; }
+        .card .nama { padding: 8px 10px; font-size: 14px; line-height: 1.4; height: 40px; overflow: hidden; }
+        .card .harga { padding: 0 10px 8px; font-size: 17px; font-weight: bold; color: var(--utama); }
+
+        /* === MENU BAWAH === */
+        .bawah { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #2d2d3f; }
+        .nav { text-align: center; font-size: 12px; color: var(--abu); cursor: pointer; }
+        .nav.aktif { color: var(--utama); }
+        .nav span { font-size: 22px; display: block; margin-bottom: 3px; }
+
+        /* === HALAMAN ADMIN === */
+        #halAdmin { display: none; padding: 15px; }
+        .form { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .form h3 { color: var(--utama); margin-bottom: 12px; }
+        input { width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 8px; background: #2d2d3f; color: white; font-size: 15px; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .btn-simpan { background: var(--utama); color: white; margin-top: 8px; }
+        .btn-hapus { background: #ef4444; color: white; }
+        .daftar-admin { margin-top: 20px; }
+        .item-admin { background: var(--card); padding: 10px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+
+        /* === POPUP PASSWORD === */
+        #popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+        .kotak-pass { background: var(--card); padding: 20px; border-radius: 12px; width: 100%; max-width: 350px; }
+        .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
-<!-- 🏠 LOBBY UTAMA -->
-<div id="lobby">
-    <h1>🚀 FLAPPY ROCKET</h1>
-    <p class="sub">Terbang tembus angkasa raya!</p>
-    <button class="btn btn-mulai" onclick="mulaiGame()">🎮 MULAI MAIN</button>
-    <button class="btn btn-cara" onclick="alert('Cara Main:\n👉 Sentuh layar atau tekan tombol apa saja untuk menaikkan roket\n👉 Lepas untuk menurunkan\n👉 Jangan sampai menabrak dinding atau rintangan!')">📖 CARA MAIN</button>
-    <p class="btn-paling">🔥 Skor Tertinggi: <span id="tertinggi">0</span></p>
-</div>
+<!-- HEADER -->
+<header>
+    <h1>🛒 LIM STORE - Affiliate Shopee</h1>
+</header>
 
-<!-- 🎮 LAYAR MAIN -->
-<div id="game">
-    <div class="atas">
-        <div class="skor-box">Skor: <span id="skor">0</span></div>
-        <button id="btnPause" onclick="jedaGame()">⏸ JEDA</button>
+<!-- HALAMAN UTAMA -->
+<div id="halUtama">
+    <div class="menu-atas">
+        <div class="tab aktif">Semua Produk</div>
+        <div class="tab">Terlaris</div>
     </div>
-    <canvas id="canvas" width="380" height="600"></canvas>
+
+    <p class="judul">🔥 Produk Pilihan</p>
+    <div class="grid" id="gridProduk"></div>
 </div>
 
-<!-- ⏸ MENU JEDA / GAME OVER -->
-<div id="menuOverlay">
-    <h2 id="judulMenu">⏸ JEDA</h2>
-    <p class="info" id="infoMenu"></p>
-    <button class="btn-pause btn-resume" id="tombolLanjut" onclick="lanjutGame()">▶ LANJUTKAN</button>
-    <button class="btn-pause btn-ulang" onclick="mulaiGame()">🔄 MULAI ULANG</button>
-    <button class="btn-pause btn-lobby" onclick="kembaliLobby()">🏠 KEMBALI KE LOBBY</button>
+<!-- HALAMAN ADMIN PANEL -->
+<div id="halAdmin">
+    <div class="form">
+        <h3>➕ Tambah / Edit Produk</h3>
+        <input type="text" id="inNama" placeholder="Nama Barang">
+        <input type="text" id="inGambar" placeholder="Link Gambar (URL)">
+        <input type="number" id="inHarga" placeholder="Harga (isi angka saja)">
+        <input type="text" id="inLink" placeholder="Link Affiliate Shopee">
+        <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
+    </div>
+
+    <div class="daftar-admin">
+        <h3>📋 Daftar Produk</h3>
+        <div id="listAdmin"></div>
+    </div>
+</div>
+
+<!-- MENU NAVIGASI BAWAH -->
+<div class="bawah">
+    <div class="nav aktif" onclick="bukaHal('utama')">
+        <span>🏠</span> Beranda
+    </div>
+    <div class="nav" onclick="bukaHal('admin')">
+        <span>⚙️</span> Admin
+    </div>
+</div>
+
+<!-- POPUP PASSWORD ADMIN -->
+<div id="popup">
+    <div class="kotak-pass">
+        <h3>Masuk Kode Admin</h3>
+        <input type="password" id="passAdmin" placeholder="Masukkan kata sandi">
+        <button class="btn-simpan" onclick="cekPass()">Masuk</button>
+        <button style="background:#64748b; color:white; margin-top:8px" onclick="tutupPopup()">Batal</button>
+    </div>
 </div>
 
 <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const elSkor = document.getElementById('skor');
-const elTertinggi = document.getElementById('tertinggi');
-const overlay = document.getElementById('menuOverlay');
-const judulMenu = document.getElementById('judulMenu');
-const infoMenu = document.getElementById('infoMenu');
-const tombolLanjut = document.getElementById('tombolLanjut');
+// ⚙️ Pengaturan Awal
+const PASS_ADMIN = '123456'; // Ganti sandi admin terserah kamu
+let produk = [];
+let editIndex = null;
 
-// Simpan skor tertinggi
-let skorTertinggi = localStorage.getItem('roketTertinggi') || 0;
-elTertinggi.textContent = skorTertinggi;
+// Ambil data produk yang tersimpan
+function muatData() {
+    const simpan = localStorage.getItem('dataProduk');
+    if (simpan) produk = JSON.parse(simpan);
+    tampilProduk();
+    tampilAdmin();
+}
 
-// Objek Roket
-const roket = {
-    x: 80,
-    y: 250,
-    w: 35,
-    h: 50,
-    kecepatan: 0,
-    dorong: -8,
-    gravitasi: 0.4
-};
+// Simpan data ke memori HP
+function simpanData() {
+    localStorage.setItem('dataProduk', JSON.stringify(produk));
+}
 
-// Rintangan Pipa
-let pipa = [];
-const lebarPipa = 65;
-const celah = 170;
-const kecepatanGame = 3;
-let skor = 0;
-let gameJalan = false;
-let gameSelesai = false;
-let frame = 0;
-let bintang = [];
-
-// Buat bintang latar belakang
-for(let i=0; i<80; i++){
-    bintang.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        ukuran: Math.random()*2+1,
-        terang: Math.random()
+// Tampilkan produk di halaman utama
+function tampilProduk() {
+    const el = document.getElementById('gridProduk');
+    el.innerHTML = '';
+    produk.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => window.open(p.link, '_blank');
+        card.innerHTML = `
+            <img src="${p.gambar}" alt="${p.nama}" onerror="this.src='https://via.placeholder.com/150/2d2d3f/ffffff?text=Gambar'">
+            <div class="nama">${p.nama}</div>
+            <div class="harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
+        `;
+        el.appendChild(card);
     });
 }
 
-// Pindah ke Lobby
-function kembaliLobby() {
-    document.getElementById('lobby').style.display = 'flex';
-    document.getElementById('game').style.display = 'none';
-    overlay.style.display = 'none';
-    gameJalan = false;
-}
-
-// Mulai Game
-function mulaiGame() {
-    skor = 0;
-    elSkor.textContent = skor;
-    roket.y = 250;
-    roket.kecepatan = 0;
-    pipa = [];
-    frame = 0;
-    gameSelesai = false;
-    gameJalan = true;
-
-    document.getElementById('lobby').style.display = 'none';
-    document.getElementById('game').style.display = 'flex';
-    overlay.style.display = 'none';
-    tombolLanjut.style.display = 'block';
-    judulMenu.textContent = '⏸ JEDA';
-    infoMenu.textContent = '';
-
-    mainLoop();
-}
-
-// Fungsi Jeda
-function jedaGame() {
-    gameJalan = false;
-    overlay.style.display = 'flex';
-    tombolLanjut.style.display = 'block';
-    judulMenu.textContent = '⏸ JEDA';
-    infoMenu.textContent = `Skor Kamu: ${skor}`;
-}
-function lanjutGame() {
-    gameJalan = true;
-    overlay.style.display = 'none';
-    mainLoop();
-}
-
-// Kontrol Terbang
-function terbang() {
-    if(gameJalan && !gameSelesai) roket.kecepatan = roket.dorong;
-}
-canvas.addEventListener('touchstart', e => { e.preventDefault(); terbang(); });
-document.addEventListener('keydown', terbang);
-
-// Buat Pipa Baru
-function buatPipa() {
-    const tinggiAtas = Math.random()*(canvas.height - celah - 120) + 60;
-    pipa.push({ x: canvas.width, tinggiAtas: tinggiAtas, lewat: false });
-}
-
-// Cek Tabrakan
-function tabrakan(p) {
-    if(roket.x + roket.w > p.x && roket.x < p.x + lebarPipa) {
-        if(roket.y < p.tinggiAtas || roket.y + roket.h > p.tinggiAtas + celah) return true;
-    }
-    return false;
-}
-
-// Gambar Roket
-function gambarRoket() {
-    // Badan Roket
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.ellipse(roket.x+17, roket.y+25, 17, 25, 0, 0, Math.PI*2);
-    ctx.fill();
-    // Kepala Roket
-    ctx.fillStyle = '#facc15';
-    ctx.beginPath();
-    ctx.moveTo(roket.x+17, roket.y-5);
-    ctx.lineTo(roket.x+5, roket.y+12);
-    ctx.lineTo(roket.x+29, roket.y+12);
-    ctx.fill();
-    // Jendela
-    ctx.fillStyle = '#38bdf8';
-    ctx.beginPath();
-    ctx.arc(roket.x+17, roket.y+20, 7, 0, Math.PI*2);
-    ctx.fill();
-    // Sayap
-    ctx.fillStyle = '#f97316';
-    ctx.beginPath();
-    ctx.moveTo(roket.x, roket.y+35);
-    ctx.lineTo(roket.x-8, roket.y+50);
-    ctx.lineTo(roket.x+8, roket.y+45);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(roket.x+35, roket.y+35);
-    ctx.lineTo(roket.x+43, roket.y+50);
-    ctx.lineTo(roket.x+27, roket.y+45);
-    ctx.fill();
-    // Asap & Api di bawah
-    if(gameJalan) {
-        ctx.fillStyle = '#facc15';
-        ctx.beginPath();
-        ctx.moveTo(roket.x+10, roket.y+50);
-        ctx.lineTo(roket.x+17, roket.y+65 + Math.random()*8);
-        ctx.lineTo(roket.x+24, roket.y+50);
-        ctx.fill();
-        ctx.fillStyle = '#f97316';
-        ctx.beginPath();
-        ctx.moveTo(roket.x+13, roket.y+50);
-        ctx.lineTo(roket.x+17, roket.y+58 + Math.random()*5);
-        ctx.lineTo(roket.x+21, roket.y+50);
-        ctx.fill();
-    }
-}
-
-// Gambar Pipa
-function gambarPipa(p) {
-    ctx.fillStyle = '#22c55e';
-    // Pipa Atas
-    ctx.fillRect(p.x, 0, lebarPipa, p.tinggiAtas);
-    ctx.fillRect(p.x-6, p.tinggiAtas-25, lebarPipa+12, 25);
-    // Pipa Bawah
-    ctx.fillRect(p.x, p.tinggiAtas + celah, lebarPipa, canvas.height - p.tinggiAtas - celah);
-    ctx.fillRect(p.x-6, p.tinggiAtas + celah, lebarPipa+12, 25);
-}
-
-// Gambar Bintang
-function gambarBintang() {
-    bintang.forEach(b => {
-        ctx.fillStyle = `rgba(255,255,255, ${0.4 + b.terang*0.6})`;
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.ukuran, 0, Math.PI*2);
-        ctx.fill();
+// Tampilkan daftar produk di halaman Admin
+function tampilAdmin() {
+    const el = document.getElementById('listAdmin');
+    el.innerHTML = '';
+    produk.forEach((p, i) => {
+        const item = document.createElement('div');
+        item.className = 'item-admin';
+        item.innerHTML = `
+            <span>${p.nama.substring(0,15)}...</span>
+            <div>
+                <button style="width:auto; padding:6px 10px; font-size:13px; background:#3b82f6; color:white; margin:0 3px" onclick="edit(${i})">Ubah</button>
+                <button style="width:auto; padding:6px 10px; font-size:13px" class="btn-hapus" onclick="hapus(${i})">Hapus</button>
+            </div>
+        `;
+        el.appendChild(item);
     });
 }
 
-// Game Over
-function akhirGame() {
-    gameSelesai = true;
-    gameJalan = false;
-    if(skor > skorTertinggi) {
-        skorTertinggi = skor;
-        localStorage.setItem('roketTertinggi', skorTertinggi);
-        elTertinggi.textContent = skorTertinggi;
+// Fungsi simpan produk baru / ubah
+function simpanProduk() {
+    const nama = document.getElementById('inNama').value.trim();
+    const gambar = document.getElementById('inGambar').value.trim();
+    const harga = parseInt(document.getElementById('inHarga').value);
+    const link = document.getElementById('inLink').value.trim();
+
+    if (!nama || !gambar || !harga || !link) return alert('Lengkapi semua data!');
+
+    if (editIndex !== null) {
+        produk[editIndex] = { nama, gambar, harga, link };
+        editIndex = null;
+    } else {
+        produk.unshift({ nama, gambar, harga, link });
     }
-    setTimeout(() => {
-        overlay.style.display = 'flex';
-        tombolLanjut.style.display = 'none';
-        judulMenu.textContent = '💥 MELUNCUR!';
-        infoMenu.innerHTML = `Skor Akhir: <b>${skor}</b><br>Skor Terbaik: ${skorTertinggi}`;
-    }, 500);
+
+    simpanData();
+    tampilProduk();
+    tampilAdmin();
+    document.getElementById('inNama').value = '';
+    document.getElementById('inGambar').value = '';
+    document.getElementById('inHarga').value = '';
+    document.getElementById('inLink').value = '';
+    alert('✅ Produk berhasil disimpan!');
 }
 
-// Putaran Utama Game
-function mainLoop() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    gambarBintang();
+// Fungsi ubah & hapus
+function edit(i) {
+    const p = produk[i];
+    document.getElementById('inNama').value = p.nama;
+    document.getElementById('inGambar').value = p.gambar;
+    document.getElementById('inHarga').value = p.harga;
+    document.getElementById('inLink').value = p.link;
+    editIndex = i;
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+function hapus(i) {
+    if (confirm('Yakin mau hapus produk ini?')) {
+        produk.splice(i, 1);
+        simpanData();
+        tampilProduk();
+        tampilAdmin();
+    }
+}
 
-    if(!gameJalan) return;
-
-    // Gerakan Roket
-    roket.kecepatan += roket.gravitasi;
-    roket.y += roket.kecepatan;
-
-    // Cek Batas Atas Bawah
-    if(roket.y < 0 || roket.y + roket.h > canvas.height) {
-        akhirGame();
+// === PENGATURAN HALAMAN & KEAMANAN ===
+function bukaHalaman(tujuan) {
+    if (tujuan === 'admin') {
+        document.getElementById('popup').style.display = 'flex';
         return;
     }
-
-    // Munculkan Pipa Baru
-    frame++;
-    if(frame % 110 === 0) buatPipa();
-
-    // Proses Semua Pipa
-    for(let i=0; i<pipa.length; i++) {
-        const p = pipa[i];
-        p.x -= kecepatanGame;
-        gambarPipa(p);
-
-        if(tabrakan(p)) {
-            akhirGame();
-            return;
-        }
-
-        if(!p.lewat && p.x + lebarPipa < roket.x) {
-            skor++;
-            elSkor.textContent = skor;
-            p.lewat = true;
-        }
-
-        if(p.x + lebarPipa < 0) pipa.splice(i,1);
-    }
-
-    gambarRoket();
-    requestAnimationFrame(mainLoop);
+    document.getElementById('halUtama').style.display = 'block';
+    document.getElementById('halAdmin').style.display = 'none';
+    document.querySelectorAll('.nav').forEach((n,i)=>n.classList.toggle('aktif', i===0));
 }
+
+function cekPass() {
+    const masukan = document.getElementById('passAdmin').value;
+    if (masukan === PASS_ADMIN) {
+        tutupPopup();
+        document.getElementById('halUtama').style.display = 'none';
+        document.getElementById('halAdmin').style.display = 'block';
+        document.querySelectorAll('.nav').forEach((n,i)=>n.classList.toggle('aktif', i===1));
+        document.getElementById('passAdmin').value = '';
+    } else {
+        alert('❌ Kode salah!');
+    }
+}
+
+function tutupPopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('passAdmin').value = '';
+}
+
+// Jalankan saat aplikasi dibuka
+muatData();
 </script>
 
 </body>
-</html>
-p
+            </html>
+            
