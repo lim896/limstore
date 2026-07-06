@@ -3,173 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burung Terbang - LIM STORE</title>
+    <title>Match 3 - LIM STORE</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-        body {
-            background: #0f172a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            font-family: sans-serif;
-            color: white;
-            padding: 10px;
-        }
-        h2 { color: #facc15; margin-bottom: 10px; }
-        #gameCanvas {
-            border: 3px solid #facc15;
-            border-radius: 12px;
-            background: linear-gradient(to bottom, #7dd3fc, #0ea5e9);
-            max-width: 100%;
-            height: auto;
-        }
-        .score-box {
-            font-size: 28px;
-            font-weight: bold;
-            color: #facc15;
-            margin: 10px 0;
-            text-shadow: 2px 2px #000;
-        }
-        .info { font-size: 14px; color: #94a3b8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
+        body { background: #0f172a; color: white; min-height: 100vh; }
+
+        /* === HALAMAN LOBBY === */
+        #lobby { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        #lobby h1 { font-size: 42px; color: #facc15; margin-bottom: 10px; text-shadow: 0 0 10px #facc1580; }
+        #lobby p { color: #94a3b8; margin-bottom: 60px; font-size: 16px; }
+        .btn-lobby { width: 260px; padding: 18px; margin: 10px; font-size: 22px; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; }
+        .btn-mulai { background: linear-gradient(90deg, #facc15, #f59e0b); color: #1e293b; }
+        .btn-cara { background: #1e293b; color: #facc15; border: 2px solid #facc15; }
+
+        /* === HALAMAN MAIN === */
+        #game { display: none; flex-direction: column; align-items: center; padding: 15px; }
+        .bar-atas { width: 100%; max-width: 400px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .info-box { text-align: center; }
+        .info-box span { font-size: 22px; font-weight: bold; color: #facc15; }
+        #btnPause { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+        #papan { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-width: 400px; }
+        .kotak { width: 55px; height: 55px; border-radius: 10px; cursor: pointer; transition: 0.15s; }
+        .kotak:active { transform: scale(0.9); }
+        .kotak.pilih { box-shadow: 0 0 0 4px #fff, 0 0 15px #fff; }
+
+        /* === MENU PAUSE === */
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99; flex-direction: column; align-items: center; justify-content: center; }
+        #overlay h2 { font-size: 36px; color: #facc15; margin-bottom: 40px; }
+        .btn-pause { width: 220px; padding: 15px; margin: 8px; font-size: 19px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; }
+        .btn-resume { background: #22c55e; color: white; }
+        .btn-ulang { background: #3b82f6; color: white; }
+        .btn-keluar { background: #ef4444; color: white; }
+
+        /* Warna kotak */
+        .merah { background: #ef4444; }
+        .hijau { background: #22c55e; }
+        .biru { background: #3b82f6; }
+        .kuning { background: #facc15; }
+        .ungu { background: #a855f7; }
+        .oranye { background: #f97316; }
     </style>
 </head>
 <body>
-    <h2>🐦 Burung Terbang</h2>
-    <div class="score-box">Skor: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="380" height="600"></canvas>
-    <p class="info">👉 Sentuh layar atau tekan tombol untuk terbang!</p>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreEl = document.getElementById('score');
+<!-- 🏠 HALAMAN LOBBY -->
+<div id="lobby">
+    <h1>🎮 MATCH 3</h1>
+    <p>Susun 3 atau lebih warna yang sama!</p>
+    <button class="btn-lobby btn-mulai" onclick="mulaiGame()">MULAI MAIN</button>
+    <button class="btn-lobby btn-cara" onclick="alert('Cara main:\nKlik satu kotak, lalu klik kotak sebelahnya untuk tukar posisi.\nSusun 3 warna sama secara mendatar atau tegak!')">CARA MAIN</button>
+</div>
 
-        // Burung
-        const bird = {
-            x: 80,
-            y: 250,
-            w: 40,
-            h: 30,
-            speed: 0,
-            jump: -7,
-            gravity: 0.35
-        };
+<!-- ⏹ HALAMAN MAIN -->
+<div id="game">
+    <div class="bar-atas">
+        <div class="info-box">Skor<br><span id="skor">0</span></div>
+        <div class="info-box">Langkah<br><span id="langkah">30</span></div>
+        <button id="btnPause" onclick="jedaGame()">⏸</button>
+    </div>
+    <div id="papan"></div>
+</div>
 
-        // Pipa rintangan
-        let pipes = [];
-        const pipeW = 60;
-        const gap = 160;
-        const pipeSpeed = 2.5;
-        let score = 0;
-        let gameOver = false;
-        let frameCount = 0;
+<!-- ⏸ MENU PAUSE -->
+<div id="overlay">
+    <h2>⏸ JEDA</h2>
+    <button class="btn-pause btn-resume" onclick="lanjutGame()">▶ Lanjutkan</button>
+    <button class="btn-pause btn-ulang" onclick="mulaiGame()">🔄 Mulai Ulang</button>
+    <button class="btn-pause btn-keluar" onclick="keLobby()">🏠 Kembali ke Lobby</button>
+</div>
 
-        // Kontrol terbang
-        function fly() {
-            if (!gameOver) bird.speed = bird.jump;
-        }
-        canvas.addEventListener('touchstart', e => { e.preventDefault(); fly(); });
-        document.addEventListener('keydown', fly);
+<script>
+const warna = ['merah','hijau','biru','kuning','ungu','oranye'];
+let papan = [];
+let pilih = null;
+let skor = 0;
+let langkah = 30;
+let ukuran = 6;
 
-        // Buat pipa baru
-        function createPipe() {
-            const topH = Math.random() * (canvas.height - gap - 100) + 50;
-            pipes.push({ x: canvas.width, topH: topH, passed: false });
-        }
+// Tampil Lobby, sembunyi Game
+function keLobby() {
+    document.getElementById('lobby').style.display = 'flex';
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
 
-        // Cek tabrakan
-        function collide(pipe) {
-            if (bird.x + bird.w > pipe.x && bird.x < pipe.x + pipeW) {
-                if (bird.y < pipe.topH || bird.y + bird.h > pipe.topH + gap) return true;
+// Mulai Game, sembunyi Lobby
+function mulaiGame() {
+    skor = 0; langkah = 30; pilih = null;
+    document.getElementById('skor').textContent = skor;
+    document.getElementById('langkah').textContent = langkah;
+    document.getElementById('lobby').style.display = 'none';
+    document.getElementById('game').style.display = 'flex';
+    document.getElementById('overlay').style.display = 'none';
+    buatPapan();
+}
+
+// Fungsi Pause
+function jedaGame() {
+    document.getElementById('overlay').style.display = 'flex';
+}
+function lanjutGame() {
+    document.getElementById('overlay').style.display = 'none';
+}
+
+// Buat Papan Permainan
+function buatPapan() {
+    papan = [];
+    const elPapan = document.getElementById('papan');
+    elPapan.innerHTML = '';
+
+    // Isi warna acak & pastikan tidak ada yang sudah cocok di awal
+    for (let i=0; i<ukuran*ukuran; i++) {
+        let w;
+        do {
+            w = warna[Math.floor(Math.random()*warna.length)];
+        } while (cekAwal(i,w));
+        papan.push(w);
+
+        // Buat elemen kotak
+        const kotak = document.createElement('div');
+        kotak.className = `kotak ${w}`;
+        kotak.dataset.index = i;
+        kotak.onclick = () => klikKotak(i);
+        elPapan.appendChild(kotak);
+    }
+}
+
+// Cek agar di awal tidak ada susunan 3 warna sama
+function cekAwal(i, warnaBaru) {
+    const x = i % ukuran;
+    const y = Math.floor(i / ukuran);
+    // Cek kiri 2
+    if (x>=2) {
+        if (papan[i-1] === warnaBaru && papan[i-2] === warnaBaru) return true;
+    }
+    // Cek atas 2
+    if (y>=2) {
+        if (papan[i-ukuran] === warnaBaru && papan[i-ukuran*2] === warnaBaru) return true;
+    }
+    return false;
+}
+
+// Klik kotak
+function klikKotak(i) {
+    if (pilih === null) {
+        // Pilih pertama
+        pilih = i;
+        updateTampilan();
+    } else {
+        // Cek apakah sebelahan
+        const a = Math.abs(pilih - i);
+        const brsA = Math.floor(pilih/ukuran);
+        const brsB = Math.floor(i/ukuran);
+        if ((a===1 && brsA===brsB) || a===ukuran) {
+            // Tukar posisi
+            [papan[pilih], papan[i]] = [papan[i], papan[pilih]];
+            langkah--;
+            document.getElementById('langkah').textContent = langkah;
+            updateTampilan();
+            // Cek apakah cocok, kalau tidak tukar balik
+            if (!cocok()) {
+                [papan[pilih], papan[i]] = [papan[i], papan[pilih]];
+                updateTampilan();
             }
-            return false;
         }
+        pilih = null;
+        updateTampilan();
+    }
+}
 
-        // Gambar burung
-        function drawBird() {
-            ctx.fillStyle = '#facc15';
-            ctx.beginPath();
-            ctx.arc(bird.x + 20, bird.y + 15, 18, 0, Math.PI*2);
-            ctx.fill();
-            // Mata
-            ctx.fillStyle = '#000';
-            ctx.beginPath();
-            ctx.arc(bird.x + 28, bird.y + 10, 4, 0, Math.PI*2);
-            ctx.fill();
-            // Paruh
-            ctx.fillStyle = '#f97316';
-            ctx.beginPath();
-            ctx.moveTo(bird.x + 38, bird.y + 15);
-            ctx.lineTo(bird.x + 50, bird.y + 12);
-            ctx.lineTo(bird.x + 50, bird.y + 18);
-            ctx.fill();
-        }
+// Cek susunan yang cocok
+function cocok() {
+    let dapat = false;
+    let cocokList = Array(ukuran*ukuran).fill(false);
 
-        // Gambar pipa
-        function drawPipe(pipe) {
-            ctx.fillStyle = '#22c55e';
-            // Pipa atas
-            ctx.fillRect(pipe.x, 0, pipeW, pipe.topH);
-            ctx.fillRect(pipe.x - 5, pipe.topH - 25, pipeW + 10, 25);
-            // Pipa bawah
-            ctx.fillRect(pipe.x, pipe.topH + gap, pipeW, canvas.height - pipe.topH - gap);
-            ctx.fillRect(pipe.x - 5, pipe.topH + gap, pipeW + 10, 25);
-        }
-
-        // Loop game
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.6)';
-                ctx.fillRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = '#facc15';
-                ctx.font = 'bold 32px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 20);
-                ctx.fillText(`Skor: ${score}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.font = '18px sans-serif';
-                ctx.fillText('Muat ulang halaman untuk main lagi', canvas.width/2, canvas.height/2 + 60);
-                return;
+    // Cek mendatar
+    for (let y=0; y<ukuran; y++) {
+        for (let x=0; x<ukuran-2; x++) {
+            const i = y*ukuran + x;
+            const w = papan[i];
+            if (w && w === papan[i+1] && w === papan[i+2]) {
+                cocokList[i] = cocokList[i+1] = cocokList[i+2] = true;
+                dapat = true;
             }
-
-            // Gerakan burung
-            bird.speed += bird.gravity;
-            bird.y += bird.speed;
-
-            // Batas atas & bawah
-            if (bird.y < 0 || bird.y + bird.h > canvas.height) {
-                gameOver = true;
-            }
-
-            // Buat pipa baru tiap 100 frame
-            frameCount++;
-            if (frameCount % 120 === 0) createPipe();
-
-            // Proses semua pipa
-            for (let i = 0; i < pipes.length; i++) {
-                const p = pipes[i];
-                p.x -= pipeSpeed;
-                drawPipe(p);
-
-                if (collide(p)) gameOver = true;
-
-                if (!p.passed && p.x + pipeW < bird.x) {
-                    score++;
-                    scoreEl.textContent = score;
-                    p.passed = true;
-                }
-
-                if (p.x + pipeW < 0) pipes.splice(i, 1);
-            }
-
-            drawBird();
-            requestAnimationFrame(gameLoop);
         }
+    }
+    // Cek tegak
+    for (let x=0; x<ukuran; x++) {
+        for (let y=0; y<ukuran-2; y++) {
+            const i = y*ukuran + x;
+            const w = papan[i];
+            if (w && w === papan[i+ukuran] && w === papan[i+ukuran*2]) {
+                cocokList[i] = cocokList[i+ukuran] = cocokList[i+ukuran*2] = true;
+                dapat = true;
+            }
+        }
+    }
 
-        gameLoop();
-    </script>
+    // Kalau dapat, tambah skor & hapus, lalu isi ulang
+    if (dapat) {
+        let jumlah = cocokList.filter(c=>c).length;
+        skor += jumlah * 10;
+        document.getElementById('skor').textContent = skor;
+        for (let i=0; i<cocokList.length; i++) {
+            if (cocokList[i]) papan[i] = null;
+        }
+        jatuhBawah();
+        isiKosong();
+        updateTampilan();
+        setTimeout(cocok, 250);
+    }
+    return dapat;
+}
+
+// Efek kotak jatuh ke bawah
+function jatuhBawah() {
+    for (let x=0; x<ukuran; x++) {
+        let tulis = ukuran-1;
+        for (let y=ukuran-1; y>=0; y--) {
+            const i = y*ukuran + x;
+            if (papan[i]) {
+                papan[tulis*ukuran + x] = papan[i];
+                if (tulis !== y) papan[i] = null;
+                tulis--;
+            }
+        }
+    }
+}
+
+// Isi tempat kosong dengan warna baru
+function isiKosong() {
+    for (let i=0; i<papan.length; i++) {
+        if (!papan[i]) papan[i] = warna[Math.floor(Math.random()*warna.length)];
+    }
+}
+
+// Perbarui tampilan semua kotak
+function updateTampilan() {
+    document.querySelectorAll('.kotak').forEach((k, i) => {
+        k.className = `kotak ${papan[i]}`;
+        if (i === pilih) k.classList.add('pilih');
+    });
+}
+</script>
+
 </body>
 </html>
