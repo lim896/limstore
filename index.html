@@ -151,8 +151,8 @@ function tampilAdmin() {
         item.innerHTML = `
             <span>${p.nama.substring(0,15)}...</span>
             <div>
-                <button style="width:auto; padding:6px 10px; font-size:13px; background:#3b82f6; color:white; margin:0 3px" onclick="edit(${i})">Ubah</button>
-                <button style="width:auto; padding:6px 10px; font-size:13px" class="btn-hapus" onclick="hapus(${i})">Hapus</button>
+                <button style="width:auto; padding:6px 10px; font-size:13px; background:#3b82f6; color:white; margin:0 3px" onclick="editProduk(${i})">Ubah</button>
+                <button style="width:auto; padding:6px 10px; font-size:13px" class="btn-hapus" onclick="hapusProduk(${i})">Hapus</button>
             </div>
         `;
         el.appendChild(item);
@@ -186,7 +186,7 @@ function simpanProduk() {
 }
 
 // Fungsi ubah & hapus
-function edit(i) {
+function editProduk(i) {
     const p = produk[i];
     document.getElementById('inNama').value = p.nama;
     document.getElementById('inGambar').value = p.gambar;
@@ -195,7 +195,7 @@ function edit(i) {
     editIndex = i;
     window.scrollTo({top:0, behavior:'smooth'});
 }
-function hapus(i) {
+function hapusProduk(i) {
     if (confirm('Yakin mau hapus produk ini?')) {
         produk.splice(i, 1);
         simpanData();
@@ -205,14 +205,14 @@ function hapus(i) {
 }
 
 // === PENGATURAN HALAMAN & KEAMANAN ===
-function bukaHalaman(tujuan) {
+function bukaHal(tujuan) {
     if (tujuan === 'admin') {
         document.getElementById('popup').style.display = 'flex';
         return;
     }
     document.getElementById('halUtama').style.display = 'block';
     document.getElementById('halAdmin').style.display = 'none';
-    document.querySelectorAll('.nav').forEach((n,i)=>n.classList.toggle('aktif', i===0));
+    document.querySelectorAll('.nav').forEach((n, idx) => n.classList.toggle('aktif', idx === 0));
 }
 
 function cekPass() {
@@ -221,7 +221,7 @@ function cekPass() {
         tutupPopup();
         document.getElementById('halUtama').style.display = 'none';
         document.getElementById('halAdmin').style.display = 'block';
-        document.querySelectorAll('.nav').forEach((n,i)=>n.classList.toggle('aktif', i===1));
+        document.querySelectorAll('.nav').forEach((n, idx) => n.classList.toggle('aktif', idx === 1));
         document.getElementById('passAdmin').value = '';
     } else {
         alert('❌ Kode salah!');
@@ -238,5 +238,5 @@ muatData();
 </script>
 
 </body>
-            </html>
-            
+        </html>
+    
