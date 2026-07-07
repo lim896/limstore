@@ -9,16 +9,13 @@
         :root { --utama: #0f6bcb; --gelap: #12121f; --card: #1e1e2f; --teks: #e2e8f0; --abu: #94a3b8; }
         body { background: var(--gelap); color: var(--teks); padding-bottom: 80px; min-height: 100vh; }
 
-        /* === HEADER === */
         header { background: var(--utama); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #0f6bcb60; }
         header h1 { font-size: 22px; color: white; }
 
-        /* === MENU ATAS === */
         .menu-atas { display: flex; justify-content: space-around; padding: 12px; background: var(--card); margin: 10px; border-radius: 10px; }
         .tab { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--abu); }
         .tab.aktif { background: var(--utama); color: white; }
 
-        /* === DAFTAR PRODUK === */
         .judul { padding: 10px 15px; font-size: 18px; font-weight: bold; color: var(--utama); }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
         .card { background: var(--card); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; }
@@ -27,13 +24,11 @@
         .card .nama { padding: 8px 10px; font-size: 14px; line-height: 1.4; height: 40px; overflow: hidden; }
         .card .harga { padding: 0 10px 8px; font-size: 17px; font-weight: bold; color: var(--utama); }
 
-        /* === MENU BAWAH === */
         .bawah { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #2d2d3f; }
-        .nav { text-align: center; font-size: 12px; color: var(--abu); cursor: pointer; }
+        .nav { text-align: center; font-size: 12px; color: var(--abu); cursor: pointer; padding: 5px; }
         .nav.aktif { color: var(--utama); }
         .nav span { font-size: 22px; display: block; margin-bottom: 3px; }
 
-        /* === HALAMAN ADMIN === */
         #halAdmin { display: none; padding: 15px; }
         .form { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
         .form h3 { color: var(--utama); margin-bottom: 12px; }
@@ -43,8 +38,8 @@
         .btn-hapus { background: #ef4444; color: white; }
         .daftar-admin { margin-top: 20px; }
         .item-admin { background: var(--card); padding: 10px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .btn-kecil { width: auto; padding: 6px 10px; font-size: 13px; margin: 0 3px; }
 
-        /* === POPUP PASSWORD === */
         #popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
         .kotak-pass { background: var(--card); padding: 20px; border-radius: 12px; width: 100%; max-width: 350px; }
         .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
@@ -52,23 +47,19 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
     <h1>🛒 LIM STORE</h1>
 </header>
 
-<!-- HALAMAN UTAMA -->
 <div id="halUtama">
     <div class="menu-atas">
         <div class="tab aktif">Semua Produk</div>
         <div class="tab">Terlaris</div>
     </div>
-
     <p class="judul">🔥 Produk Pilihan</p>
     <div class="grid" id="gridProduk"></div>
 </div>
 
-<!-- HALAMAN ADMIN PANEL -->
 <div id="halAdmin">
     <div class="form">
         <h3>➕ Tambah / Edit Produk</h3>
@@ -78,14 +69,12 @@
         <input type="text" id="inLink" placeholder="Link Produk">
         <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
     </div>
-
     <div class="daftar-admin">
         <h3>📋 Daftar Produk</h3>
         <div id="listAdmin"></div>
     </div>
 </div>
 
-<!-- MENU NAVIGASI BAWAH -->
 <div class="bawah">
     <div class="nav aktif" onclick="bukaHal('utama')">
         <span>🏠</span> Beranda
@@ -95,7 +84,6 @@
     </div>
 </div>
 
-<!-- POPUP PASSWORD ADMIN -->
 <div id="popup">
     <div class="kotak-pass">
         <h3>Masuk Kode Admin</h3>
@@ -106,29 +94,25 @@
 </div>
 
 <script>
-// ⚙️ Pengaturan Awal
-const PASS_ADMIN = '123456'; // Ganti sandi admin terserah kamu
+const PASS_ADMIN = '123456';
 let produk = [];
 let editIndex = null;
 
-// Ambil data produk yang tersimpan
 function muatData() {
-    const simpan = localStorage.getItem('dataProdukLimstore');
+    const simpan = localStorage.getItem('dataLimstore');
     if (simpan) produk = JSON.parse(simpan);
     tampilProduk();
     tampilAdmin();
 }
 
-// Simpan data ke memori HP
 function simpanData() {
-    localStorage.setItem('dataProdukLimstore', JSON.stringify(produk));
+    localStorage.setItem('dataLimstore', JSON.stringify(produk));
 }
 
-// Tampilkan produk di halaman utama
 function tampilProduk() {
     const el = document.getElementById('gridProduk');
     el.innerHTML = '';
-    produk.forEach((p, i) => {
+    produk.forEach((p) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => window.open(p.link, '_blank');
@@ -141,7 +125,6 @@ function tampilProduk() {
     });
 }
 
-// Tampilkan daftar produk di halaman Admin
 function tampilAdmin() {
     const el = document.getElementById('listAdmin');
     el.innerHTML = '';
@@ -151,22 +134,24 @@ function tampilAdmin() {
         item.innerHTML = `
             <span>${p.nama.substring(0,15)}...</span>
             <div>
-                <button style="width:auto; padding:6px 10px; font-size:13px; background:#3b82f6; color:white; margin:0 3px" onclick="editProduk(${i})">Ubah</button>
-                <button style="width:auto; padding:6px 10px; font-size:13px" class="btn-hapus" onclick="hapusProduk(${i})">Hapus</button>
+                <button class="btn-kecil" style="background:#3b82f6; color:white" onclick="editProduk(${i})">Ubah</button>
+                <button class="btn-kecil btn-hapus" onclick="hapusProduk(${i})">Hapus</button>
             </div>
         `;
         el.appendChild(item);
     });
 }
 
-// Fungsi simpan produk baru / ubah
 function simpanProduk() {
     const nama = document.getElementById('inNama').value.trim();
     const gambar = document.getElementById('inGambar').value.trim();
     const harga = parseInt(document.getElementById('inHarga').value);
     const link = document.getElementById('inLink').value.trim();
 
-    if (!nama || !gambar || !harga || !link) return alert('Lengkapi semua data!');
+    if (!nama || !gambar || !harga || !link) {
+        alert('Lengkapi semua data!');
+        return;
+    }
 
     if (editIndex !== null) {
         produk[editIndex] = { nama, gambar, harga, link };
@@ -182,10 +167,9 @@ function simpanProduk() {
     document.getElementById('inGambar').value = '';
     document.getElementById('inHarga').value = '';
     document.getElementById('inLink').value = '';
-    alert('✅ Produk berhasil disimpan!');
+    alert('✅ Berhasil Disimpan!');
 }
 
-// Fungsi ubah & hapus
 function editProduk(i) {
     const p = produk[i];
     document.getElementById('inNama').value = p.nama;
@@ -195,8 +179,9 @@ function editProduk(i) {
     editIndex = i;
     window.scrollTo({top:0, behavior:'smooth'});
 }
+
 function hapusProduk(i) {
-    if (confirm('Yakin mau hapus produk ini?')) {
+    if (confirm('Yakin hapus?')) {
         produk.splice(i, 1);
         simpanData();
         tampilProduk();
@@ -204,7 +189,6 @@ function hapusProduk(i) {
     }
 }
 
-// === PENGATURAN HALAMAN & KEAMANAN ===
 function bukaHal(tujuan) {
     if (tujuan === 'admin') {
         document.getElementById('popup').style.display = 'flex';
@@ -212,7 +196,7 @@ function bukaHal(tujuan) {
     }
     document.getElementById('halUtama').style.display = 'block';
     document.getElementById('halAdmin').style.display = 'none';
-    document.querySelectorAll('.nav').forEach((n, idx) => n.classList.toggle('aktif', idx === 0));
+    setNavAktif(0);
 }
 
 function cekPass() {
@@ -221,22 +205,24 @@ function cekPass() {
         tutupPopup();
         document.getElementById('halUtama').style.display = 'none';
         document.getElementById('halAdmin').style.display = 'block';
-        document.querySelectorAll('.nav').forEach((n, idx) => n.classList.toggle('aktif', idx === 1));
-        document.getElementById('passAdmin').value = '';
+        setNavAktif(1);
     } else {
-        alert('❌ Kode salah!');
+        alert('❌ Kode Salah!');
     }
+    document.getElementById('passAdmin').value = '';
 }
 
 function tutupPopup() {
     document.getElementById('popup').style.display = 'none';
-    document.getElementById('passAdmin').value = '';
 }
 
-// Jalankan saat aplikasi dibuka
+function setNavAktif(idx) {
+    const nav = document.querySelectorAll('.nav');
+    nav.forEach((n, i) => n.classList.toggle('aktif', i === idx));
+}
+
 muatData();
 </script>
 
 </body>
-    </html>
-    
+</html>
