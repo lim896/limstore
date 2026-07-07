@@ -50,6 +50,7 @@
         .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
         .info-box { background: var(--card); padding: 20px; border-radius: 12px; line-height: 1.8; }
         .info-box h2 { color: var(--utama); margin-bottom: 10px; }
+        #lihatGambar { width:100%; max-height:150px; object-fit:contain; margin:10px 0; display:none; border-radius:8px; }
     </style>
 </head>
 <body>
@@ -75,8 +76,8 @@
     <div class="form">
         <h3>➕ Tambah / Edit Produk</h3>
         <input type="text" id="inNama" placeholder="Nama Barang">
-        <input type="file" id="inGambar" accept="image/*" onchange="pratinjauGambar(this)">
-        <img id="lihatGambar" style="width:100%; max-height:150px; object-fit:contain; margin:10px 0; display:none; border-radius:8px;">
+        <input type="file" id="inGambar" accept="image/*" onchange="kompresGambar(this)">
+        <img id="lihatGambar" alt="Pratinjau Gambar">
         <input type="number" id="inHarga" placeholder="Harga (isi angka saja)">
         <input type="text" id="inLink" placeholder="Link Produk">
         <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
@@ -126,11 +127,45 @@ let produk = [];
 let editIndex = null;
 let gambarBase64 = '';
 let hitungKlik = 0;
-let filterSekarang = 'semua';
+let db = null;
 
-// Klik keranjang 10x buka sandi
-const btnKeranjang = document.getElementById('btnKeranjang');
-btnKeranjang.addEventListener('click', () => {
+// === SIAPKAN PENYIMPANAN INDEXEDDB (LEBIH BESAR & KUAT) ===
+function bukaDB() {
+    return new Promise((resolve, reject) => {
+        const req = indexedDB.open('LimStoreDB', 1);
+        req.onupgradeneeded = e => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains('produk')) {
+                db.createObjectStore('produk', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+        req.onsuccess = e => { db = e.target.result; resolve(); };
+        req.onerror = reject;
+    });
+}
+
+async function simpanData() {
+    const tx = db.transaction('produk', 'readwrite');
+    const store = tx.objectStore('produk');
+    await store.clear();
+    produk.forEach(p => store.add(p));
+    await tx.complete;
+}
+
+async function muatData() {
+    await bukaDB();
+    const tx = db.transaction('produk', 'readonly');
+    const store = tx.objectStore('produk');
+    const req = store.getAll();
+    req.onsuccess = e => {
+        produk = e.target.result || [];
+        tampilProduk();
+        tampilAdmin();
+    };
+}
+
+// === KLIK KERANJANG 10x ===
+document.getElementById('btnKeranjang').addEventListener('click', () => {
     hitungKlik++;
     if (hitungKlik >= 10) {
         hitungKlik = 0;
@@ -138,35 +173,36 @@ btnKeranjang.addEventListener('click', () => {
     }
 });
 
-// Ubah gambar dari galeri jadi kode
-function pratinjauGambar(input) {
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            gambarBase64 = e.target.result;
+// === KOMPRES GAMBAR OTOMATIS ===
+function kompresGambar(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX = 600;
+            let w = img.width, h = img.height;
+            if (w > MAX) { h *= MAX/w; w = MAX; }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            gambarBase64 = canvas.toDataURL('image/jpeg', 0.75);
             const lihat = document.getElementById('lihatGambar');
             lihat.src = gambarBase64;
             lihat.style.display = 'block';
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
 }
 
-function muatData() {
-    const simpan = localStorage.getItem('dataLimstore');
-    if (simpan) produk = JSON.parse(simpan);
-    tampilProduk();
-    tampilAdmin();
-}
-
-function simpanData() {
-    localStorage.setItem('dataLimstore', JSON.stringify(produk));
-}
-
+// === TAMPILKAN PRODUK ===
 function tampilProduk(dataProduk = produk) {
     const el = document.getElementById('gridProduk');
     el.innerHTML = '';
-    dataProduk.forEach((p) => {
+    dataProduk.forEach(p => {
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => window.open(p.link, '_blank');
@@ -196,34 +232,38 @@ function tampilAdmin() {
     });
 }
 
-function simpanProduk() {
+// === SIMPAN PRODUK ===
+async function simpanProduk() {
     const nama = document.getElementById('inNama').value.trim();
     const gambar = gambarBase64;
     const harga = parseInt(document.getElementById('inHarga').value);
     const link = document.getElementById('inLink').value.trim();
 
     if (!nama || !gambar || !harga || !link) {
-        alert('Lengkapi semua data & pilih gambar!');
-        return;
+        return alert('❌ Lengkapi semua data & pilih gambar!');
     }
 
-    if (editIndex !== null) {
-        produk[editIndex] = { nama, gambar, harga, link };
-        editIndex = null;
-    } else {
-        produk.unshift({ nama, gambar, harga, link });
+    try {
+        if (editIndex !== null) {
+            produk[editIndex] = { nama, gambar, harga, link };
+            editIndex = null;
+        } else {
+            produk.unshift({ nama, gambar, harga, link });
+        }
+        await simpanData();
+        tampilProduk();
+        tampilAdmin();
+        document.getElementById('inNama').value = '';
+        document.getElementById('inGambar').value = '';
+        document.getElementById('lihatGambar').style.display = 'none';
+        gambarBase64 = '';
+        document.getElementById('inHarga').value = '';
+        document.getElementById('inLink').value = '';
+        alert('✅ Berhasil Disimpan!');
+    } catch (err) {
+        alert('❌ Penyimpanan Penuh! Hapus beberapa produk lama dulu.');
+        console.error(err);
     }
-
-    simpanData();
-    tampilProduk();
-    tampilAdmin();
-    document.getElementById('inNama').value = '';
-    document.getElementById('inGambar').value = '';
-    document.getElementById('lihatGambar').style.display = 'none';
-    gambarBase64 = '';
-    document.getElementById('inHarga').value = '';
-    document.getElementById('inLink').value = '';
-    alert('✅ Berhasil Disimpan!');
 }
 
 function editProduk(i) {
@@ -238,10 +278,10 @@ function editProduk(i) {
     window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function hapusProduk(i) {
+async function hapusProduk(i) {
     if (confirm('Yakin hapus?')) {
         produk.splice(i, 1);
-        simpanData();
+        await simpanData();
         tampilProduk();
         tampilAdmin();
     }
@@ -249,55 +289,32 @@ function hapusProduk(i) {
 
 function cariProduk() {
     const kata = document.getElementById('kataCari').value.toLowerCase().trim();
-    if (!kata) return tampilProduk();
-    const hasil = produk.filter(p => p.nama.toLowerCase().includes(kata));
-    tampilProduk(hasil);
+    tampilProduk(!kata ? produk : produk.filter(p => p.nama.toLowerCase().includes(kata)));
 }
 
-function filterProduk(jenis) {
-    filterSekarang = jenis;
-    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('aktif', (jenis==='semua' && i===0) || (jenis==='terlaris' && i===1)));
-    tampilProduk();
-}
+function filterProduk() { tampilProduk(); }
 
 function bukaHal(tujuan) {
-    document.getElementById('halUtama').style.display = 'none';
+    document.getElementById('halUtama').style.display = tujuan==='utama'?'block':'none';
     document.getElementById('halAdmin').style.display = 'none';
-    document.getElementById('halInfo').style.display = 'none';
-    if (tujuan === 'utama') {
-        document.getElementById('halUtama').style.display = 'block';
-        setNavAktif(0);
-    } else if (tujuan === 'info') {
-        document.getElementById('halInfo').style.display = 'block';
-        setNavAktif(1);
-    }
+    document.getElementById('halInfo').style.display = tujuan==='info'?'block':'none';
+    document.querySelectorAll('.nav').forEach((n,i) => n.classList.toggle('aktif', (tujuan==='utama'&&i===0) || (tujuan==='info'&&i===1)));
 }
 
 function cekPass() {
-    const masukan = document.getElementById('passAdmin').value;
-    if (masukan === PASS_ADMIN) {
+    if (document.getElementById('passAdmin').value === PASS_ADMIN) {
         tutupPopup();
         document.getElementById('halUtama').style.display = 'none';
         document.getElementById('halAdmin').style.display = 'block';
-        setNavAktif(1);
-    } else {
-        alert('❌ Kode Salah!');
-    }
+    } else alert('❌ Kode Salah!');
     document.getElementById('passAdmin').value = '';
 }
 
-function tutupPopup() {
-    document.getElementById('popup').style.display = 'none';
-}
+function tutupPopup() { document.getElementById('popup').style.display = 'none'; }
 
-function setNavAktif(idx) {
-    const nav = document.querySelectorAll('.nav');
-    nav.forEach((n, i) => n.classList.toggle('aktif', i === idx));
-}
-
+// MULAI
 muatData();
 </script>
 
 </body>
-        </html>
-    
+</html>
