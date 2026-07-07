@@ -9,8 +9,12 @@
         :root { --utama: #0f6bcb; --gelap: #12121f; --card: #1e1e2f; --teks: #e2e8f0; --abu: #94a3b8; }
         body { background: var(--gelap); color: var(--teks); padding-bottom: 80px; min-height: 100vh; }
 
-        header { background: var(--utama); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #0f6bcb60; }
+        header { background: var(--utama); padding: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #0f6bcb60; }
         header h1 { font-size: 22px; color: white; }
+        .keranjang { font-size: 26px; cursor: pointer; }
+
+        .cari { padding: 10px; }
+        .cari input { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--card); color: white; font-size: 15px; }
 
         .menu-atas { display: flex; justify-content: space-around; padding: 12px; background: var(--card); margin: 10px; border-radius: 10px; }
         .tab { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--abu); }
@@ -29,10 +33,11 @@
         .nav.aktif { color: var(--utama); }
         .nav span { font-size: 22px; display: block; margin-bottom: 3px; }
 
-        #halAdmin { display: none; padding: 15px; }
+        #halAdmin, #halInfo { display: none; padding: 15px; }
         .form { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
         .form h3 { color: var(--utama); margin-bottom: 12px; }
         input { width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 8px; background: #2d2d3f; color: white; font-size: 15px; }
+        input[type="file"] { background: transparent; padding: 6px; }
         button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
         .btn-simpan { background: var(--utama); color: white; margin-top: 8px; }
         .btn-hapus { background: #ef4444; color: white; }
@@ -43,18 +48,24 @@
         #popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
         .kotak-pass { background: var(--card); padding: 20px; border-radius: 12px; width: 100%; max-width: 350px; }
         .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
+        .info-box { background: var(--card); padding: 20px; border-radius: 12px; line-height: 1.8; }
+        .info-box h2 { color: var(--utama); margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🛒 LIM STORE</h1>
+    <span class="keranjang" id="btnKeranjang">🛒</span>
+    <h1>LIM STORE</h1>
 </header>
 
 <div id="halUtama">
+    <div class="cari">
+        <input type="text" id="kataCari" placeholder="🔍 Cari Produk..." oninput="cariProduk()">
+    </div>
     <div class="menu-atas">
-        <div class="tab aktif">Semua Produk</div>
-        <div class="tab">Terlaris</div>
+        <div class="tab aktif" onclick="filterProduk('semua')">Semua Produk</div>
+        <div class="tab" onclick="filterProduk('terlaris')">Terlaris</div>
     </div>
     <p class="judul">🔥 Produk Pilihan</p>
     <div class="grid" id="gridProduk"></div>
@@ -64,7 +75,8 @@
     <div class="form">
         <h3>➕ Tambah / Edit Produk</h3>
         <input type="text" id="inNama" placeholder="Nama Barang">
-        <input type="text" id="inGambar" placeholder="Link Gambar (URL)">
+        <input type="file" id="inGambar" accept="image/*" onchange="pratinjauGambar(this)">
+        <img id="lihatGambar" style="width:100%; max-height:150px; object-fit:contain; margin:10px 0; display:none; border-radius:8px;">
         <input type="number" id="inHarga" placeholder="Harga (isi angka saja)">
         <input type="text" id="inLink" placeholder="Link Produk">
         <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
@@ -75,12 +87,27 @@
     </div>
 </div>
 
+<div id="halInfo">
+    <div class="info-box">
+        <h2>ℹ️ Tentang LIM STORE</h2>
+        <p><strong>LIM STORE</strong> adalah tempat belanja hemat dan terpercaya.</p>
+        <br>
+        <strong>❓ Cara Berbelanja:</strong>
+        <p>1. Pilih barang yang diinginkan</p>
+        <p>2. Klik gambar barang</p>
+        <p>3. Otomatis pindah ke toko resmi untuk bayar</p>
+        <br>
+        <strong>📞 Kontak Admin:</strong>
+        <p>Hubungi kami jika ada kendala</p>
+    </div>
+</div>
+
 <div class="bawah">
     <div class="nav aktif" onclick="bukaHal('utama')">
         <span>🏠</span> Beranda
     </div>
-    <div class="nav" onclick="bukaHal('admin')">
-        <span>⚙️</span> Admin
+    <div class="nav" onclick="bukaHal('info')">
+        <span>ℹ️</span> Info / FAQ
     </div>
 </div>
 
@@ -97,6 +124,33 @@
 const PASS_ADMIN = '123456';
 let produk = [];
 let editIndex = null;
+let gambarBase64 = '';
+let hitungKlik = 0;
+let filterSekarang = 'semua';
+
+// Klik keranjang 10x buka sandi
+const btnKeranjang = document.getElementById('btnKeranjang');
+btnKeranjang.addEventListener('click', () => {
+    hitungKlik++;
+    if (hitungKlik >= 10) {
+        hitungKlik = 0;
+        document.getElementById('popup').style.display = 'flex';
+    }
+});
+
+// Ubah gambar dari galeri jadi kode
+function pratinjauGambar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            gambarBase64 = e.target.result;
+            const lihat = document.getElementById('lihatGambar');
+            lihat.src = gambarBase64;
+            lihat.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
 function muatData() {
     const simpan = localStorage.getItem('dataLimstore');
@@ -109,10 +163,10 @@ function simpanData() {
     localStorage.setItem('dataLimstore', JSON.stringify(produk));
 }
 
-function tampilProduk() {
+function tampilProduk(dataProduk = produk) {
     const el = document.getElementById('gridProduk');
     el.innerHTML = '';
-    produk.forEach((p) => {
+    dataProduk.forEach((p) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => window.open(p.link, '_blank');
@@ -144,12 +198,12 @@ function tampilAdmin() {
 
 function simpanProduk() {
     const nama = document.getElementById('inNama').value.trim();
-    const gambar = document.getElementById('inGambar').value.trim();
+    const gambar = gambarBase64;
     const harga = parseInt(document.getElementById('inHarga').value);
     const link = document.getElementById('inLink').value.trim();
 
     if (!nama || !gambar || !harga || !link) {
-        alert('Lengkapi semua data!');
+        alert('Lengkapi semua data & pilih gambar!');
         return;
     }
 
@@ -165,6 +219,8 @@ function simpanProduk() {
     tampilAdmin();
     document.getElementById('inNama').value = '';
     document.getElementById('inGambar').value = '';
+    document.getElementById('lihatGambar').style.display = 'none';
+    gambarBase64 = '';
     document.getElementById('inHarga').value = '';
     document.getElementById('inLink').value = '';
     alert('✅ Berhasil Disimpan!');
@@ -173,7 +229,9 @@ function simpanProduk() {
 function editProduk(i) {
     const p = produk[i];
     document.getElementById('inNama').value = p.nama;
-    document.getElementById('inGambar').value = p.gambar;
+    gambarBase64 = p.gambar;
+    document.getElementById('lihatGambar').src = p.gambar;
+    document.getElementById('lihatGambar').style.display = 'block';
     document.getElementById('inHarga').value = p.harga;
     document.getElementById('inLink').value = p.link;
     editIndex = i;
@@ -189,14 +247,30 @@ function hapusProduk(i) {
     }
 }
 
+function cariProduk() {
+    const kata = document.getElementById('kataCari').value.toLowerCase().trim();
+    if (!kata) return tampilProduk();
+    const hasil = produk.filter(p => p.nama.toLowerCase().includes(kata));
+    tampilProduk(hasil);
+}
+
+function filterProduk(jenis) {
+    filterSekarang = jenis;
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('aktif', (jenis==='semua' && i===0) || (jenis==='terlaris' && i===1)));
+    tampilProduk();
+}
+
 function bukaHal(tujuan) {
-    if (tujuan === 'admin') {
-        document.getElementById('popup').style.display = 'flex';
-        return;
-    }
-    document.getElementById('halUtama').style.display = 'block';
+    document.getElementById('halUtama').style.display = 'none';
     document.getElementById('halAdmin').style.display = 'none';
-    setNavAktif(0);
+    document.getElementById('halInfo').style.display = 'none';
+    if (tujuan === 'utama') {
+        document.getElementById('halUtama').style.display = 'block';
+        setNavAktif(0);
+    } else if (tujuan === 'info') {
+        document.getElementById('halInfo').style.display = 'block';
+        setNavAktif(1);
+    }
 }
 
 function cekPass() {
@@ -225,4 +299,5 @@ muatData();
 </script>
 
 </body>
-</html>
+        </html>
+    
