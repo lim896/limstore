@@ -8,212 +8,160 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
         :root {
             --utama: #165DFF;
-            --gelap: #0F172A;
-            --card: #1E293B;
-            --abu: #64748B;
-            --teks: #F1F5F9;
-            --hijau: #10B981;
-            --kuning: #F59E0B;
-            --merah: #EF4444;
+            --gelap: #121829;
+            --card: #1E2538;
+            --abu: #718096;
+            --teks: #F7FAFC;
+            --biru-muda: #3B82F6;
         }
-        body { background: var(--gelap); color: var(--teks); padding-bottom: 85px; min-height: 100vh; }
+        body { background: var(--gelap); color: var(--teks); padding-bottom: 90px; min-height: 100vh; }
 
-        /* === HEADER === */
+        /* === HEADER PERSIS GAMBAR === */
         header {
-            background: transparent;
-            padding: 20px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 20px 18px;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .kiri { display: flex; align-items: center; gap: 12px; }
-        .logo {
-            width: 45px; height: 45px;
-            background: var(--utama);
-            border-radius: 10px;
+        .kiri-head { display: flex; align-items: center; gap: 14px; }
+        .logo-box {
+            width: 52px; height: 52px;
+            background: var(--utama); border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 26px; font-weight: bold;
-            cursor: pointer;
+            font-size: 28px; font-weight: bold; cursor: pointer;
+            overflow: hidden;
         }
-        .judul-wrap h1 { font-size: 26px; color: var(--utama); font-weight: 900; }
-        .judul-wrap p { font-size: 14px; color: var(--abu); }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        .judul-box h1 { font-size: 28px; color: var(--utama); font-weight: 900; line-height: 1.2; }
+        .judul-box p { font-size: 15px; color: var(--abu); margin-top: 2px; }
         .btn-fast {
-            background: var(--utama); color: white;
-            padding: 8px 18px; border-radius: 20px;
-            border: none; font-weight: bold; font-size: 15px;
+            background: var(--utama); color: white; border: none;
+            padding: 10px 22px; border-radius: 22px;
+            font-weight: bold; font-size: 16px;
             display: flex; align-items: center; gap: 6px;
         }
 
         /* === PENCARIAN === */
-        .cari { padding: 0 15px 15px; }
-        .cari input {
-            width: 100%; padding: 14px 15px 14px 45px;
-            border: none; border-radius: 12px;
+        .cari-wrap { padding: 0 18px 18px; }
+        .cari-input {
+            width: 100%; padding: 16px 16px 16px 48px;
+            border: none; border-radius: 14px;
             background: var(--card); color: var(--teks);
-            font-size: 15px; outline: none;
+            font-size: 16px; outline: none;
         }
-        .cari-wrap { position: relative; }
-        .cari-wrap::before {
-            content: "🔍"; position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 16px; color: var(--abu);
+        .posisi-cari { position: relative; }
+        .posisi-cari::before {
+            content: "🔍"; position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-size: 18px; color: var(--abu);
         }
 
-        /* === KATEGORI TAB === */
-        .kategori { display: flex; gap: 10px; padding: 0 15px 20px; overflow-x: auto; }
-        .tab {
-            padding: 10px 22px; border-radius: 25px;
+        /* === KATEGORI TAB PERSIS === */
+        .kategori-row { display: flex; gap: 12px; padding: 0 18px 22px; overflow-x: auto; }
+        .tab-kat {
+            padding: 12px 24px; border-radius: 26px;
             background: var(--card); color: var(--abu);
-            font-weight: bold; font-size: 15px; white-space: nowrap;
-            cursor: pointer; transition: 0.2s;
+            font-weight: bold; font-size: 16px; white-space: nowrap;
+            cursor: pointer; border: 2px solid transparent;
         }
-        .tab.aktif { background: var(--utama); color: white; }
+        .tab-kat.aktif {
+            background: var(--utama); color: white;
+            border-color: var(--utama);
+        }
 
         /* === GRID PRODUK === */
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 15px; }
-        .card {
-            background: var(--card); border-radius: 16px; padding: 15px;
+        .grid-produk { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 18px; }
+        .kartu-produk {
+            background: var(--card); border-radius: 18px; padding: 18px;
             cursor: pointer; transition: 0.2s;
         }
-        .card:active { transform: scale(0.97); }
-        .card .icon {
-            width: 60px; height: 60px; border-radius: 12px;
+        .kartu-produk:active { transform: scale(0.97); }
+        .ikon-produk {
+            width: 70px; height: 70px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 35px; margin-bottom: 12px;
-            overflow: hidden;
+            font-size: 40px; margin-bottom: 14px;
+            overflow: hidden; background: #252D42;
         }
-        .card .icon img { width: 100%; height: 100%; object-fit: cover; }
-        .card .nama { font-size: 17px; font-weight: bold; margin-bottom: 6px; }
-        .card .harga-awal { font-size: 14px; color: var(--abu); margin-bottom: 10px; }
-        .card .jumlah { font-size: 14px; color: var(--utama); font-weight: bold; }
-
-        /* === HALAMAN UMUM === */
-        .hal { display: none; padding: 15px; }
-        .hal.aktif { display: block; }
-        .hal h2 { font-size: 28px; margin-bottom: 20px; }
-
-        /* === PESANAN === */
-        .tab-pesanan { display: flex; gap: 10px; margin-bottom: 20px; }
-        .item-pesanan {
-            background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 12px;
-        }
-        .header-pesanan { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .kode { color: var(--abu); font-size: 14px; }
-        .status {
-            background: rgba(245,158,11,0.15); color: var(--kuning);
-            padding: 4px 10px; border-radius: 12px; font-size: 13px; font-weight: bold;
-        }
-        .status.sukses { background: rgba(16,185,129,0.15); color: var(--hijau); }
-        .detail-pesanan { display: flex; justify-content: space-between; align-items: center; }
-        .kiri-pesan .nm { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
-        .kiri-pesan .id { font-size: 14px; color: var(--abu); }
-        .kanan-pesan { font-weight: bold; font-size: 17px; }
-
-        /* === BANTUAN === */
-        .kontak-admin {
-            background: var(--card); border-radius: 16px; padding: 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 30px;
-        }
-        .kontak-kiri { display: flex; align-items: center; gap: 15px; }
-        .wa-icon { width: 50px; height: 50px; background: #25D366; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-        .wa-info .nm { font-weight: bold; font-size: 17px; }
-        .wa-info .no { font-size: 15px; color: var(--abu); margin: 4px 0; }
-        .wa-info .ket { font-size: 13px; color: var(--abu); }
-        .btn-chat {
-            background: #25D366; color: white; border: none;
-            padding: 10px 22px; border-radius: 8px; font-weight: bold; font-size: 16px;
-        }
-        .faq-item {
-            background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: 500;
+        .ikon-produk img { width: 100%; height: 100%; object-fit: cover; }
+        .nama-produk { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+        .teks-harga-awal { font-size: 15px; color: var(--abu); margin-bottom: 12px; }
+        .label-pilihan {
+            display: inline-block;
+            background: rgba(22,93,255,0.15); color: var(--biru-muda);
+            padding: 6px 12px; border-radius: 12px; font-size: 14px; font-weight: bold;
         }
 
-        /* === ADMIN PANEL === */
-        .grid-admin { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 30px; }
-        .kotak-stat {
-            background: var(--card); border-radius: 12px; padding: 20px;
-        }
-        .kotak-stat .angka { font-size: 32px; font-weight: bold; margin-bottom: 5px; }
-        .kotak-stat .ket { font-size: 15px; color: var(--abu); }
-        .menu-admin {
-            background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 17px; font-weight: 500;
-        }
-        .menu-admin .kiri { display: flex; align-items: center; gap: 12px; }
-        .menu-admin .ikon { font-size: 22px; }
-        .badge {
-            background: var(--utama); color: white; font-size: 13px;
-            padding: 2px 8px; border-radius: 10px;
-        }
+        /* === HALAMAN === */
+        .halaman { display: none; }
+        .halaman.tampil { display: block; }
 
-        /* === NAV BAWAH === */
+        /* === NAVIGASI BAWAH === */
         .nav-bawah {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--card); border-top: 2px solid #1E293B;
-            display: flex; justify-content: space-around; padding: 12px 0;
+            background: var(--card); border-top: 2px solid #252D42;
+            display: flex; justify-content: space-around; padding: 14px 0;
         }
-        .nav-item { text-align: center; color: var(--abu); font-size: 12px; cursor: pointer; }
+        .nav-item { text-align: center; color: var(--abu); font-size: 13px; cursor: pointer; }
         .nav-item.aktif { color: var(--utama); }
-        .nav-item .ikon { font-size: 24px; display: block; margin-bottom: 4px; }
+        .nav-item .ikon-nav { font-size: 26px; display: block; margin-bottom: 5px; }
 
-        /* === POPUP PASSWORD === */
-        #popupPass {
+        /* === POPUP SANDI ADMIN === */
+        #popupSandi {
             display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9);
             z-index: 999; align-items: center; justify-content: center; padding: 20px;
         }
-        .kotak-pass {
-            background: var(--card); padding: 25px; border-radius: 16px;
+        .kotak-sandi {
+            background: var(--card); padding: 28px; border-radius: 18px;
             width: 100%; max-width: 360px;
         }
-        .kotak-pass h3 { text-align: center; color: var(--utama); margin-bottom: 15px; }
-        .kotak-pass input {
-            width: 100%; padding: 14px; border: none; border-radius: 10px;
-            background: var(--gelap); color: white; font-size: 16px; margin-bottom: 12px;
+        .kotak-sandi h3 { text-align: center; color: var(--utama); margin-bottom: 18px; font-size: 20px; }
+        .kotak-sandi input {
+            width: 100%; padding: 15px; border: none; border-radius: 12px;
+            background: var(--gelap); color: white; font-size: 17px; margin-bottom: 15px;
         }
-        .kotak-pass button {
-            width: 100%; padding: 13px; border: none; border-radius: 10px;
-            font-weight: bold; font-size: 16px; cursor: pointer;
+        .kotak-sandi button {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            font-weight: bold; font-size: 17px; cursor: pointer;
         }
         .btn-masuk { background: var(--utama); color: white; }
-        .btn-batal { background: var(--abu); color: white; margin-top: 8px; }
+        .btn-batal { background: var(--abu); color: white; margin-top: 10px; }
 
-        /* === FORM ADMIN PRODUK === */
-        .form-kelola { background: var(--card); padding: 20px; border-radius: 16px; margin-bottom: 20px; }
-        .form-kelola h3 { color: var(--utama); margin-bottom: 15px; }
-        .form-kelola input, .form-kelola select {
-            width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 8px;
-            background: var(--gelap); color: white; font-size: 15px;
+        /* === HALAMAN LAINNYA === */
+        .judul-hal { font-size: 30px; padding: 20px 18px 10px; }
+        .teks-ket { color: var(--abu); padding: 0 18px 20px; }
+        .kartu-pesanan { background: var(--card); border-radius: 14px; padding: 18px; margin: 12px 18px; }
+        .kontak-box { background: var(--card); border-radius: 16px; padding: 22px; margin: 18px; }
+        .faq-bar { background: var(--card); border-radius: 12px; padding: 16px; margin: 10px 18px; display: flex; justify-content: space-between; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 18px; }
+        .stat-kotak { background: var(--card); border-radius: 14px; padding: 22px; }
+        .menu-admin { background: var(--card); border-radius: 14px; padding: 18px; margin: 10px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .form-admin { background: var(--card); border-radius: 16px; padding: 20px; margin: 18px; }
+        .form-admin input, .form-admin select {
+            width: 100%; padding: 13px; margin: 8px 0; border: none; border-radius: 10px;
+            background: var(--gelap); color: white; font-size: 16px;
         }
-        .btn-simpan { background: var(--utama); color: white; margin-top: 8px; }
-        .btn-hapus { background: var(--merah); color: white; }
-        .item-produk {
-            background: var(--card); padding: 12px; border-radius: 10px; margin: 8px 0;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .btn-kecil { width: auto; padding: 6px 12px; font-size: 14px; margin: 0 3px; }
+        .btn-kecil { width: auto; padding: 8px 14px; border-radius: 8px; font-size: 15px; margin: 4px; }
+        .item-produk-adm { background: var(--card); padding: 14px; border-radius: 10px; margin: 8px 18px; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
 
-<!-- POPUP PASSWORD ADMIN -->
-<div id="popupPass">
-    <div class="kotak-pass">
+<!-- POPUP SANDI -->
+<div id="popupSandi">
+    <div class="kotak-sandi">
         <h3>Masuk Kode Admin</h3>
-        <input type="password" id="inputPass" placeholder="Masukkan kata sandi">
-        <button class="btn-masuk" onclick="cekSandi()">Masuk</button>
-        <button class="btn-batal" onclick="tutupPopup()">Batal</button>
+        <input type="password" id="inputSandi" placeholder="Masukkan kata sandi">
+        <button class="btn-masuk" onclick="cekSandiAdmin()">Masuk</button>
+        <button class="btn-batal" onclick="tutupPopupSandi()">Batal</button>
     </div>
 </div>
 
 <!-- BERANDA -->
-<div id="halBeranda" class="hal aktif">
+<div id="halBeranda" class="halaman tampil">
     <header>
-        <div class="kiri">
-            <div class="logo" id="btnLogoAdmin">⚡</div>
-            <div class="judul-wrap">
+        <div class="kiri-head">
+            <div class="logo-box" id="klikLogoAdmin">
+                <img src="https://i.imgur.com/6wBZ8Qk.png" alt="Logo LIM">
+            </div>
+            <div class="judul-box">
                 <h1>LIM STORE</h1>
                 <p>Top Up Game & Pulsa</p>
             </div>
@@ -221,254 +169,275 @@
         <button class="btn-fast">⚡ Fast</button>
     </header>
 
-    <div class="cari">
-        <div class="cari-wrap">
-            <input type="text" id="cariProduk" placeholder="Cari produk..." oninput="filterProduk()">
+    <div class="cari-wrap">
+        <div class="posisi-cari">
+            <input type="text" class="cari-input" id="cariProduk" placeholder="Cari produk..." oninput="muatTampilProduk()">
         </div>
     </div>
 
-    <div class="kategori">
-        <div class="tab aktif" data-kat="semua" onclick="pilihKat(this)">Semua</div>
-        <div class="tab" data-kat="game" onclick="pilihKat(this)">Game</div>
-        <div class="tab" data-kat="pulsa" onclick="pilihKat(this)">Pulsa</div>
-        <div class="tab" data-kat="data" onclick="pilihKat(this)">Paket Data</div>
+    <div class="kategori-row">
+        <div class="tab-kat aktif" data-kat="semua" onclick="pilihKategori(this)">Semua</div>
+        <div class="tab-kat" data-kat="game" onclick="pilihKategori(this)">Game</div>
+        <div class="tab-kat" data-kat="pulsa" onclick="pilihKategori(this)">Pulsa</div>
+        <div class="tab-kat" data-kat="data" onclick="pilihKategori(this)">Paket Data</div>
     </div>
 
-    <div class="grid" id="gridProduk"></div>
+    <div class="grid-produk" id="gridProdukUtama"></div>
 </div>
 
 <!-- PESANAN -->
-<div id="halPesanan" class="hal">
-    <h2>Pesanan Saya</h2>
-    <div class="tab-pesanan">
-        <div class="tab aktif">Semua</div>
-        <div class="tab">Menunggu Bayar</div>
-        <div class="tab">Konfirmasi</div>
+<div id="halPesanan" class="halaman">
+    <h2 class="judul-hal">Pesanan Saya</h2>
+    <div class="kategori-row" style="padding:0 18px 10px;">
+        <div class="tab-kat aktif">Semua</div>
+        <div class="tab-kat">Menunggu Bayar</div>
+        <div class="tab-kat">Konfirmasi</div>
     </div>
     <div id="daftarPesanan"></div>
 </div>
 
 <!-- BANTUAN -->
-<div id="halBantuan" class="hal">
-    <h2>Bantuan</h2>
-    <p style="color:var(--abu); margin-bottom:25px;">FAQ & Hubungi Admin</p>
-
-    <div class="kontak-admin">
-        <div class="kontak-kiri">
-            <div class="wa-icon">💬</div>
-            <div class="wa-info">
-                <div class="nm">Hubungi Admin</div>
-                <div class="no">082345678901</div>
-                <div class="ket">Respon cepat via WhatsApp</div>
+<div id="halBantuan" class="halaman">
+    <h2 class="judul-hal">Bantuan</h2>
+    <p class="teks-ket">FAQ & Hubungi Admin</p>
+    <div class="kontak-box">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+            <div style="width:50px; height:50px; background:#25D366; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:28px;">💬</div>
+            <div>
+                <div style="font-weight:bold; font-size:18px;">Hubungi Admin</div>
+                <div style="color:var(--abu);">082345678901</div>
+                <div style="color:var(--abu); font-size:14px;">Respon cepat via WhatsApp</div>
             </div>
         </div>
-        <button class="btn-chat">Chat</button>
+        <button style="width:100%; background:#25D366; color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; font-size:16px;">Chat</button>
     </div>
-
-    <h3 style="margin-bottom:15px; font-size:20px;">Pertanyaan Umum</h3>
-    <div class="faq-item">Berapa lama proses top up selesai? <span>▼</span></div>
-    <div class="faq-item">Bagaimana cara melakukan pembayaran? <span>▼</span></div>
-    <div class="faq-item">Apakah ID game saya aman? <span>▼</span></div>
-    <div class="faq-item">Bagaimana jika top up tidak masuk? <span>▼</span></div>
-    <div class="faq-item">Apakah ada biaya tambahan? <span>▼</span></div>
-    <div class="faq-item">Bagaimana cara cek status pesanan? <span>▼</span></div>
-    <div class="faq-item">Metode pembayaran apa saja yang tersedia? <span>▼</span></div>
+    <h3 style="padding:0 18px 10px; font-size:20px;">Pertanyaan Umum</h3>
+    <div class="faq-bar">Berapa lama proses top up selesai? <span>▼</span></div>
+    <div class="faq-bar">Bagaimana cara melakukan pembayaran? <span>▼</span></div>
+    <div class="faq-bar">Apakah ID game saya aman? <span>▼</span></div>
+    <div class="faq-bar">Bagaimana jika top up tidak masuk? <span>▼</span></div>
+    <div class="faq-bar">Apakah ada biaya tambahan? <span>▼</span></div>
+    <div class="faq-bar">Bagaimana cara cek status pesanan? <span>▼</span></div>
+    <div class="faq-bar">Metode pembayaran apa saja yang tersedia? <span>▼</span></div>
 </div>
 
 <!-- ADMIN PANEL -->
-<div id="halAdmin" class="hal">
-    <h2>Panel Admin</h2>
-    <p style="color:var(--abu); margin-bottom:20px;">LIM STORE</p>
+<div id="halAdmin" class="halaman">
+    <h2 class="judul-hal">Panel Admin</h2>
+    <p class="teks-ket">LIM STORE</p>
 
-    <div class="grid-admin">
-        <div class="kotak-stat">
-            <div class="angka" style="color:#3B82F6" id="jmlTotal">1</div>
-            <div class="ket">Total Pesanan</div>
+    <div class="stat-grid">
+        <div class="stat-kotak">
+            <div style="font-size:34px; font-weight:bold; color:#3B82F6;">1</div>
+            <div style="color:var(--abu); margin-top:5px;">Total Pesanan</div>
         </div>
-        <div class="kotak-stat">
-            <div class="angka" style="color:#F59E0B" id="jmlMenunggu">1</div>
-            <div class="ket">Menunggu Bayar</div>
+        <div class="stat-kotak">
+            <div style="font-size:34px; font-weight:bold; color:#F59E0B;">1</div>
+            <div style="color:var(--abu); margin-top:5px;">Menunggu Bayar</div>
         </div>
-        <div class="kotak-stat">
-            <div class="angka" style="color:#10B981" id="jmlSelesai">0</div>
-            <div class="ket">Selesai</div>
+        <div class="stat-kotak">
+            <div style="font-size:34px; font-weight:bold; color:#10B981;">0</div>
+            <div style="color:var(--abu); margin-top:5px;">Selesai</div>
         </div>
-        <div class="kotak-stat">
-            <div class="angka" style="color:#165DFF">OK</div>
-            <div class="ket">Revenue (Rp)</div>
+        <div class="stat-kotak">
+            <div style="font-size:34px; font-weight:bold; color:#165DFF;">OK</div>
+            <div style="color:var(--abu); margin-top:5px;">Revenue (Rp)</div>
         </div>
     </div>
 
-    <div class="menu-admin" onclick="bukaKelolaProduk()">
-        <div class="kiri">
-            <span class="ikon">📦</span> Kelola Produk
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-            <span class="badge" id="jmlProduk">14</span> <span>›</span>
-        </div>
+    <div class="menu-admin" onclick="bukaFormKelola()">
+        <span>📦 Kelola Produk</span>
+        <span style="display:flex; gap:8px;"><span style="background:var(--utama); color:white; padding:2px 8px; border-radius:10px; font-size:14px;" id="jmlProdukAngka">6</span> ›</span>
     </div>
     <div class="menu-admin">
-        <div class="kiri">
-            <span class="ikon">💳</span> Metode Pembayaran
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-            <span class="badge">5</span> <span>›</span>
-        </div>
-    </div>
-    <div class="menu-admin" onclick="bukaSemuaPesanan()">
-        <div class="kiri">
-            <span class="ikon">📋</span> Semua Pesanan
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-            <span class="badge" id="jmlPesananBadge">1</span> <span>›</span>
-        </div>
+        <span>💳 Metode Pembayaran</span>
+        <span style="display:flex; gap:8px;"><span style="background:var(--utama); color:white; padding:2px 8px; border-radius:10px; font-size:14px;">5</span> ›</span>
     </div>
     <div class="menu-admin">
-        <div class="kiri">
-            <span class="ikon">⚙️</span> Pengaturan Toko
-        </div>
+        <span>📋 Semua Pesanan</span>
+        <span style="display:flex; gap:8px;"><span style="background:var(--utama); color:white; padding:2px 8px; border-radius:10px; font-size:14px;">1</span> ›</span>
+    </div>
+    <div class="menu-admin">
+        <span>⚙️ Pengaturan Toko</span>
         <span>›</span>
     </div>
 
-    <!-- SUB MENU: KELOLA PRODUK -->
-    <div id="subKelolaProduk" style="display:none; margin-top:25px;">
-        <h3 style="margin-bottom:15px;">Kelola Produk</h3>
-        <div class="form-kelola">
-            <h3 id="judulFormProduk">Tambah Produk Baru</h3>
-            <input type="text" id="inNamaProduk" placeholder="Nama Produk">
-            <input type="file" id="inGambarProduk" accept="image/*" onchange="pratinjauGambar(this)">
-            <img id="lihatGambarProduk" style="width:100%; max-height:120px; object-fit:contain; margin:8px 0; display:none; border-radius:8px;">
-            <input type="number" id="inHargaAwal" placeholder="Harga Mulai (angka saja)">
-            <input type="number" id="inJumlahPilihan" placeholder="Jumlah Pilihan">
-            <select id="inKategori">
+    <div id="formKelolaProduk" style="display:none;">
+        <div class="form-admin">
+            <h3 style="color:var(--utama); margin-bottom:12px;" id="judulForm">Tambah Produk Baru</h3>
+            <input type="text" id="inNama" placeholder="Nama Produk">
+            <input type="file" id="inGambar" accept="image/*" onchange="lihatGambar(this)">
+            <img id="pratinjauGbr" style="width:100%; max-height:130px; object-fit:contain; margin:8px 0; display:none; border-radius:10px;">
+            <input type="number" id="inHarga" placeholder="Harga Mulai">
+            <input type="number" id="inPilihan" placeholder="Jumlah Pilihan">
+            <select id="inKat">
                 <option value="game">Game</option>
                 <option value="pulsa">Pulsa</option>
                 <option value="data">Paket Data</option>
             </select>
-            <button class="btn-simpan" onclick="simpanProdukAdmin()">💾 Simpan Produk</button>
+            <button style="width:100%; background:var(--utama); color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:8px;" onclick="simpanProduk()">💾 Simpan Produk</button>
         </div>
         <div id="daftarProdukAdmin"></div>
     </div>
 </div>
 
-<!-- NAVIGASI BAWAH -->
+<!-- NAV BAWAH -->
 <div class="nav-bawah">
-    <div class="nav-item aktif" onclick="pindahHal('beranda')">
-        <span class="ikon">🏠</span> Beranda
+    <div class="nav-item aktif" onclick="pindahHalaman('beranda')">
+        <span class="ikon-nav">🏠</span> Beranda
     </div>
-    <div class="nav-item" onclick="pindahHal('pesanan')">
-        <span class="ikon">🧾</span> Pesanan
+    <div class="nav-item" onclick="pindahHalaman('pesanan')">
+        <span class="ikon-nav">🧾</span> Pesanan
     </div>
-    <div class="nav-item" onclick="pindahHal('bantuan')">
-        <span class="ikon">❓</span> Bantuan
+    <div class="nav-item" onclick="pindahHalaman('bantuan')">
+        <span class="ikon-nav">❓</span> Bantuan
     </div>
 </div>
 
 <script>
-// === PENGATURAN AWAL ===
-const SANDI_ADMIN = 'mungalim678'; // Sandi sesuai permintaan Bos!
-let hitungKlikLogo = 0;
-let katTerpilih = 'semua';
+const SANDI_BENAR = 'mungalim678';
+let jumlahKlikLogo = 0;
+let katSekarang = 'semua';
 let produk = [];
-let pesanan = [];
-let editIdProduk = null;
-let gambarProdukBase64 = '';
+let editId = null;
+let gbrBase64 = '';
 
-// === KLIK LOGO 10x MASUK ADMIN ===
-document.getElementById('btnLogoAdmin').addEventListener('click', () => {
-    hitungKlikLogo++;
-    if (hitungKlikLogo >= 10) {
-        hitungKlikLogo = 0;
-        document.getElementById('popupPass').style.display = 'flex';
+// === DATA AWAL PERSIS GAMBAR, GAMBAR MUNCUL ===
+function dataAwalTetap() {
+    produk = [
+        { id:1, nama:'Mobile Legends', harga:1600, pilihan:30, kat:'game', gbr:'https://i.imgur.com/6wBZ8Qk.png' },
+        { id:2, nama:'Free Fire', harga:1000, pilihan:16, kat:'game', gbr:'https://i.imgur.com/9X7Z9aA.png' },
+        { id:3, nama:'Free Fire MAX', harga:1000, pilihan:14, kat:'game', gbr:'https://i.imgur.com/9X7Z9aA.png' },
+        { id:4, nama:'PUBG Mobile', harga:16800, pilihan:6, kat:'game', gbr:'https://i.imgur.com/7R5s9bY.png' },
+        { id:5, nama:'Genshin Impact', harga:16500, pilihan:5, kat:'game', gbr:'https://i.imgur.com/8tG7Q9c.png' },
+        { id:6, nama:'Honor of Kings', harga:17000, pilihan:4, kat:'game', gbr:'https://i.imgur.com/2dN6WfL.png' },
+        { id:7, nama:'Pulsa Telkomsel', harga:3700, pilihan:6, kat:'pulsa', gbr:'📱' },
+        { id:8, nama:'Pulsa Indosat', harga:7000, pilihan:10, kat:'pulsa', gbr:'📱' },
+        { id:9, nama:'Pulsa XL', harga:6400, pilihan:10, kat:'pulsa', gbr:'📱' },
+        { id:10, nama:'Paket Data Telkomsel', harga:12000, pilihan:5, kat:'data', gbr:'📶' },
+        { id:11, nama:'Paket Data Indosat', harga:15000, pilihan:4, kat:'data', gbr:'📶' },
+        { id:12, nama:'Paket Data XL', harga:0, pilihan:0, kat:'data', gbr:'📶' }
+    ];
+    muatTampilProduk();
+}
+
+// === KLIK LOGO 10x ===
+document.getElementById('klikLogoAdmin').addEventListener('click', () => {
+    jumlahKlikLogo++;
+    if (jumlahKlikLogo >= 10) {
+        jumlahKlikLogo = 0;
+        document.getElementById('popupSandi').style.display = 'flex';
     }
 });
 
-function cekSandi() {
-    const input = document.getElementById('inputPass').value.trim();
-    if (input === SANDI_ADMIN) {
-        tutupPopup();
-        pindahHal('admin');
+function cekSandiAdmin() {
+    const input = document.getElementById('inputSandi').value.trim();
+    if (input === SANDI_BENAR) {
+        tutupPopupSandi();
+        pindahHalaman('admin');
     } else {
         alert('❌ Kata sandi salah!');
     }
-    document.getElementById('inputPass').value = '';
+    document.getElementById('inputSandi').value = '';
 }
-function tutupPopup() { document.getElementById('popupPass').style.display = 'none'; }
-
-// === DATA CONTOH PERSIS GAMBAR ===
-function dataAwal() {
-    produk = [
-        { id:1, nama:'Mobile Legends', harga:1600, jumlah:30, kat:'game', ikon:'https://i.imgur.com/6wBZ8Qk.png' },
-        { id:2, nama:'Free Fire', harga:1000, jumlah:16, kat:'game', ikon:'https://i.imgur.com/9X7Z9aA.png' },
-        { id:3, nama:'Free Fire MAX', harga:1000, jumlah:14, kat:'game', ikon:'https://i.imgur.com/9X7Z9aA.png' },
-        { id:4, nama:'PUBG Mobile', harga:16800, jumlah:6, kat:'game', ikon:'https://i.imgur.com/7R5s9bY.png' },
-        { id:5, nama:'Genshin Impact', harga:16500, jumlah:5, kat:'game', ikon:'https://i.imgur.com/8tG7Q9c.png' },
-        { id:6, nama:'Honor of Kings', harga:17000, jumlah:4, kat:'game', ikon:'https://i.imgur.com/2dN6WfL.png' },
-        { id:7, nama:'Pulsa Telkomsel', harga:3700, jumlah:6, kat:'pulsa', ikon:'📱' },
-        { id:8, nama:'Pulsa Indosat', harga:7000, jumlah:10, kat:'pulsa', ikon:'📱' },
-        { id:9, nama:'Pulsa XL', harga:6400, jumlah:10, kat:'pulsa', ikon:'📱' },
-        { id:10, nama:'Paket Data Telkomsel', harga:12000, jumlah:5, kat:'data', ikon:'📶' },
-        { id:11, nama:'Paket Data Indosat', harga:15000, jumlah:4, kat:'data', ikon:'📶' },
-        { id:12, nama:'Paket Data XL', harga:0, jumlah:0, kat:'data', ikon:'📶' },
-    ];
-    pesanan = [
-        { id:'#8UDMW2US', tgl:'06/07/2026 21:10', nama:'Mobile Legends', detail:'5 Diamonds', idgame:'2672888', harga:1600, status:'menunggu' }
-    ];
-    tampilSemua();
-}
+function tutupPopupSandi() { document.getElementById('popupSandi').style.display = 'none'; }
 
 // === TAMPILKAN PRODUK ===
-function tampilProdukList() {
-    const el = document.getElementById('gridProduk');
+function muatTampilProduk() {
+    const el = document.getElementById('gridProdukUtama');
     el.innerHTML = '';
-    const cari = document.getElementById('cariProduk').value.toLowerCase().trim();
+    const kataCari = document.getElementById('cariProduk').value.toLowerCase().trim();
     let hasil = produk;
-    if (katTerpilih !== 'semua') hasil = produk.filter(p => p.kat === katTerpilih);
-    if (cari) hasil = hasil.filter(p => p.nama.toLowerCase().includes(cari));
+    if (katSekarang !== 'semua') hasil = produk.filter(p => p.kat === katSekarang);
+    if (kataCari) hasil = hasil.filter(p => p.nama.toLowerCase().includes(kataCari));
 
     hasil.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <div class="icon">
-                ${p.ikon.startsWith('http') ? `<img src="${p.ikon}" alt="">` : p.ikon}
+        const kartu = document.createElement('div');
+        kartu.className = 'kartu-produk';
+        kartu.innerHTML = `
+            <div class="ikon-produk">
+                ${p.gbr.startsWith('http') ? `<img src="${p.gbr}" alt="${p.nama}">` : p.gbr}
             </div>
-            <div class="nama">${p.nama}</div>
-            <div class="harga-awal">Mulai Rp ${p.harga.toLocaleString('id-ID')}</div>
-            <div class="jumlah">${p.jumlah} pilihan</div>
+            <div class="nama-produk">${p.nama}</div>
+            <div class="teks-harga-awal">Mulai Rp ${p.harga.toLocaleString('id-ID')}</div>
+            <div class="label-pilihan">${p.pilihan} pilihan</div>
         `;
-        el.appendChild(card);
+        el.appendChild(kartu);
     });
 }
 
-// === TAMPILKAN PESANAN ===
-function tampilPesananList() {
-    const el = document.getElementById('daftarPesanan');
+function pilihKategori(el) {
+    katSekarang = el.dataset.kat;
+    document.querySelectorAll('.tab-kat').forEach(t => t.classList.remove('aktif'));
+    el.classList.add('aktif');
+    muatTampilProduk();
+}
+
+// === PINDAH HALAMAN ===
+function pindahHalaman(nama) {
+    document.querySelectorAll('.halaman').forEach(h => h.classList.remove('tampil'));
+    document.getElementById(`hal${nama.charAt(0).toUpperCase() + nama.slice(1)}`).classList.add('tampil');
+    document.querySelectorAll('.nav-item').forEach((n,i) => n.classList.toggle('aktif',
+        (nama==='beranda'&&i===0) || (nama==='pesanan'&&i===1) || (nama==='bantuan'&&i===2)
+    ));
+    if (nama !== 'admin') document.getElementById('formKelolaProduk').style.display = 'none';
+}
+
+// === KELOLA PRODUK ADMIN ===
+function bukaFormKelola() {
+    document.getElementById('formKelolaProduk').style.display = 'block';
+    document.getElementById('judulForm').textContent = 'Tambah Produk Baru';
+    editId = null; gbrBase64 = '';
+    document.getElementById('pratinjauGbr').style.display = 'none';
+    document.getElementById('inNama').value = '';
+    document.getElementById('inHarga').value = '';
+    document.getElementById('inPilihan').value = '';
+    document.getElementById('inKat').value = 'game';
+    tampilDaftarAdmin();
+}
+
+function lihatGambar(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        gbrBase64 = e.target.result;
+        const lihat = document.getElementById('pratinjauGbr');
+        lihat.src = gbrBase64;
+        lihat.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+
+function simpanProduk() {
+    const nama = document.getElementById('inNama').value.trim();
+    const harga = parseInt(document.getElementById('inHarga').value) || 0;
+    const pilihan = parseInt(document.getElementById('inPilihan').value) || 0;
+    const kat = document.getElementById('inKat').value;
+    if (!nama) return alert('Isi nama produk!');
+
+    const gbr = gbrBase64 || '📦';
+    if (editId) {
+        const idx = produk.findIndex(p => p.id === editId);
+        if (idx !== -1) produk[idx] = { ...produk[idx], nama, harga, pilihan, kat, gbr };
+        editId = null;
+    } else {
+        produk.push({ id: Date.now(), nama, harga, pilihan, kat, gbr });
+    }
+
+    muatTampilProduk();
+    tampilDaftarAdmin();
+    document.getElementById('judulForm').textContent = 'Tambah Produk Baru';
+    document.getElementById('inNama').value = '';
+    document.getElementById('inHarga').value = '';
+    document.getElementById('inPilihan').value = '';
+    gbrBase64 = '';
+    document.getElementById('pratinjauGbr').style.display = 'none';
+    document.getElementById('jmlProdukAngka').textContent = produk.length;
+    alert('✅ Tersimpan!');
+}
+
+function tampilDaftarAdmin() {
+    const el = document.getElementById('daftarProdukAdmin');
     el.innerHTML = '';
-    pesanan.forEach(p => {
-        const stt = p.status === 'menunggu' ? 'Menunggu Bayar' : 'Selesai';
-        const cls = p.status === 'menunggu' ? '' : 'sukses';
-        const item = document.createElement('div');
-        item.className = 'item-pesanan';
-        item.innerHTML = `
-            <div class="header-pesanan">
-                <div class="kode">${p.id} • ${p.tgl}</div>
-                <div class="status ${cls}">${stt}</div>
-            </div>
-            <div class="detail-pesanan">
-                <div class="kiri-pesan">
-                    <div class="nm">${p.nama}</div>
-                    <div class="id">${p.detail} • ID: ${p.idgame}</div>
-                </div>
-                <div class="kanan-pesan">Rp ${p.harga.toLocaleString('id-ID')}</div>
-            </div>
-        `;
-        el.appendChild(item);
-    });
-}
-
-// === FUNGSI NAVIGASI ===
-function pindahHal(nama) {
-    document.querySelectorAll('.hal').forEach(h => h.classList.remove('aktif'));
-    document.getElementById(`hal${nama.charAt(0).toUpperCase() + nama.slice(1)}`).classList.add('aktif');
-    document.querySelectorAll('.nav-item').
+    produk.forEach(p => {
+        const item = document.createElement
