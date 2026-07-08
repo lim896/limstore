@@ -6,375 +6,315 @@
     <title>LIM STORE</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
-        :root {
-            --utama: #165DFF;
-            --gelap: #121829;
-            --card: #1E2538;
-            --abu: #718096;
-            --teks: #F7FAFC;
-            --biru-muda: #3B82F6;
-            --hijau: #10B981;
-            --kuning: #F59E0B;
-            --merah: #EF4444;
-        }
-        body { background: var(--gelap); color: var(--teks); padding-bottom: 90px; min-height: 100vh; }
+        :root { --utama: #0f6bcb; --gelap: #12121f; --card: #1e1e2f; --teks: #e2e8f0; --abu: #94a3b8; }
+        body { background: var(--gelap); color: var(--teks); padding-bottom: 80px; min-height: 100vh; }
 
-        header { padding: 20px 18px; display: flex; align-items: center; justify-content: space-between; }
-        .kiri-head { display: flex; align-items: center; gap: 14px; }
-        .logo-box { width: 52px; height: 52px; background: var(--utama); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; cursor: pointer; overflow: hidden; }
-        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
-        .judul-box h1 { font-size: 28px; color: var(--utama); font-weight: 900; line-height: 1.2; }
-        .judul-box p { font-size: 15px; color: var(--abu); margin-top: 2px; }
-        .btn-fast { background: var(--utama); color: white; border: none; padding: 10px 22px; border-radius: 22px; font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 6px; }
+        header { background: var(--utama); padding: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #0f6bcb60; }
+        header h1 { font-size: 22px; color: white; }
+        .keranjang { font-size: 26px; cursor: pointer; }
 
-        .cari-wrap { padding: 0 18px 18px; }
-        .cari-input { width: 100%; padding: 16px 16px 16px 48px; border: none; border-radius: 14px; background: var(--card); color: var(--teks); font-size: 16px; outline: none; }
-        .posisi-cari { position: relative; }
-        .posisi-cari::before { content: "🔍"; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--abu); }
+        .cari { padding: 10px; }
+        .cari input { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--card); color: white; font-size: 15px; }
 
-        .kategori-row { display: flex; gap: 12px; padding: 0 18px 22px; overflow-x: auto; }
-        .tab-kat { padding: 12px 24px; border-radius: 26px; background: var(--card); color: var(--abu); font-weight: bold; font-size: 16px; white-space: nowrap; cursor: pointer; border: 2px solid transparent; }
-        .tab-kat.aktif { background: var(--utama); color: white; border-color: var(--utama); }
+        .menu-atas { display: flex; justify-content: space-around; padding: 12px; background: var(--card); margin: 10px; border-radius: 10px; }
+        .tab { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--abu); }
+        .tab.aktif { background: var(--utama); color: white; }
 
-        .grid-produk { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 18px; }
-        .kartu-produk { background: var(--card); border-radius: 18px; padding: 18px; cursor: pointer; transition: 0.2s; }
-        .kartu-produk:active { transform: scale(0.97); }
-        .ikon-produk { width: 70px; height: 70px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 14px; overflow: hidden; background: #252D42; }
-        .ikon-produk img { width: 100%; height: 100%; object-fit: cover; }
-        .nama-produk { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
-        .teks-harga-awal { font-size: 15px; color: var(--abu); margin-bottom: 12px; }
-        .label-pilihan { display: inline-block; background: rgba(22,93,255,0.15); color: var(--biru-muda); padding: 6px 12px; border-radius: 12px; font-size: 14px; font-weight: bold; }
+        .judul { padding: 10px 15px; font-size: 18px; font-weight: bold; color: var(--utama); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.97); }
+        .card img { width: 100%; height: 150px; object-fit: cover; background: #2d2d3f; }
+        .card .nama { padding: 8px 10px; font-size: 14px; line-height: 1.4; height: 40px; overflow: hidden; }
+        .card .harga { padding: 0 10px 8px; font-size: 17px; font-weight: bold; color: var(--utama); }
 
-        .halaman { display: none; }
-        .halaman.tampil { display: block; }
+        .bawah { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #2d2d3f; }
+        .nav { text-align: center; font-size: 12px; color: var(--abu); cursor: pointer; padding: 5px; }
+        .nav.aktif { color: var(--utama); }
+        .nav span { font-size: 22px; display: block; margin-bottom: 3px; }
 
-        .nav-bawah { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card); border-top: 2px solid #252D42; display: flex; justify-content: space-around; padding: 14px 0; }
-        .nav-item { text-align: center; color: var(--abu); font-size: 13px; cursor: pointer; }
-        .nav-item.aktif { color: var(--utama); }
-        .nav-item .ikon-nav { font-size: 26px; display: block; margin-bottom: 5px; }
+        #halAdmin, #halInfo { display: none; padding: 15px; }
+        .form { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .form h3 { color: var(--utama); margin-bottom: 12px; }
+        input { width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 8px; background: #2d2d3f; color: white; font-size: 15px; }
+        input[type="file"] { background: transparent; padding: 6px; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .btn-simpan { background: var(--utama); color: white; margin-top: 8px; }
+        .btn-hapus { background: #ef4444; color: white; }
+        .daftar-admin { margin-top: 20px; }
+        .item-admin { background: var(--card); padding: 10px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .btn-kecil { width: auto; padding: 6px 10px; font-size: 13px; margin: 0 3px; }
 
-        #popupSandi { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
-        .kotak-sandi { background: var(--card); padding: 28px; border-radius: 18px; width: 100%; max-width: 360px; }
-        .kotak-sandi h3 { text-align: center; color: var(--utama); margin-bottom: 18px; font-size: 20px; }
-        .kotak-sandi input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--gelap); color: white; font-size: 17px; margin-bottom: 15px; }
-        .kotak-sandi button { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: bold; font-size: 17px; cursor: pointer; }
-        .btn-masuk { background: var(--utama); color: white; }
-        .btn-batal { background: var(--abu); color: white; margin-top: 10px; }
-
-        .judul-hal { font-size: 30px; padding: 20px 18px 10px; }
-        .teks-ket { color: var(--abu); padding: 0 18px 20px; }
-        .kartu-pesanan { background: var(--card); border-radius: 14px; padding: 18px; margin: 12px 18px; }
-        .header-pesanan { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .kode { color: var(--abu); font-size: 14px; }
-        .status { background: rgba(245,158,11,0.15); color: var(--kuning); padding: 4px 10px; border-radius: 12px; font-size: 13px; font-weight: bold; }
-        .status.sukses { background: rgba(16,185,129,0.15); color: var(--hijau); }
-        .detail-pesanan { display: flex; justify-content: space-between; align-items: center; }
-        .kiri-pesan .nm { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
-        .kiri-pesan .id { font-size: 14px; color: var(--abu); }
-        .kanan-pesan { font-weight: bold; font-size: 17px; }
-
-        .kontak-box { background: var(--card); border-radius: 16px; padding: 22px; margin: 18px; }
-        .wa-icon { width: 50px; height: 50px; background: #25D366; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-        .btn-chat { background: #25D366; color: white; border: none; padding: 10px 22px; border-radius: 8px; font-weight: bold; font-size: 16px; }
-        .faq-bar { background: var(--card); border-radius: 12px; padding: 16px; margin: 10px 18px; display: flex; justify-content: space-between; }
-
-        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 18px; }
-        .stat-kotak { background: var(--card); border-radius: 14px; padding: 22px; }
-        .angka { font-size: 34px; font-weight: bold; margin-bottom: 5px; }
-        .ket { color: var(--abu); }
-        .menu-admin { background: var(--card); border-radius: 14px; padding: 18px; margin: 10px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500; }
-        .badge { background: var(--utama); color: white; font-size: 14px; padding: 2px 8px; border-radius: 10px; }
-
-        .form-admin { background: var(--card); border-radius: 16px; padding: 20px; margin: 18px; }
-        .form-admin input, .form-admin select { width: 100%; padding: 13px; margin: 8px 0; border: none; border-radius: 10px; background: var(--gelap); color: white; font-size: 16px; }
-        .btn-kecil { width: auto; padding: 8px 14px; border-radius: 8px; font-size: 15px; margin: 4px; }
-        .item-produk-adm { background: var(--card); padding: 14px; border-radius: 10px; margin: 8px 18px; display: flex; justify-content: space-between; align-items: center; }
-        #pratinjauGbr { width:100%; max-height:130px; object-fit:contain; margin:8px 0; display:none; border-radius:10px; }
+        #popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+        .kotak-pass { background: var(--card); padding: 20px; border-radius: 12px; width: 100%; max-width: 350px; }
+        .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
+        .info-box { background: var(--card); padding: 20px; border-radius: 12px; line-height: 1.8; }
+        .info-box h2 { color: var(--utama); margin-bottom: 10px; }
+        #lihatGambar { width:100%; max-height:150px; object-fit:contain; margin:10px 0; display:none; border-radius:8px; }
     </style>
 </head>
 <body>
-<div id="popupSandi">
-    <div class="kotak-sandi">
+
+<header>
+    <span class="keranjang" id="btnKeranjang">🛒</span>
+    <h1>LIM STORE</h1>
+</header>
+
+<div id="halUtama">
+    <div class="cari">
+        <input type="text" id="kataCari" placeholder="🔍 Cari Produk..." oninput="cariProduk()">
+    </div>
+    <div class="menu-atas">
+        <div class="tab aktif" onclick="filterProduk('semua')">Semua Produk</div>
+        <div class="tab" onclick="filterProduk('terlaris')">Terlaris</div>
+    </div>
+    <p class="judul">🔥 Produk Pilihan</p>
+    <div class="grid" id="gridProduk"></div>
+</div>
+
+<div id="halAdmin">
+    <div class="form">
+        <h3>➕ Tambah / Edit Produk</h3>
+        <input type="text" id="inNama" placeholder="Nama Barang">
+        <input type="file" id="inGambar" accept="image/*" onchange="kompresGambar(this)">
+        <img id="lihatGambar" alt="Pratinjau Gambar">
+        <input type="number" id="inHarga" placeholder="Harga (isi angka saja)">
+        <input type="text" id="inLink" placeholder="Link Produk">
+        <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
+    </div>
+    <div class="daftar-admin">
+        <h3>📋 Daftar Produk</h3>
+        <div id="listAdmin"></div>
+    </div>
+</div>
+
+<div id="halInfo">
+    <div class="info-box">
+        <h2>ℹ️ Tentang LIM STORE</h2>
+        <p><strong>LIM STORE</strong> adalah tempat belanja hemat dan terpercaya.</p>
+        <br>
+        <strong>❓ Cara Berbelanja:</strong>
+        <p>1. Pilih barang yang diinginkan</p>
+        <p>2. Klik gambar barang</p>
+        <p>3. Otomatis pindah ke toko resmi untuk bayar</p>
+        <br>
+        <strong>📞 Kontak Admin:</strong>
+        <p>Hubungi kami jika ada kendala</p>
+    </div>
+</div>
+
+<div class="bawah">
+    <div class="nav aktif" onclick="bukaHal('utama')">
+        <span>🏠</span> Beranda
+    </div>
+    <div class="nav" onclick="bukaHal('info')">
+        <span>ℹ️</span> Info / FAQ
+    </div>
+</div>
+
+<div id="popup">
+    <div class="kotak-pass">
         <h3>Masuk Kode Admin</h3>
-        <input type="password" id="inputSandi" placeholder="Masukkan kata sandi">
-        <button class="btn-masuk" onclick="cekSandiAdmin()">Masuk</button>
-        <button class="btn-batal" onclick="tutupPopupSandi()">Batal</button>
+        <input type="password" id="passAdmin" placeholder="Masukkan kata sandi">
+        <button class="btn-simpan" onclick="cekPass()">Masuk</button>
+        <button style="background:#64748b; color:white; margin-top:8px" onclick="tutupPopup()">Batal</button>
     </div>
 </div>
-<div id="halBeranda" class="halaman tampil">
-    <header>
-        <div class="kiri-head">
-            <div class="logo-box" id="klikLogoAdmin">
-                <img src="https://i.imgur.com/6wBZ8Qk.png" alt="Logo LIM">
-            </div>
-            <div class="judul-box">
-                <h1>LIM STORE</h1>
-                <p>Top Up Game & Pulsa</p>
-            </div>
-        </div>
-        <button class="btn-fast">⚡ Fast</button>
-    </header>
-    <div class="cari-wrap">
-        <div class="posisi-cari">
-            <input type="text" class="cari-input" id="cariProduk" placeholder="Cari produk..." oninput="muatTampilProduk()">
-        </div>
-    </div>
-    <div class="kategori-row">
-        <div class="tab-kat aktif" data-kat="semua" onclick="pilihKategori(this)">Semua</div>
-        <div class="tab-kat" data-kat="game" onclick="pilihKategori(this)">Game</div>
-        <div class="tab-kat" data-kat="pulsa" onclick="pilihKategori(this)">Pulsa</div>
-        <div class="tab-kat" data-kat="data" onclick="pilihKategori(this)">Paket Data</div>
-    </div>
-    <div class="grid-produk" id="gridProdukUtama"></div>
-</div>
-<div id="halPesanan" class="halaman">
-    <h2 class="judul-hal">Pesanan Saya</h2>
-    <div class="kategori-row" style="padding:0 18px 10px;">
-        <div class="tab-kat aktif">Semua</div>
-        <div class="tab-kat">Menunggu Bayar</div>
-        <div class="tab-kat">Konfirmasi</div>
-    </div>
-    <div id="daftarPesanan">
-        <div class="kartu-pesanan">
-            <div class="header-pesanan">
-                <div class="kode">#8UDMW2US • 06/07/2026 21:10</div>
-                <div class="status">Menunggu Bayar</div>
-            </div>
-            <div class="detail-pesanan">
-                <div class="kiri-pesan">
-                    <div class="nm">Mobile Legends</div>
-                    <div class="id">5 Diamonds • ID: 2672888</div>
-                </div>
-                <div class="kanan-pesan">Rp 1.600</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="halBantuan" class="halaman">
-    <h2 class="judul-hal">Bantuan</h2>
-    <p class="teks-ket">FAQ & Hubungi Admin</p>
-    <div class="kontak-box">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
-            <div class="wa-icon">💬</div>
-            <div>
-                <div style="font-weight:bold; font-size:18px;">Hubungi Admin</div>
-                <div style="color:var(--abu);">082345678901</div>
-                <div style="color:var(--abu); font-size:14px;">Respon cepat via WhatsApp</div>
-            </div>
-        </div>
-        <button class="btn-chat">Chat</button>
-    </div>
-    <h3 style="padding:0 18px 10px; font-size:20px;">Pertanyaan Umum</h3>
-    <div class="faq-bar">Berapa lama proses top up selesai? <span>▼</span></div>
-    <div class="faq-bar">Bagaimana cara melakukan pembayaran? <span>▼</span></div>
-    <div class="faq-bar">Apakah ID game saya aman? <span>▼</span></div>
-    <div class="faq-bar">Bagaimana jika top up tidak masuk? <span>▼</span></div>
-    <div class="faq-bar">Apakah ada biaya tambahan? <span>▼</span></div>
-    <div class="faq-bar">Bagaimana cara cek status pesanan? <span>▼</span></div>
-    <div class="faq-bar">Metode pembayaran apa saja yang tersedia? <span>▼</span></div>
-</div>
-<div id="halAdmin" class="halaman">
-    <h2 class="judul-hal">Panel Admin</h2>
-    <p class="teks-ket">LIM STORE</p>
-    <div class="stat-grid">
-        <div class="stat-kotak">
-            <div class="angka" style="color:#3B82F6;">1</div>
-            <div class="ket">Total Pesanan</div>
-        </div>
-        <div class="stat-kotak">
-            <div class="angka" style="color:#F59E0B;">1</div>
-            <div class="ket">Menunggu Bayar</div>
-        </div>
-        <div class="stat-kotak">
-            <div class="angka" style="color:#10B981;">0</div>
-            <div class="ket">Selesai</div>
-        </div>
-        <div class="stat-kotak">
-            <div class="angka" style="color:#165DFF;">OK</div>
-            <div class="ket">Revenue (Rp)</div>
-        </div>
-    </div>
-    <div class="menu-admin" onclick="bukaFormKelola()">
-        <span>📦 Kelola Produk</span>
-        <span style="display:flex; gap:8px;"><span class="badge" id="jmlProdukAngka">12</span> ›</span>
-    </div>
-    <div class="menu-admin">
-        <span>💳 Metode Pembayaran</span>
-        <span style="display:flex; gap:8px;"><span class="badge">5</span> ›</span>
-    </div>
-    <div class="menu-admin">
-        <span>📋 Semua Pesanan</span>
-        <span style="display:flex; gap:8px;"><span class="badge">1</span> ›</span>
-    </div>
-    <div class="menu-admin">
-        <span>⚙️ Pengaturan Toko</span>
-        <span>›</span>
-    </div>
-    <div id="formKelolaProduk" style="display:none;">
-        <div class="form-admin">
-            <h3 style="color:var(--utama); margin-bottom:12px;" id="judulForm">Tambah Produk Baru</h3>
-            <input type="text" id="inNama" placeholder="Nama Produk">
-            <input type="file" id="inGambar" accept="image/*" onchange="lihatGambar(this)">
-            <img id="pratinjauGbr" alt="Pratinjau">
-            <input type="number" id="inHarga" placeholder="Harga Mulai">
-            <input type="number" id="inPilihan" placeholder="Jumlah Pilihan">
-            <select id="inKat">
-                <option value="game">Game</option>
-                <option value="pulsa">Pulsa</option>
-                <option value="data">Paket Data</option>
-            </select>
-            <button style="width:100%; background:var(--utama); color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; margin-top:8px;" onclick="simpanProduk()">💾 Simpan Produk</button>
-        </div>
-        <div id="daftarProdukAdmin"></div>
-    </div>
-</div>
-<div class="nav-bawah">
-    <div class="nav-item aktif" onclick="pindahHalaman('beranda')">
-        <span class="ikon-nav">🏠</span> Beranda
-    </div>
-    <div class="nav-item" onclick="pindahHalaman('pesanan')">
-        <span class="ikon-nav">🧾</span> Pesanan
-    </div>
-    <div class="nav-item" onclick="pindahHalaman('bantuan')">
-        <span class="ikon-nav">❓</span> Bantuan
-    </div>
-</div>
+
 <script>
-const SANDI_BENAR = 'mungalim678';
-let jumlahKlikLogo = 0;
-let katSekarang = 'semua';
+const PASS_ADMIN = '123456';
 let produk = [];
-let editId = null;
-let gbrBase64 = '';
+let editIndex = null;
+let gambarBase64 = '';
+let hitungKlik = 0;
+let db = null;
 
-function dataAwalTetap() {
-    produk = [
-        { id:1, nama:'Mobile Legends', harga:1600, pilihan:30, kat:'game', gbr:'https://i.imgur.com/6wBZ8Qk.png' },
-        { id:2, nama:'Free Fire', harga:1000, pilihan:16, kat:'game', gbr:'https://i.imgur.com/9X7Z9aA.png' },
-        { id:3, nama:'Free Fire MAX', harga:1000, pilihan:14, kat:'game', gbr:'https://i.imgur.com/9X7Z9aA.png' },
-        { id:4, nama:'PUBG Mobile', harga:16800, pilihan:6, kat:'game', gbr:'https://i.imgur.com/7R5s9bY.png' },
-        { id:5, nama:'Genshin Impact', harga:16500, pilihan:5, kat:'game', gbr:'https://i.imgur.com/8tG7Q9c.png' },
-        { id:6, nama:'Honor of Kings', harga:17000, pilihan:4, kat:'game', gbr:'https://i.imgur.com/2dN6WfL.png' },
-        { id:7, nama:'Pulsa Telkomsel', harga:3700, pilihan:6, kat:'pulsa', gbr:'📱' },
-        { id:8, nama:'Pulsa Indosat', harga:7000, pilihan:10, kat:'pulsa', gbr:'📱' },
-        { id:9, nama:'Pulsa XL', harga:6400, pilihan:10, kat:'pulsa', gbr:'📱' },
-        { id:10, nama:'Paket Data Telkomsel', harga:12000, pilihan:5, kat:'data', gbr:'📶' },
-        { id:11, nama:'Paket Data Indosat', harga:15000, pilihan:4, kat:'data', gbr:'📶' },
-        { id:12, nama:'Paket Data XL', harga:0, pilihan:0, kat:'data', gbr:'📶' }
-    ];
-    muatTampilProduk();
-}
-
-document.getElementById('klikLogoAdmin').addEventListener('click', () => {
-    jumlahKlikLogo++;
-    if (jumlahKlikLogo >= 10) {
-        jumlahKlikLogo = 0;
-        document.getElementById('popupSandi').style.display = 'flex';
-    }
-});
-
-function cekSandiAdmin() {
-    const input = document.getElementById('inputSandi').value.trim();
-    if (input === SANDI_BENAR) {
-        tutupPopupSandi();
-        pindahHalaman('admin');
-    } else {
-        alert('❌ Kata sandi salah!');
-    }
-    document.getElementById('inputSandi').value = '';
-}
-function tutupPopupSandi() { document.getElementById('popupSandi').style.display = 'none'; }
-
-function muatTampilProduk() {
-    const el = document.getElementById('gridProdukUtama');
-    el.innerHTML = '';
-    const kataCari = document.getElementById('cariProduk').value.toLowerCase().trim();
-    let hasil = produk;
-    if (katSekarang !== 'semua') hasil = produk.filter(p => p.kat === katSekarang);
-    if (kataCari) hasil = hasil.filter(p => p.nama.toLowerCase().includes(kataCari));
-    hasil.forEach(p => {
-        const kartu = document.createElement('div');
-        kartu.className = 'kartu-produk';
-        kartu.innerHTML = `
-            <div class="ikon-produk">
-                ${p.gbr.startsWith('http') ? `<img src="${p.gbr}" alt="${p.nama}">` : p.gbr}
-            </div>
-            <div class="nama-produk">${p.nama}</div>
-            <div class="teks-harga-awal">Mulai Rp ${p.harga.toLocaleString('id-ID')}</div>
-            <div class="label-pilihan">${p.pilihan} pilihan</div>
-        `;
-        el.appendChild(kartu);
+// === SIAPKAN PENYIMPANAN INDEXEDDB (LEBIH BESAR & KUAT) ===
+function bukaDB() {
+    return new Promise((resolve, reject) => {
+        const req = indexedDB.open('LimStoreDB', 1);
+        req.onupgradeneeded = e => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains('produk')) {
+                db.createObjectStore('produk', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+        req.onsuccess = e => { db = e.target.result; resolve(); };
+        req.onerror = reject;
     });
 }
 
-function pilihKategori(el) {
-    katSekarang = el.dataset.kat;
-    document.querySelectorAll('.tab-kat').forEach(t => t.classList.remove('aktif'));
-    el.classList.add('aktif');
-    muatTampilProduk();
+async function simpanData() {
+    const tx = db.transaction('produk', 'readwrite');
+    const store = tx.objectStore('produk');
+    await store.clear();
+    produk.forEach(p => store.add(p));
+    await tx.complete;
 }
 
-function pindahHalaman(nama) {
-    document.querySelectorAll('.halaman').forEach(h => h.classList.remove('tampil'));
-    document.getElementById(`hal${nama.charAt(0).toUpperCase() + nama.slice(1)}`).classList.add('tampil');
-    document.querySelectorAll('.nav-item').forEach((n,i) => n.classList.toggle('aktif',
-        (nama==='beranda'&&i===0) || (nama==='pesanan'&&i===1) || (nama==='bantuan'&&i===2)
-    ));
-    if (nama !== 'admin') document.getElementById('formKelolaProduk').style.display = 'none';
+async function muatData() {
+    await bukaDB();
+    const tx = db.transaction('produk', 'readonly');
+    const store = tx.objectStore('produk');
+    const req = store.getAll();
+    req.onsuccess = e => {
+        produk = e.target.result || [];
+        tampilProduk();
+        tampilAdmin();
+    };
 }
 
-function bukaFormKelola() {
-    document.getElementById('formKelolaProduk').style.display = 'block';
-    document.getElementById('judulForm').textContent = 'Tambah Produk Baru';
-    editId = null; gbrBase64 = '';
-    document.getElementById('pratinjauGbr').style.display = 'none';
-    document.getElementById('inNama').value = '';
-    document.getElementById('inHarga').value = '';
-    document.getElementById('inPilihan').value = '';
-    document.getElementById('inKat').value = 'game';
-    tampilDaftarAdmin();
-}
+// === KLIK KERANJANG 10x ===
+document.getElementById('btnKeranjang').addEventListener('click', () => {
+    hitungKlik++;
+    if (hitungKlik >= 10) {
+        hitungKlik = 0;
+        document.getElementById('popup').style.display = 'flex';
+    }
+});
 
-function lihatGambar(input) {
+// === KOMPRES GAMBAR OTOMATIS ===
+function kompresGambar(input) {
     if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
     const reader = new FileReader();
     reader.onload = e => {
-        gbrBase64 = e.target.result;
-        const lihat = document.getElementById('pratinjauGbr');
-        lihat.src = gbrBase64;
-        lihat.style.display = 'block';
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX = 600;
+            let w = img.width, h = img.height;
+            if (w > MAX) { h *= MAX/w; w = MAX; }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            gambarBase64 = canvas.toDataURL('image/jpeg', 0.75);
+            const lihat = document.getElementById('lihatGambar');
+            lihat.src = gambarBase64;
+            lihat.style.display = 'block';
+        };
+        img.src = e.target.result;
     };
-    reader.readAsDataURL(input.files[0]);
+    reader.readAsDataURL(file);
 }
 
-function simpanProduk() {
-    const nama = document.getElementById('inNama').value.trim();
-    const harga = parseInt(document.getElementById('inHarga').value) || 0;
-    const pilihan = parseInt(document.getElementById('inPilihan').value) || 0;
-    const kat = document.getElementById('inKat').value;
-    if (!nama) return alert('Isi nama produk!');
-    const gbr = gbrBase64 || '📦';
-    if (editId) {
-        const idx = produk.findIndex(p => p.id === editId);
-        if (idx !== -1) produk[idx] = { ...produk[idx], nama, harga, pilihan, kat, gbr };
-        editId = null;
-    } else {
-        produk.push({ id: Date.now(), nama, harga, pilihan, kat, gbr });
-    }
-    muatTampilProduk();
-    tampilDaftarAdmin();
-    document.getElementById('judulForm').textContent = 'Tambah Produk Baru';
-    document.getElementById('inNama').value = '';
-    document.getElementById('inHarga').value = '';
-    document.getElementById('inPilihan').value = '';
-    gbrBase64 = '';
-    document.getElementById('pratinjauGbr').style.display = 'none';
-    document.getElementById('jmlProdukAngka').textContent = produk.length;
-    alert('✅ Tersimpan!');
-}
-
-function tampilDaftarAdmin() {
-    const el = document.getElementById('daftarProdukAdmin');
+// === TAMPILKAN PRODUK ===
+function tampilProduk(dataProduk = produk) {
+    const el = document.getElementById('gridProduk');
     el.innerHTML = '';
-    produk.forEach(p => {
-        const item = document.createElement('di
+    dataProduk.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => window.open(p.link, '_blank');
+        card.innerHTML = `
+            <img src="${p.gambar}" alt="${p.nama}" onerror="this.src='https://via.placeholder.com/150/2d2d3f/ffffff?text=Gambar'">
+            <div class="nama">${p.nama}</div>
+            <div class="harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
+        `;
+        el.appendChild(card);
+    });
+}
+
+function tampilAdmin() {
+    const el = document.getElementById('listAdmin');
+    el.innerHTML = '';
+    produk.forEach((p, i) => {
+        const item = document.createElement('div');
+        item.className = 'item-admin';
+        item.innerHTML = `
+            <span>${p.nama.substring(0,15)}...</span>
+            <div>
+                <button class="btn-kecil" style="background:#3b82f6; color:white" onclick="editProduk(${i})">Ubah</button>
+                <button class="btn-kecil btn-hapus" onclick="hapusProduk(${i})">Hapus</button>
+            </div>
+        `;
+        el.appendChild(item);
+    });
+}
+
+// === SIMPAN PRODUK ===
+async function simpanProduk() {
+    const nama = document.getElementById('inNama').value.trim();
+    const gambar = gambarBase64;
+    const harga = parseInt(document.getElementById('inHarga').value);
+    const link = document.getElementById('inLink').value.trim();
+
+    if (!nama || !gambar || !harga || !link) {
+        return alert('❌ Lengkapi semua data & pilih gambar!');
+    }
+
+    try {
+        if (editIndex !== null) {
+            produk[editIndex] = { nama, gambar, harga, link };
+            editIndex = null;
+        } else {
+            produk.unshift({ nama, gambar, harga, link });
+        }
+        await simpanData();
+        tampilProduk();
+        tampilAdmin();
+        document.getElementById('inNama').value = '';
+        document.getElementById('inGambar').value = '';
+        document.getElementById('lihatGambar').style.display = 'none';
+        gambarBase64 = '';
+        document.getElementById('inHarga').value = '';
+        document.getElementById('inLink').value = '';
+        alert('✅ Berhasil Disimpan!');
+    } catch (err) {
+        alert('❌ Penyimpanan Penuh! Hapus beberapa produk lama dulu.');
+        console.error(err);
+    }
+}
+
+function editProduk(i) {
+    const p = produk[i];
+    document.getElementById('inNama').value = p.nama;
+    gambarBase64 = p.gambar;
+    document.getElementById('lihatGambar').src = p.gambar;
+    document.getElementById('lihatGambar').style.display = 'block';
+    document.getElementById('inHarga').value = p.harga;
+    document.getElementById('inLink').value = p.link;
+    editIndex = i;
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+
+async function hapusProduk(i) {
+    if (confirm('Yakin hapus?')) {
+        produk.splice(i, 1);
+        await simpanData();
+        tampilProduk();
+        tampilAdmin();
+    }
+}
+
+function cariProduk() {
+    const kata = document.getElementById('kataCari').value.toLowerCase().trim();
+    tampilProduk(!kata ? produk : produk.filter(p => p.nama.toLowerCase().includes(kata)));
+}
+
+function filterProduk() { tampilProduk(); }
+
+function bukaHal(tujuan) {
+    document.getElementById('halUtama').style.display = tujuan==='utama'?'block':'none';
+    document.getElementById('halAdmin').style.display = 'none';
+    document.getElementById('halInfo').style.display = tujuan==='info'?'block':'none';
+    document.querySelectorAll('.nav').forEach((n,i) => n.classList.toggle('aktif', (tujuan==='utama'&&i===0) || (tujuan==='info'&&i===1)));
+}
+
+function cekPass() {
+    if (document.getElementById('passAdmin').value === PASS_ADMIN) {
+        tutupPopup();
+        document.getElementById('halUtama').style.display = 'none';
+        document.getElementById('halAdmin').style.display = 'block';
+    } else alert('❌ Kode Salah!');
+    document.getElementById('passAdmin').value = '';
+}
+
+function tutupPopup() { document.getElementById('popup').style.display = 'none'; }
+
+// MULAI
+muatData();
+</script>
+
+</body>
+</html>
