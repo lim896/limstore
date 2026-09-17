@@ -3,303 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora - Toko Akun Email Terpercaya</title>
+    <title>Nexora - Toko Email Terpercaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: '#165DFF',
-                        secondary: '#6B7280',
                         success: '#00B42A',
                         danger: '#F53F3F',
                         warning: '#FF7D00',
-                        light: '#F2F3F5',
-                        dark: '#1D2129'
-                    },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                        light: '#F5F7FA'
+                    }
                 }
             }
         }
     </script>
     <style>
-        .card-shadow {box-shadow: 0 10px 25px -5px rgba(0,0,0,.05),0 8px 10px -6px rgba(0,0,0,.03);}
-        .btn-hover {transition:all .2s ease;}
-        .btn-hover:hover {transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
-        .input-focus:focus {outline:none;border-color:#165DFF;box-shadow:0 0 0 3px rgba(22,93,255,.15);}
-        .fade-in {animation:fadeIn .3s ease;}
-        @keyframes fadeIn {from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+        .card { @apply bg-white rounded-2xl shadow-md p-5 mb-5; }
+        .btn { @apply py-2.5 px-4 rounded-xl font-medium transition-all; }
+        .btn-primary { @apply bg-primary text-white hover:bg-primary/90; }
+        .btn-success { @apply bg-success text-white hover:bg-success/90; }
+        .btn-danger { @apply bg-danger text-white hover:bg-danger/90; }
+        .input { @apply w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary; }
+        .tab-active { @apply border-b-2 border-primary text-primary font-medium; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
-    <div class="container mx-auto px-4 py-6 max-w-5xl">
-        <!-- HEADER -->
-        <header class="mb-6 text-center">
-            <div class="flex justify-center items-center mb-2">
-                <div class="w-11 h-11 bg-primary text-white rounded-xl flex items-center justify-center mr-2.5">
-                    <i class="fa fa-shield text-lg"></i>
-                </div>
-                <h1 class="text-2xl font-bold">Nexora</h1>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <div id="app" class="max-w-xl mx-auto px-4 py-6">
+        <!-- HEADER & NAVIGASI -->
+        <header class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-primary">🛡️ Nexora</h1>
+                <p class="text-sm text-gray-500">Toko Email Terpercaya</p>
             </div>
-            <p class="text-secondary text-sm">Beli Email Aman & Cepat</p>
-            <div id="statusToko" class="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                <span>BUKA</span>
+            <div id="infoPengguna" class="text-right hidden">
+                <p id="namaUser" class="text-sm font-medium"></p>
+                <button onclick="keluar()" class="text-xs text-red-500">Keluar</button>
             </div>
         </header>
 
-        <main class="grid md:grid-cols-3 gap-6">
-            <!-- HALAMAN UTAMA PEMBELI -->
-            <div class="md:col-span-2">
-                <div class="bg-white rounded-2xl p-5 card-shadow">
-                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <i class="fa fa-shopping-cart text-primary"></i> Mulai Belanja
-                    </h2>
+        <!-- LAYAR LOGIN -->
+        <div id="layarLogin" class="text-center py-16">
+            <div class="text-6xl mb-4">🔐</div>
+            <h2 class="text-xl font-semibold mb-2">Selamat Datang</h2>
+            <p class="text-gray-500 mb-6">Wajib masuk dengan akun Google untuk melindungi pesanan & riwayat Anda</p>
+            <button onclick="masukGoogle()" class="btn btn-primary text-lg px-8">
+                <i class="fa fa-google mr-2"></i>Masuk Pakai Google
+            </button>
+        </div>
 
-                    <div class="grid grid-cols-2 gap-3 mb-5">
-                        <div class="bg-gray-50 p-3 rounded-xl">
-                            <p class="text-xs text-gray-500">Harga/buah</p>
-                            <p class="font-bold" id="txtHarga">Rp 5.000</p>
-                        </div>
-                        <div class="bg-gray-50 p-3 rounded-xl">
-                            <p class="text-xs text-gray-500">Stok Tersedia</p>
-                            <p class="font-bold" id="txtStok">0 Buah</p>
-                        </div>
+        <!-- KONTEN UTAMA (SETELAH MASUK) -->
+        <div id="kontenUtama" class="hidden">
+            <!-- MENU TAB -->
+            <div class="flex border-b mb-6 gap-5 text-sm font-medium">
+                <button class="pb-2 tab-active" onclick="bukaTab('toko')">🏪 Toko</button>
+                <button class="pb-2 text-gray-500" onclick="bukaTab('riwayat')">📂 Akun Saya</button>
+                <button id="tabAdmin" class="pb-2 text-gray-500 hidden" onclick="bukaTab('admin')">⚙️ Admin</button>
+            </div>
+
+            <!-- HALAMAN TOKO -->
+            <div id="halToko">
+                <div class="card">
+                    <div class="flex justify-between mb-4">
+                        <div><p class="text-sm text-gray-500">Harga Satuan</p><p id="hargaTampil" class="font-bold">Rp 5.000</p></div>
+                        <div><p class="text-sm text-gray-500">Stok Ada</p><p id="stokTampil" class="font-bold">0 Buah</p></div>
                     </div>
 
-                    <!-- LANGKAH 1: PILIH JUMLAH - TANPA BATAS HARGA, HANYA IKUT STOK ADA -->
-                    <div id="langkah1">
-                        <label class="block text-sm font-medium mb-1.5">Jumlah Yang Ingin Dibeli</label>
-                        <input type="number" id="jmlBeli" value="1" min="1" 
-                            class="w-full p-2.5 border border-gray-200 rounded-xl input-focus mb-2">
-                        <p class="text-sm mb-4">Total Pembayaran: <strong id="totalBayar" class="text-primary">Rp 5.000</strong></p>
-                        
-                        <button onclick="bukaBayar()" class="w-full bg-primary text-white py-2.5 rounded-xl btn-hover font-medium">
-                            Lanjut Ke Pembayaran →
-                        </button>
+                    <label class="block text-sm font-medium mb-1">Jumlah Beli:</label>
+                    <input type="number" id="jumlah" min="1" value="1" class="input mb-3">
+                    <p class="mb-4">Total: <strong id="total">Rp 5.000</strong></p>
+
+                    <div class="mb-4">
+                        <p class="text-sm mb-1">Pembayaran ke:</p>
+                        <p id="infoDompet" class="font-semibold bg-blue-50 p-2 rounded">08... (DANA/EWallet)</p>
                     </div>
 
-                    <!-- LANGKAH 2: DATA PEMBAYARAN -->
-                    <div id="langkah2" class="hidden fade-in border-t mt-5 pt-5">
-                        <h3 class="font-semibold mb-3 text-base">💡 Cara Bayar</h3>
-                        
-                        <div class="bg-blue-50 p-4 rounded-xl mb-4">
-                            <p class="text-sm mb-1">Kirim ke:</p>
-                            <p class="font-bold text-lg text-primary" id="nomorDompet">0812-xxxx-xxxx</p>
-                            <p class="text-xs text-gray-500 mt-1" id="namaDompet">DANA / OVO / GoPay</p>
-                        </div>
+                    <label class="block text-sm mb-2">Unggah Bukti Transfer:</label>
+                    <input type="file" id="bukti" accept="image/*" class="input mb-4">
 
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1.5">📷 Unggah Bukti Bayar (Tangkapan Layar)</label>
-                            <input type="file" id="fileBukti" accept="image/*" 
-                                class="w-full text-sm border border-gray-200 p-2.5 rounded-xl input-focus">
-                        </div>
-
-                        <div class="flex gap-2.5">
-                            <button onclick="kembaliKePilih()" class="flex-1 border border-gray-200 py-2.5 rounded-xl hover:bg-gray-50">
-                                ← Balik
-                            </button>
-                            <button onclick="prosesSelesai()" class="flex-1 bg-green-600 text-white py-2.5 rounded-xl btn-hover font-medium">
-                                ✅ Kirim & Ambil Email
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- HASIL BERHASIL -->
-                    <div id="hasilAkun" class="hidden fade-in mt-5 p-4 bg-green-50 border border-green-100 rounded-xl">
-                        <h3 class="font-bold text-green-700 mb-3">✅ SUKSES! Simpan Baik-baik:</h3>
-                        <div class="bg-white p-3 rounded-lg mb-2 break-all text-sm">
-                            Email: <strong id="outEmail"></strong>
-                        </div>
-                        <div class="bg-white p-3 rounded-lg mb-4 break-all text-sm">
-                            Sandi: <strong id="outPass"></strong>
-                        </div>
-                        <button onclick="muatUlangBelanja()" class="w-full bg-green-600 text-white py-2 rounded-lg">Selesai</button>
-                    </div>
+                    <button onclick="kirimPesanan()" class="btn btn-primary w-full">Kirim Pesanan ke Admin</button>
+                    <p class="text-xs text-gray-400 mt-3 text-center">⚠️ Tunggu konfirmasi persetujuan setelah dikirim</p>
                 </div>
             </div>
 
-            <!-- BAGIAN KANAN: LOGIN ADMIN -->
-            <div>
-                <div class="bg-white rounded-2xl p-4 card-shadow">
-                    <h3 class="font-semibold mb-3 flex items-center gap-2">
-                        <i class="fa fa-lock text-gray-400"></i> Masuk Admin
-                    </h3>
-                    <input type="password" id="passAdmin" placeholder="Kata sandi" 
-                        class="w-full mb-3 p-2.5 border border-gray-200 rounded-xl input-focus">
-                    <button onclick="cekLogin()" class="w-full bg-gray-800 text-white py-2 rounded-xl btn-hover">MASUK</button>
-                    <p class="text-xs text-gray-400 mt-2 text-center">Bawaan: admin123</p>
+            <!-- HALAMAN RIWAYAT / AKUN SAYA -->
+            <div id="halRiwayat" class="hidden">
+                <h3 class="font-semibold mb-4">📦 Daftar Akun & Pesanan Anda</h3>
+                <div id="daftarRiwayat">
+                    <p class="text-gray-400 text-center py-10">Belum ada apa-apa disini</p>
                 </div>
             </div>
-        </main>
 
-        <!-- PANEL ADMIN LENGKAP -->
-        <div id="panelHalaman" class="hidden mt-6 bg-white rounded-2xl p-5 card-shadow fade-in">
-            <div class="flex justify-between items-center mb-5">
-                <h2 class="text-lg font-bold">⚙️ Pengaturan Toko Nexora</h2>
-                <button onclick="keluarAdmin()" class="text-red-500 text-sm">Keluar</button>
-            </div>
+            <!-- PANEL ADMIN -->
+            <div id="halAdmin" class="hidden">
+                <h3 class="font-semibold mb-4">⚙️ Panel Pengelolaan</h3>
 
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h4 class="font-semibold mb-3 border-b pb-2">+ Tambah Stok Email & Sandi</h4>
-                    <input type="email" id="inEmail" placeholder="alamat@email.com" 
-                        class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
-                    <input type="text" id="inSandi" placeholder="Kata sandinya" 
-                        class="w-full mb-3 p-2.5 border rounded-xl input-focus">
-                    <button onclick="tambahStok()" class="w-full bg-green-600 text-white py-2 rounded-xl btn-hover">
-                        Tambah Ke Stok
-                    </button>
-                    <p class="mt-3 text-sm">Total Stok: <strong id="jmlStokAdmin">0</strong></p>
+                <div class="card">
+                    <h4 class="font-medium mb-3">➕ Tambah Stok Email & Sandi</h4>
+                    <input type="email" id="tEmail" placeholder="Email" class="input mb-2">
+                    <input type="text" id="tPass" placeholder="Kata Sandi" class="input mb-3">
+                    <button onclick="tambahStok()" class="btn btn-success w-full">Simpan Ke Stok</button>
+                    <p class="text-sm mt-2">Stok: <strong id="jmlStok">0</strong></p>
                 </div>
 
-                <div>
-                    <h4 class="font-semibold mb-3 border-b pb-2">Pengaturan Umum</h4>
-                    <label class="text-sm">Harga Satuan (Rp)</label>
-                    <input type="number" id="setHarga" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
-
-                    <label class="text-sm">Nomor E-Wallet Kamu</label>
-                    <input type="text" id="setNomor" placeholder="08xxx" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
-
-                    <label class="text-sm">Nama Layanan (Contoh:DANA)</label>
-                    <input type="text" id="setNamaDompet" placeholder="DANA / OVO" class="w-full mb-3 p-2.5 border rounded-xl input-focus">
-
-                    <label class="text-sm">Sandi Admin Baru</label>
-                    <input type="text" id="setPassBaru" placeholder="Boleh kosong" class="w-full mb-3 p-2.5 border rounded-xl input-focus">
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="simpanSemuaPengaturan()" class="bg-primary text-white py-2 rounded-xl">💾 Simpan</button>
-                        <button onclick="tutupBukaToko()" id="tombolTutup" class="bg-orange-500 text-white py-2 rounded-xl">Tutup Toko</button>
+                <div class="card">
+                    <h4 class="font-medium mb-3">🛒 Pesanan Masuk (Perlu Cek)</h4>
+                    <div id="daftarPesanan">
+                        <p class="text-gray-400 text-center py-6">Kosong</p>
                     </div>
+                </div>
+
+                <div class="card">
+                    <h4 class="font-medium mb-3">⚙️ Pengaturan</h4>
+                    <input type="text" id="setNomor" placeholder="Nomor E-Wallet" class="input mb-2">
+                    <input type="number" id="setHarga" placeholder="Harga" class="input mb-3">
+                    <button onclick="simpanPengaturan()" class="btn btn-primary w-full">Simpan Pengaturan</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // DATA UTAMA & PENYIMPANAN
-        let db = {
-            stok: [],
-            pengaturan: {
-                harga:5000, 
-                nomor:'0812-3456-7890', 
-                namaDompet:'DANA / OVO / GoPay', 
-                buka:true, 
-                sandi:'admin123'
-            }
+        // KONFIGURASI KEAMANAN & DATABASE SEDERHANA
+        // Catatan: Untuk produksi, ganti dengan data asli dari Firebase Console kamu
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZ9L0dMOvE4R2sQF_UjCtJ0GrQbA7gEhc",
+            authDomain: "nexora-toko.firebaseapp.com",
+            projectId: "nexora-toko",
+            storageBucket: "nexora-toko.appspot.com",
+            messagingSenderId: "351258749621",
+            appId: "1:351258749621:web:abcdef123456"
         };
 
-        function simpan() {localStorage.setItem('nexFix', JSON.stringify(db));}
-        function muat() {
-            const lama = localStorage.getItem('nexFix');
-            if(lama) db = JSON.parse(lama);
-            tampilkanSemua();
+        // Inisialisasi
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Variabel Utama
+        let user = null;
+        const ADMIN_EMAILS = ['admin@nexora.id']; // Ganti dengan email Google kamu sendiri!
+
+        // MASUK GOOGLE
+        function masukGoogle(){
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider);
         }
 
-        // BUKA PEMBAYARAN - HANYA CEK STOK & VALID, TIDAK ADA BATAS UANG
-        function bukaBayar(){
-            if(!db.pengaturan.buka) return alert("Toko sedang ditutup!");
-            const jum = parseInt(document.getElementById('jmlBeli').value);
-            if(isNaN(jum) || jum < 1) return alert("Isi jumlah yang benar!");
-            // HANYA BATAS: Tidak boleh lebih dari jumlah barang yang ada
-            if(jum > db.stok.length) return alert(`Stok tidak cukup! Barang tersedia: ${db.stok.length} buah`);
-            
-            document.getElementById('langkah1').classList.add("hidden");
-            document.getElementById('langkah2').classList.remove("hidden");
-            document.getElementById('hasilAkun').classList.add("hidden");
-        }
+        auth.onAuthStateChanged(pengguna => {
+            if(pengguna){
+                user = pengguna;
+                document.getElementById('layarLogin').classList.add('hidden');
+                document.getElementById('kontenUtama').classList.remove('hidden');
+                document.getElementById('namaUser').textContent = pengguna.displayName || pengguna.email;
+                document.getElementById('infoPengguna').classList.remove('hidden');
+                
+                // Cek apakah Admin
+                if(ADMIN_EMAILS.includes(pengguna.email)){
+                    document.getElementById('tabAdmin').classList.remove('hidden');
+                }
 
-        function kembaliKePilih(){
-            document.getElementById('langkah2').classList.add("hidden");
-            document.getElementById('langkah1').classList.remove("hidden");
-        }
-
-        function prosesSelesai(){
-            let inputFile = document.getElementById('fileBukti');
-            if(!inputFile || inputFile.files.length === 0){
-                alert("⚠️ Harap masukkan bukti pembayaran dulu!");
-                return;
+                muatDataToko();
+                muatRiwayatUser();
+                muatPesananAdmin();
+            } else {
+                user = null;
+                document.getElementById('layarLogin').classList.remove('hidden');
+                document.getElementById('kontenUtama').classList.add('hidden');
             }
-            if(db.stok.length === 0) return alert("Maaf, stok habis!");
+        });
 
-            let jumlahAmbil = parseInt(document.getElementById('jmlBeli').value);
-            // Jika beli banyak sekaligus, ambil semua - tampilkan yang pertama saja (bisa dikembangkan)
-            let akunDapat = db.stok.shift(); 
-            simpan(); tampilkanSemua();
+        function keluar(){ auth.signOut(); location.reload(); }
 
-            document.getElementById('langkah2').classList.add("hidden");
-            document.getElementById('hasilAkun').classList.remove("hidden");
-            document.getElementById('outEmail').textContent = akunDapat.email;
-            document.getElementById('outPass').textContent = akunDapat.sandi;
-        }
-
-        function muatUlangBelanja(){
-            document.getElementById('jmlBeli').value = 1;
-            document.getElementById('fileBukti').value = null;
-            document.getElementById('hasilAkun').classList.add("hidden");
-            document.getElementById('langkah1').classList.remove("hidden");
-        }
-
-        function tampilkanSemua(){
-            document.getElementById('txtStok').textContent = db.stok.length + " Buah";
-            document.getElementById('txtHarga').textContent = "Rp " + db.pengaturan.harga.toLocaleString('id-ID');
-            document.getElementById('nomorDompet').textContent = db.pengaturan.nomor;
-            document.getElementById('namaDompet').textContent = db.pengaturan.namaDompet;
+        // FUNGSI TAB MENU
+        function bukaTab(nama){
+            document.querySelectorAll('#kontenUtama > div[id^="hal"]').forEach(e=>e.classList.add('hidden'));
+            document.querySelectorAll('#kontenUtama button').forEach(e=>e.classList.remove('tab-active'));
             
-            const jum = parseInt(document.getElementById('jmlBeli').value) || 1;
-            document.getElementById('totalBayar').textContent = "Rp " + (jum * db.pengaturan.harga).toLocaleString('id-ID');
-            
-            // Batasi maksimal input sama persis dengan stok yang ada saat itu
-            document.getElementById('jmlBeli').max = db.stok.length;
-            
-            document.getElementById('jmlStokAdmin').textContent = db.stok.length;
-            document.getElementById('setHarga').value = db.pengaturan.harga;
-            document.getElementById('setNomor').value = db.pengaturan.nomor;
-            document.getElementById('setNamaDompet').value = db.pengaturan.namaDompet;
-            
-            let st = document.getElementById('statusToko');
-            if(db.pengaturan.buka){
-                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 font-medium";
-                st.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> BUKA';
-            }else{
-                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 font-medium";
-                st.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> DITUTUP';
-            }
+            document.getElementById('hal'+nama.charAt(0).toUpperCase()+nama.slice(1)).classList.remove('hidden');
+            event.target.classList.add('tab-active');
         }
 
-        // FUNGSI LAINNYA TETAP UTUH
-        function cekLogin(){
-            if(document.getElementById('passAdmin').value === db.pengaturan.sandi){
-                document.getElementById('panelHalaman').classList.remove("hidden");
-                document.getElementById('passAdmin').value = "";
-            }else alert("Kata sandi salah!");
-        }
-        function keluarAdmin(){location.reload();}
-        function tambahStok(){
-            let e = document.getElementById('inEmail').value.trim();
-            let s = document.getElementById('inSandi').value.trim();
-            if(!e || !s){alert("Isi Email & Sandi lengkap!");return;}
-            db.stok.push({email:e, sandi:s});
-            simpan(); tampilkanSemua();
-            document.getElementById('inEmail').value = document.getElementById('inSandi').value = "";
-            alert("✅ Ditambahkan ke stok!");
-        }
-        function simpanSemuaPengaturan(){
-            db.pengaturan.harga = parseInt(document.getElementById('setHarga').value) || 5000;
-            db.pengaturan.nomor = document.getElementById('setNomor').value.trim();
-            db.pengaturan.namaDompet = document.getElementById('setNamaDompet').value.trim();
-            if(document.getElementById('setPassBaru').value.trim() !== "")
-                db.pengaturan.sandi = document.getElementById('setPassBaru').value.trim();
-            simpan(); tampilkanSemua();
-            alert("💾 Tersimpan!");
-        }
-        function tutupBukaToko(){db.pengaturan.buka = !db.pengaturan.buka; simpan(); tampilkanSemua();}
-        document.getElementById('jmlBeli').oninput = tampilkanSemua;
+        // DATA LOKAL + SINKRON DATABASE
+        let dataToko = {
+            stok:[], pengaturan:{harga:5000, nomorEwallet:'0812-xxxx-xxxx'}
+        };
 
-        muat();
+        function muatDataToko(){
+            db.collection('pengaturan').doc('utama').get().then(d=>{
+                if(d.exists) dataToko.pengaturan = d.data();
+                updateTampilanToko();
+            });
+            
+            db.collection('stok').onSnapshot(snap=>{
+                dataToko.stok = snap.docs.map(d=> ({id:d.id,...d.data()}));
+                updateTampilanToko();
+            });
+
+            document.getElementById('jumlah').addEventListener('input',()=>{
+                document.getElementById('total').textContent = 'Rp ' + (parseInt(document.getElementById('jumlah').value) * dataToko.pengaturan.harga).toLocaleString();
+            });
+        }
+
+        function updateTampilanToko(){
+            document.getElementById('stokTampil').textContent = dataToko.stok.length + ' Buah';
+            document.getElementById('jmlStok').textContent = dataToko.stok.length;
+            document.getElementById('hargaTampil').textContent = 'Rp ' + dataToko.pengaturan.harga?.toLocaleString();
+            document.getElementById('infoDompet').textContent = dataToko.pengaturan.nomorEwallet;
+            document.getElementById('setNomor').value = dataToko.pengaturan.nomorEwallet;
+            document.getElementById('setHarga').value = dataToko.pengaturan.harga;
+            document.getElementById('jumlah').max = dataToko.stok.length;
+        }
+
+        // KIRIM PESANAN -> KE ADMIN, BUKAN LANGSUNG KELUAR
+        async function kirimPesanan(){
+            const jumlah = parseInt(document.getElementById('jumlah').value);
+            const file = document.getElementById('bukti').files[0];
+            
+            if(!jumlah || jumlah < 1 || jumlah > dataToko.stok.length) return alert("Jumlah tidak sah!");
+            if(!file) return alert("Wajib lampirkan bukti bayar!");
+
+            // Simulasi simpan info bukti + data
+            await db.collection('pesanan').add({
+                uid: user.uid, email: user.email, nama: user.displayName,
+                jumlah: jumlah, total: jumlah * dataToko.pengaturan.harga,
+                status: 'menunggu', waktu: new Date().toISOString(),
+                namaFile: file.name
+            });
+
+            alert("✅ Berhasil dikirim! Tunggu sebentar ya, sedang kami periksa buktinya...");
+            document.getElementById('jumlah').value=1;
+            document.getElementById('bukti').value=null;
+        }
+
+        // ADMIN LIHAT & KONFIRMASI
+        function muatPesananAdmin(){
+            db.collection('pesanan').where('status','==','menunggu')
+            .onSnapshot(snap=>{
+                const konten = document.getElementById('daftarPesanan');
+                if(snap.empty) { konten.innerHTML='<p class="text-center text-gray-400">Tidak ada</p>'; return; }
+                
+                konten.innerHTML = '';
+                snap.forEach(d=>{
+                    const p = d.data();
+                    konten.innerHTML += `
+                    <div class="border p-3 rounded-lg mb-3 bg-gray-50">
+                        <p class="text-sm">👤 ${p.email} x${p.jumlah}</p>
+                        <p class="font-semibold text-primary">Rp ${p.total?.toLocaleString()}</p>
+                        <p class="text-xs text-gray-400">Bukti: ${p.namaFile||'-'}</p>
+                        <button onclick="terimaPesanan('${d.id}')" class="btn btn-success text-sm mt-2">✅ Cek & Terima</button>
+                    </div>`;
+                });
+            });
+        }
+
+        async function terimaPesanan(idPesanan){
+            // 1. Ambil pesanan
+            const pDoc = await db.collection('pesanan').doc(idPesanan).get();
+            const pesanan = pDoc.data();
+            const ambil = pesanan.jumlah;
+            const akunKeluar = [];
+
+            // 2. Ambil dari stok paling atas
+            const stokSnap = await db.collection('stok').limit(ambil).get();
+            stokSnap.docs.forEach(d=>{ akunKeluar.push(d.data()); d.ref.delete(); });
+
+            // 3. Masukkan ke Riwayat Pembeli (Akun Saya)
+            await db.collection('pengguna').doc(pesanan.uid).collection('milik').add({
+                pesananId: idPesanan, akun: akunKeluar, waktu: new Date()
+            });
+
+            // 4. Tandai Selesai
+            await db.collection('pesanan').doc(idPesanan).update({status:'selesai', akun: akunKeluar});
+            alert("Diverifikasi ✅ -> Dikirim ke Akun Pembeli!");
+        }
+
+        // RIIWAYAT PENGGUNA / MENU AKUN SAYA
+        function muatRiwayatUser(){
+            db.collection('pengguna').doc(user.uid).collection('milik')
+            .orderBy('waktu','desc').onSnapshot(snap=>{
+                const el = document.getElementById('daftarRiwayat');
+                if(snap.empty) { el.innerHTML='<p class="text-gray-400 text-center py-10">Belum ada riwayat pembelian</p>'; return; }
+                
+                el.innerHTML='';
+                snap.forEach(d=>{
+                    const data = d.data();
+                    el.innerHTML += `<div class="card bg-green-50 border border-green-100">
+                        <p class="text-xs text-gray-400 mb-2">${new Date(data.waktu?.toDate?.()||data.waktu).toLocaleDateString()}</p>`;
+                    
+                    data.akun?.forEach(a=>{
+                        el.innerHTML += `<div class="bg-white p-2 rounded mb-2 text-sm break-all">
+                            <b>Email:</b> ${a.email}<br><b>Sandi:</b> ${a.sandi}
+                        </div>`;
+                    });
+                    el.innerHTML += '</div>';
+                });
+            });
+        }
+
+        // TAMBAH STOK & PENGATURAN
+        async function tambahStok(){
+            const email = document.getElementById('tEmail').value;
+            const sandi = document.getElementById('tPass').value;
+            if(!email||!sandi) return alert("Lengkapi!");
+            
+            await db.collection('stok').add({email, sandi});
+            document.getElementById('tEmail').value=''; document.getElementById('tPass').value='';
+        }
+
+        async function simpanPengaturan(){
+            await db.collection('pengaturan').doc('utama').set({
+                harga: parseInt(document.getElementById('setHarga').value),
+                nomorEwallet: document.getElementById('setNomor').value
+            });
+            alert("Tersimpan!");
+        }
     </script>
 </body>
     </html>
-        
+    
