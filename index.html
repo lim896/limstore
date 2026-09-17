@@ -32,6 +32,8 @@
         .fade-in {animation:fadeIn .3s ease;}
         @keyframes fadeIn {from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
         .tab-active { @apply border-b-2 border-primary text-primary font-medium; }
+        .halaman { display: none; }
+        .halaman.tampil { display: block; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
@@ -51,15 +53,15 @@
             </div>
         </header>
 
-        <!-- ✅ MENU UTAMA DITAMBAHKAN -->
-        <div class="flex justify-center border-b mb-6 gap-8 text-sm font-medium">
-            <button onclick="tampilkanHalaman('toko')" id="tabToko" class="pb-2 tab-active">🏪 Toko</button>
-            <button onclick="tampilkanHalaman('riwayat')" id="tabRiwayat" class="pb-2 text-gray-500">📂 Pesanan Saya</button>
-            <button onclick="tampilkanHalaman('loginAdmin')" id="tabAdmin" class="pb-2 text-gray-500">🔐 Admin</button>
-        </div>
+        <!-- ✅ MENU NAVIGASI DIPERBAIKI - MUDAH DITEKAN -->
+        <nav class="flex justify-center border-b mb-6 gap-8 text-sm font-medium z-10 relative">
+            <button onclick="bukaHalaman('toko')" id="tab-toko" class="pb-2 px-1 tab-active cursor-pointer">🏪 Toko</button>
+            <button onclick="bukaHalaman('riwayat')" id="tab-riwayat" class="pb-2 px-1 text-gray-500 cursor-pointer">📂 Pesanan Saya</button>
+            <button onclick="bukaHalaman('admin')" id="tab-admin" class="pb-2 px-1 text-gray-500 cursor-pointer">🔐 Admin</button>
+        </nav>
 
         <!-- ✅ HALAMAN TOKO -->
-        <div id="halToko">
+        <div id="hal-toko" class="halaman tampil">
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="md:col-span-2">
                     <div class="bg-white rounded-2xl p-5 card-shadow">
@@ -122,7 +124,7 @@
         </div>
 
         <!-- ✅ HALAMAN PESANAN SAYA / RIWAYAT -->
-        <div id="halRiwayat" class="hidden">
+        <div id="hal-riwayat" class="halaman">
             <div class="bg-white rounded-2xl p-5 card-shadow">
                 <h2 class="text-lg font-semibold mb-4">📦 Pesanan & Akun Anda</h2>
                 <div id="daftarRiwayat">
@@ -131,10 +133,10 @@
             </div>
         </div>
 
-        <!-- ✅ HALAMAN LOGIN ADMIN -->
-        <div id="halLoginAdmin" class="hidden">
+        <!-- ✅ HALAMAN ADMIN -->
+        <div id="hal-admin" class="halaman">
             <div class="grid md:grid-cols-3 gap-6">
-                <div></div>
+                <div class="md:col-span-1"></div>
                 <div class="bg-white rounded-2xl p-4 card-shadow">
                     <h3 class="font-semibold mb-3 flex items-center gap-2">
                         <i class="fa fa-lock text-gray-400"></i> Masuk Admin
@@ -144,6 +146,7 @@
                     <button onclick="cekLogin()" class="w-full bg-gray-800 text-white py-2 rounded-xl btn-hover">MASUK</button>
                     <p class="text-xs text-gray-400 mt-2 text-center">Bawaan: admin123</p>
                 </div>
+                <div></div>
             </div>
 
             <!-- ✅ PANEL ADMIN LENGKAP -->
@@ -219,14 +222,22 @@
             tampilkanSemua(); tampilkanPesananAdmin(); tampilkanRiwayat();
         }
 
-        // ✅ FUNGSI MENU / NAVIGASI
-        function tampilkanHalaman(nama){
-            // Sembunyikan semua halaman
-            document.querySelectorAll('[id^="hal"]').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('[id^="tab"]').forEach(t => t.classList.remove('tab-active'));
+        // ✅ FUNGSI MENU DIPERBAIKI - BEBAS KESALAHAN
+        function bukaHalaman(nama){
+            // Sembunyikan SEMUA halaman
+            document.querySelectorAll('.halaman').forEach(h => h.classList.remove('tampil'));
+            // Hapus tanda aktif semua tombol
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-gray-500');
+            });
             
-            document.getElementById('hal'+nama.charAt(0).toUpperCase()+nama.slice(1)).classList.remove('hidden');
-            event.target.classList.add('tab-active');
+            // Tampilkan halaman yang dipilih
+            document.getElementById('hal-' + nama).classList.add('tampil');
+            // Tandai tombol aktif
+            const tabAktif = document.getElementById('tab-' + nama);
+            tabAktif.classList.add('tab-active');
+            tabAktif.classList.remove('text-gray-500');
         }
 
         // ALUR PEMBAYARAN
