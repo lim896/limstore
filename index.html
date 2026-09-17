@@ -1,374 +1,972 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora - Toko Akun Email Terpercaya</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        secondary: '#6B7280',
-                        success: '#00B42A',
-                        danger: '#F53F3F',
-                        warning: '#FF7D00',
-                        light: '#F2F3F5',
-                        dark: '#1D2129'
-                    },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        .card-shadow {box-shadow: 0 10px 25px -5px rgba(0,0,0,.05),0 8px 10px -6px rgba(0,0,0,.03);}
-        .btn-hover {transition:all .2s ease; cursor:pointer;}
-        .btn-hover:hover {transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
-        .btn-hover:active {transform:scale(0.98);}
-        .input-focus:focus {outline:none;border-color:#165DFF;box-shadow:0 0 0 3px rgba(22,93,255,.15);}
-        .fade-in {animation:fadeIn .3s ease;}
-        @keyframes fadeIn {from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-        .tab-active { @apply border-b-2 border-primary text-primary font-medium; }
-        .halaman { display: none; }
-        .halaman.tampil { display: block; }
-        nav button { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d12">
+  <title>NEXORA — Toko Layanan Akun</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --surface: #131722;
+      --surface-2: #1b2030;
+      --surface-3: #242b3d;
+      --text: #f4f7fb;
+      --muted: #9aa4b5;
+      --primary: #2996ff;
+      --primary-dark: #1476d4;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --line: rgba(255,255,255,.09);
+      --shadow: 0 18px 60px rgba(0,0,0,.32);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% -15%, rgba(41,150,255,.16), transparent 36rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    img { display: block; max-width: 100%; }
+    .app { width: min(100% - 28px, 1080px); margin: 0 auto; padding: 22px 0 46px; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 8px 0 26px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border: 1px solid rgba(93,184,255,.3);
+      border-radius: 15px;
+      background: linear-gradient(145deg, #123d85, #0b1837);
+      box-shadow: 0 7px 24px rgba(41,150,255,.2);
+    }
+    .brand-mark svg { width: 34px; height: 34px; }
+    .brand-name { font-weight: 800; letter-spacing: .13em; }
+    .brand-subtitle { margin: 1px 0 0; color: var(--muted); font-size: .75rem; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 999px;
+      background: rgba(34,197,94,.1);
+      color: #86efac;
+      padding: 7px 11px;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 12px var(--success); }
+    .nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 26px;
+    }
+    .nav-btn {
+      border: 0;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: 11px 17px;
+      font-weight: 700;
+    }
+    .nav-btn.active { border-color: var(--primary); color: var(--text); }
+    .page { display: none; }
+    .page.active { display: block; }
+    .hero { margin: 3px 0 22px; }
+    .eyebrow { margin: 0 0 7px; color: #69b8ff; font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 9px; font-size: clamp(1.65rem, 4vw, 2.35rem); line-height: 1.12; }
+    h2 { margin-bottom: 7px; font-size: 1.22rem; }
+    h3 { margin-bottom: 7px; font-size: 1rem; }
+    .muted { color: var(--muted); }
+    .small { font-size: .86rem; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(27,32,48,.98), rgba(16,20,31,.98));
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+    }
+    .card + .card { margin-top: 16px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+    }
+    .stat { border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.035); padding: 15px; }
+    .stat-label { color: var(--muted); font-size: .78rem; }
+    .stat-value { margin-top: 4px; font-size: 1.08rem; font-weight: 800; }
+    .form-grid { display: grid; gap: 14px; }
+    .field-label { display: block; margin-bottom: 7px; color: #cbd5e1; font-size: .86rem; font-weight: 700; }
+    .input {
+      width: 100%;
+      border: 1px solid transparent;
+      outline: 0;
+      border-radius: 12px;
+      background: var(--surface-3);
+      color: var(--text);
+      padding: 13px 14px;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .input::placeholder { color: #7d8799; }
+    .input:focus { border-color: rgba(41,150,255,.8); box-shadow: 0 0 0 4px rgba(41,150,255,.13); }
+    .input[type="file"] { padding: 10px; }
+    .input[type="file"]::file-selector-button {
+      margin-right: 9px;
+      border: 0;
+      border-radius: 8px;
+      background: #354056;
+      color: var(--text);
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+    .total-row, .button-row, .admin-heading, .order-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .total-row { margin: 21px 0 16px; }
+    .total { color: #70baff; font-size: 1.18rem; font-weight: 850; }
+    .button-row { align-items: stretch; }
+    .button-row > * { flex: 1; }
+    .btn {
+      min-height: 46px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--text);
+      padding: 11px 16px;
+      font-weight: 800;
+      transition: transform .16s, filter .16s, background .16s;
+    }
+    .btn:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+    .btn-success { background: #168a48; }
+    .btn-danger { background: #a92f3a; }
+    .btn-secondary { background: #343d51; }
+    .btn-ghost { border: 1px solid var(--line); background: transparent; }
+    .step { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 21px; }
+    .hidden { display: none !important; }
+    .payment-box {
+      border: 1px solid rgba(41,150,255,.24);
+      border-radius: 14px;
+      background: rgba(41,150,255,.08);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .payment-box strong { color: #8ac9ff; font-size: 1.06rem; }
+    .preview-wrap { position: relative; overflow: hidden; margin: 14px 0; border: 1px solid var(--line); border-radius: 14px; background: #0c0e14; }
+    .preview {
+      width: 100%;
+      max-height: 340px;
+      object-fit: contain;
+      background: #0c0e14;
+    }
+    .preview-label { padding: 9px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+    .drop-hint { margin: 8px 0 0; color: var(--muted); font-size: .78rem; }
+    .notice { margin: 16px 0 0; border-radius: 12px; padding: 12px 14px; font-size: .88rem; }
+    .notice-success { border: 1px solid rgba(34,197,94,.25); background: rgba(34,197,94,.1); color: #a7f3d0; }
+    .notice-warning { border: 1px solid rgba(245,158,11,.25); background: rgba(245,158,11,.1); color: #fde68a; }
+    .notice-danger { border: 1px solid rgba(239,68,68,.28); background: rgba(239,68,68,.1); color: #fecaca; }
+    .empty { padding: 30px 12px; text-align: center; color: var(--muted); }
+    .admin-tools { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin: 18px 0; }
+    .admin-stat { border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.035); padding: 14px; }
+    .admin-stat strong { display: block; margin-top: 3px; font-size: 1.25rem; }
+    .section-separator { height: 1px; background: var(--line); margin: 26px 0; }
+    .order-list { display: grid; gap: 12px; }
+    .order {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.035);
+      padding: 14px;
+    }
+    .order-heading { align-items: flex-start; }
+    .order-id { color: #8ac9ff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .77rem; }
+    .badge { display: inline-flex; border-radius: 999px; padding: 4px 8px; font-size: .72rem; font-weight: 800; }
+    .badge-pending { background: rgba(245,158,11,.15); color: #fcd34d; }
+    .badge-approved { background: rgba(34,197,94,.14); color: #86efac; }
+    .proof {
+      width: 100%;
+      max-height: 220px;
+      margin: 12px 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      object-fit: contain;
+      background: #0a0c11;
+      cursor: zoom-in;
+    }
+    .account-list { display: grid; gap: 8px; margin-top: 12px; }
+    .account {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #10141e;
+      padding: 10px;
+      overflow-wrap: anywhere;
+    }
+    .account code { color: #dbeafe; font-size: .78rem; }
+    .copy-btn { min-height: 32px; border: 1px solid var(--line); border-radius: 8px; background: #263047; color: var(--text); padding: 5px 8px; font-size: .75rem; }
+    .modal {
+      position: fixed;
+      z-index: 50;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.83);
+      padding: 18px;
+    }
+    .modal.open { display: flex; }
+    .modal-card {
+      width: min(100%, 390px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #171c29;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .image-modal { padding: 10px; }
+    .image-modal .modal-image { max-width: min(96vw, 1100px); max-height: 88vh; border-radius: 12px; object-fit: contain; }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(30,35,47,.9);
+      color: var(--text);
+      font-size: 1.35rem;
+    }
+    .toast {
+      position: fixed;
+      z-index: 80;
+      right: 18px;
+      bottom: 18px;
+      width: min(360px, calc(100% - 36px));
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #1e2534;
+      box-shadow: var(--shadow);
+      color: var(--text);
+      padding: 13px 15px;
+      transform: translateY(140%);
+      transition: transform .25s ease;
+    }
+    .toast.show { transform: translateY(0); }
+    .toast.success { border-color: rgba(34,197,94,.35); }
+    .toast.error { border-color: rgba(239,68,68,.4); }
+    .footer { margin-top: 34px; color: #667085; text-align: center; font-size: .78rem; }
+    @media (min-width: 760px) {
+      .store-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; align-items: start; }
+      .store-layout > .card + .card { margin-top: 0; }
+      .stats { margin-top: 0; }
+    }
+    @media (max-width: 480px) {
+      .app { width: min(100% - 20px, 1080px); padding-top: 14px; }
+      .topbar { align-items: flex-start; padding-bottom: 20px; }
+      .brand-name { font-size: .92rem; }
+      .brand-subtitle { font-size: .68rem; }
+      .status { padding: 6px 8px; font-size: .72rem; }
+      .button-row { flex-direction: column; }
+      .account { grid-template-columns: 1fr; }
+      .copy-btn { width: 100%; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
-    <div class="container mx-auto px-4 py-6 max-w-5xl">
-        <!-- HEADER -->
-        <header class="mb-6 text-center">
-            <div class="flex justify-center items-center mb-2">
-                <div class="w-11 h-11 bg-primary text-white rounded-xl flex items-center justify-center mr-2.5">
-                    <i class="fa fa-shield text-lg"></i>
-                </div>
-                <h1 class="text-2xl font-bold">Nexora</h1>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <button id="logoTrigger" class="brand" type="button" aria-label="Logo NEXORA">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 960 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="nexoraGradient" x1="180" y1="240" x2="780" y2="780" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#168DFF"/>
+                <stop offset="1" stop-color="#73D0FF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#nexoraGradient)" d="M480 240 180 580l300-140 300 140L480 240Zm0 200L180 780l300-180 300 180-300-340Z"/>
+          </svg>
+        </span>
+        <span>
+          <span class="brand-name">NEXORA</span>
+          <span class="brand-subtitle">Toko layanan akun</span>
+        </span>
+      </button>
+      <div class="status"><span class="status-dot"></span> BUKA</div>
+    </header>
+
+    <nav class="nav" aria-label="Navigasi utama">
+      <button class="nav-btn active" type="button" data-page="store">🛒 Toko</button>
+      <button class="nav-btn" type="button" data-page="history">📂 Pesanan</button>
+    </nav>
+
+    <section id="storePage" class="page active" aria-labelledby="storeTitle">
+      <div class="hero">
+        <p class="eyebrow">Akun digital terpercaya</p>
+        <h1 id="storeTitle">Pesan akun dengan proses yang jelas.</h1>
+        <p class="muted">Pilih jumlah, lakukan pembayaran, lalu unggah bukti pembayaran untuk diproses admin.</p>
+      </div>
+
+      <div class="store-layout">
+        <div class="card">
+          <h2>Ringkasan toko</h2>
+          <p class="muted small">Harga dan stok diperbarui otomatis.</p>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">Harga satuan</div>
+              <div id="priceText" class="stat-value">Rp 5.000</div>
             </div>
-            <p class="text-secondary text-sm">Beli Email Aman & Cepat</p>
-            <div id="statusToko" class="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                <span>BUKA</span>
+            <div class="stat">
+              <div class="stat-label">Stok tersedia</div>
+              <div id="stockText" class="stat-value">0 akun</div>
             </div>
-        </header>
-
-        <!-- MENU NAVIGASI -->
-        <nav class="flex justify-center border-b mb-6 gap-8 text-sm font-medium z-10 relative bg-white">
-            <button onclick="bukaHalaman('toko')" id="tab-toko" class="pb-2 px-1 tab-active">🏪 Toko</button>
-            <button onclick="bukaHalaman('riwayat')" id="tab-riwayat" class="pb-2 px-1 text-gray-500">📂 Pesanan Saya</button>
-            <button onclick="bukaHalaman('admin')" id="tab-admin" class="pb-2 px-1 text-gray-500">🔐 Admin</button>
-        </nav>
-
-        <!-- HALAMAN TOKO -->
-        <div id="hal-toko" class="halaman tampil">
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="md:col-span-2">
-                    <div class="bg-white rounded-2xl p-5 card-shadow">
-                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <i class="fa fa-shopping-cart text-primary"></i> Mulai Belanja
-                        </h2>
-
-                        <div class="grid grid-cols-2 gap-3 mb-5">
-                            <div class="bg-gray-50 p-3 rounded-xl">
-                                <p class="text-xs text-gray-500">Harga/buah</p>
-                                <p class="font-bold" id="txtHarga">Rp 5.000</p>
-                            </div>
-                            <div class="bg-gray-50 p-3 rounded-xl">
-                                <p class="text-xs text-gray-500">Stok Tersedia</p>
-                                <p class="font-bold" id="txtStok">0 Buah</p>
-                            </div>
-                        </div>
-
-                        <div id="langkah1">
-                            <label class="block text-sm font-medium mb-1.5">Jumlah Yang Ingin Dibeli</label>
-                            <input type="number" id="jmlBeli" value="1" min="1" 
-                                class="w-full p-2.5 border border-gray-200 rounded-xl input-focus mb-2">
-                            <p class="mb-2"><strong class="text-gray-500">Nama Pembeli:</strong></p>
-                            <input type="text" id="namaPembeli" placeholder="Masukkan nama Anda" class="w-full p-2.5 border border-gray-200 rounded-xl input-focus mb-3">
-                            <p class="text-sm mb-4">Total Pembayaran: <strong id="totalBayar" class="text-primary">Rp 5.000</strong></p>
-                            
-                            <button type="button" onclick="bukaBayar()" class="w-full bg-primary text-white py-2.5 rounded-xl btn-hover font-medium">
-                                Lanjut Ke Pembayaran →
-                            </button>
-                        </div>
-
-                        <div id="langkah2" class="hidden fade-in border-t mt-5 pt-5">
-                            <h3 class="font-semibold mb-3 text-base">💡 Cara Bayar</h3>
-                            
-                            <div class="bg-blue-50 p-4 rounded-xl mb-4">
-                                <p class="text-sm mb-1">Kirim ke:</p>
-                                <p class="font-bold text-lg text-primary" id="nomorDompet">087794088983</p>
-                                <p class="text-xs text-gray-500 mt-1" id="namaDompet">DANA</p>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1.5">📷 Unggah Bukti Bayar:</label>
-                                <input type="file" id="fileBukti" accept="image/*" 
-                                    class="w-full text-sm border border-gray-200 p-2.5 rounded-xl input-focus">
-                            </div>
-
-                            <div class="flex gap-2.5 flex-wrap">
-                                <button type="button" onclick="kembaliKePilih()" class="flex-1 min-w-[120px] border border-gray-200 py-2.5 rounded-xl hover:bg-gray-50 btn-hover">
-                                    ← Balik
-                                </button>
-                                <button type="button" id="tombolKirim" onclick="kirimPesananKeAdmin()" class="flex-1 min-w-[180px] bg-green-600 text-white py-2.5 rounded-xl btn-hover font-medium">
-                                    ✅ Kirim & Tunggu Konfirmasi
-                                </button>
-                            </div>
-                            <p class="text-xs text-center text-gray-400 mt-3">Pastikan Nama & Bukti sudah benar</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div class="notice notice-warning" id="stockNotice">Stok akan tampil setelah admin menambahkannya.</div>
         </div>
 
-        <!-- HALAMAN PESANAN SAYA -->
-        <div id="hal-riwayat" class="halaman">
-            <div class="bg-white rounded-2xl p-5 card-shadow">
-                <h2 class="text-lg font-semibold mb-4">📦 Pesanan & Akun Anda</h2>
-                <div id="daftarRiwayat">
-                    <p class="text-center text-gray-400 py-10">Belum ada pesanan yang disetujui</p>
-                </div>
+        <div class="card">
+          <h2>Mulai pembelian</h2>
+          <p class="muted small">Isi data sesuai identitas penerima akun.</p>
+
+          <div id="stepOne" class="step">
+            <div class="form-grid">
+              <div>
+                <label class="field-label" for="quantityInput">Jumlah akun</label>
+                <input id="quantityInput" class="input" type="number" min="1" step="1" value="1" inputmode="numeric">
+              </div>
+              <div>
+                <label class="field-label" for="nameInput">Nama lengkap</label>
+                <input id="nameInput" class="input" type="text" maxlength="80" placeholder="Contoh: Budi Santoso" autocomplete="name">
+              </div>
             </div>
+            <div class="total-row">
+              <span class="muted">Total pembayaran</span>
+              <strong id="totalText" class="total">Rp 5.000</strong>
+            </div>
+            <button id="continueButton" class="btn btn-primary" type="button">Lanjut ke pembayaran →</button>
+          </div>
+
+          <div id="stepTwo" class="step hidden">
+            <div class="payment-box">
+              <div class="muted small">Transfer pembayaran ke</div>
+              <strong id="paymentText">087794088983 (DANA)</strong>
+              <div class="muted small" style="margin-top:5px">Pastikan nominal sesuai total pembayaran.</div>
+            </div>
+            <label class="field-label" for="proofInput">Bukti pembayaran <span class="muted">(gambar)</span></label>
+            <input id="proofInput" class="input" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+            <p class="drop-hint">Pilih gambar yang jelas. Gambar disimpan di browser ini untuk ditampilkan ke admin.</p>
+            <div id="previewWrap" class="preview-wrap hidden">
+              <img id="proofPreview" class="preview" alt="Pratinjau bukti pembayaran">
+              <div class="preview-label">Pratinjau bukti pembayaran</div>
+            </div>
+            <div class="button-row" style="margin-top:16px">
+              <button id="backButton" class="btn btn-secondary" type="button">← Kembali</button>
+              <button id="sendButton" class="btn btn-success" type="button">Kirim pesanan</button>
+            </div>
+          </div>
+          <div id="storeNotice" class="hidden" role="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historyPage" class="page" aria-labelledby="historyTitle">
+      <div class="card">
+        <div class="hero">
+          <p class="eyebrow">Pesanan tersimpan</p>
+          <h1 id="historyTitle">Riwayat pesanan</h1>
+          <p class="muted">Akun yang sudah disetujui admin akan muncul di sini.</p>
+        </div>
+        <div id="historyList" class="order-list"></div>
+      </div>
+    </section>
+
+    <section id="adminPage" class="page" aria-labelledby="adminTitle">
+      <div class="card">
+        <div class="admin-heading">
+          <div>
+            <p class="eyebrow">Area pengelolaan</p>
+            <h1 id="adminTitle">Panel admin</h1>
+          </div>
+          <button id="logoutButton" class="btn btn-danger" type="button" style="min-height:38px;padding:8px 12px">Keluar</button>
         </div>
 
-        <!-- HALAMAN ADMIN -->
-        <div id="hal-admin" class="halaman">
-            <div class="grid md:grid-cols-3 gap-6">
-                <div></div>
-                <div class="bg-white rounded-2xl p-4 card-shadow">
-                    <h3 class="font-semibold mb-3 flex items-center gap-2">
-                        <i class="fa fa-lock text-gray-400"></i> Masuk Admin
-                    </h3>
-                    <input type="password" id="passAdmin" placeholder="Kata sandi" 
-                        class="w-full mb-3 p-2.5 border border-gray-200 rounded-xl input-focus">
-                    <button type="button" onclick="cekLogin()" class="w-full bg-gray-800 text-white py-2 rounded-xl btn-hover">MASUK</button>
-                    <p class="text-xs text-gray-400 mt-2 text-center">Bawaan: admin123</p>
-                </div>
-                <div></div>
-            </div>
-
-            <div id="panelHalaman" class="hidden mt-6 bg-white rounded-2xl p-5 card-shadow fade-in">
-                <div class="flex justify-between items-center mb-5">
-                    <h2 class="text-lg font-bold">⚙️ Pengaturan Toko Nexora</h2>
-                    <button type="button" onclick="keluarAdmin()" class="text-red-500 text-sm">Keluar</button>
-                </div>
-
-                <div class="mb-6 p-4 bg-amber-50 border border-amber-100 rounded-xl">
-                    <h3 class="font-semibold mb-4">📋 Pesanan Masuk (Perlu Dicek)</h3>
-                    <div id="daftarPesananBaru">
-                        <p class="text-gray-400 text-center py-3">Belum ada pesanan baru</p>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold mb-3 border-b pb-2">+ Tambah Stok Email & Sandi</h4>
-                        <input type="email" id="inEmail" placeholder="alamat@email.com" 
-                            class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
-                        <input type="text" id="inSandi" placeholder="Kata sandinya" 
-                            class="w-full mb-3 p-2.5 border rounded-xl input-focus">
-                        <button type="button" onclick="tambahStok()" class="w-full bg-green-600 text-white py-2 rounded-xl btn-hover">
-                            Tambah Ke Stok
-                        </button>
-                        <p class="mt-3 text-sm">Total Stok: <strong id="jmlStokAdmin">0</strong></p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-semibold mb-3 border-b pb-2">Pengaturan Umum</h4>
-                        <label class="text-sm">Harga Satuan (Rp)</label>
-                        <input type="number" id="setHarga" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
-
-                        <label class="text-sm">Nomor E-Wallet</label>
-                        <input type="text" id="setNomor" placeholder="08xxx" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus" value="087794088983">
-
-                        <label class="text-sm">Nama Layanan</label>
-                        <input type="text" id="setNamaDompet" placeholder="DANA" class="w-full mb-3 p-2.5 border rounded-xl input-focus" value="DANA">
-
-                        <label class="text-sm">Sandi Admin Baru</label>
-                        <input type="text" id="setPassBaru" placeholder="Boleh kosong" class="w-full mb-3 p-2.5 border rounded-xl input-focus">
-
-                        <div class="grid grid-cols-2 gap-2">
-                            <button type="button" onclick="simpanSemuaPengaturan()" class="bg-primary text-white py-2 rounded-xl btn-hover">💾 Simpan</button>
-                            <button type="button" onclick="tutupBukaToko()" id="tombolTutup" class="bg-orange-500 text-white py-2 rounded-xl btn-hover">Tutup Toko</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="admin-tools">
+          <div class="admin-stat"><span class="muted small">Stok tersedia</span><strong id="adminStockCount">0</strong></div>
+          <div class="admin-stat"><span class="muted small">Pesanan menunggu</span><strong id="adminPendingCount">0</strong></div>
         </div>
-    </div>
 
-    <script>
-        let db = {
-            stok: [],
-            pesanan: [],
-            pengaturan: {
-                harga:5000, 
-                nomor:'087794088983', 
-                namaDompet:'DANA', 
-                buka:true, 
-                sandi:'admin123'
-            }
-        };
+        <div class="section-separator"></div>
+        <h2>Pesanan masuk</h2>
+        <p class="muted small">Klik bukti pembayaran untuk melihat ukuran lebih besar.</p>
+        <div id="adminOrderList" class="order-list"></div>
 
-        function simpan() {localStorage.setItem('nexFix', JSON.stringify(db));}
-        function muat() {
-            const lama = localStorage.getItem('nexFix');
-            if(lama) db = JSON.parse(lama);
-            tampilkanSemua(); tampilkanPesananAdmin(); tampilkanRiwayat();
+        <div class="section-separator"></div>
+        <h2>Tambah stok akun</h2>
+        <p class="muted small">Akun yang ditambahkan akan diberikan saat pesanan dikonfirmasi.</p>
+        <div class="form-grid" style="margin-top:14px">
+          <div>
+            <label class="field-label" for="stockEmailInput">Email akun</label>
+            <input id="stockEmailInput" class="input" type="email" maxlength="160" placeholder="akun@contoh.com" autocomplete="off">
+          </div>
+          <div>
+            <label class="field-label" for="stockPasswordInput">Kata sandi akun</label>
+            <input id="stockPasswordInput" class="input" type="text" maxlength="160" placeholder="Kata sandi" autocomplete="off">
+          </div>
+        </div>
+        <button id="addStockButton" class="btn btn-success" type="button" style="width:100%;margin-top:14px">+ Tambah ke stok</button>
+        <div id="stockList" class="account-list"></div>
+
+        <div class="section-separator"></div>
+        <h2>Pengaturan pembayaran</h2>
+        <div class="form-grid" style="margin-top:14px">
+          <div>
+            <label class="field-label" for="priceInput">Harga per akun (Rp)</label>
+            <input id="priceInput" class="input" type="number" min="1" step="1" inputmode="numeric">
+          </div>
+          <div>
+            <label class="field-label" for="paymentInput">Nomor / tujuan pembayaran</label>
+            <input id="paymentInput" class="input" type="text" maxlength="80" placeholder="Nomor DANA / rekening">
+          </div>
+        </div>
+        <button id="saveSettingsButton" class="btn btn-primary" type="button" style="width:100%;margin-top:14px">Simpan pengaturan</button>
+      </div>
+    </section>
+
+    <p class="footer">NEXORA · Data tersimpan di browser perangkat ini</p>
+  </main>
+
+  <div id="pinModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <form id="pinForm" class="modal-card">
+      <h2 id="pinTitle">🔐 Masuk admin</h2>
+      <p class="muted small">Masukkan PIN untuk membuka panel pengelolaan.</p>
+      <label class="field-label" for="pinInput">PIN admin</label>
+      <input id="pinInput" class="input" type="password" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6 digit PIN" required>
+      <div class="button-row" style="margin-top:16px">
+        <button id="cancelPinButton" class="btn btn-secondary" type="button">Batal</button>
+        <button class="btn btn-primary" type="submit">Masuk</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="imageModal" class="modal image-modal" role="dialog" aria-modal="true" aria-label="Bukti pembayaran diperbesar">
+    <button id="closeImageButton" class="modal-close" type="button" aria-label="Tutup">×</button>
+    <img id="fullProofImage" class="modal-image" alt="Bukti pembayaran ukuran penuh">
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+
+    const PIN = "085213";
+    const STORAGE_KEY = "nexora_store_v2";
+    const DEFAULT_DATA = {
+      stock: [],
+      orders: [],
+      settings: { price: 5000, paymentNumber: "087794088983" }
+    };
+    const clone = (value) => JSON.parse(JSON.stringify(value));
+
+    let data = clone(DEFAULT_DATA);
+    let proofData = "";
+    let logoClicks = 0;
+    let logoTimer = null;
+    let toastTimer = null;
+    let adminAuthenticated = false;
+
+    const $ = (id) => document.getElementById(id);
+    const money = (value) => new Intl.NumberFormat("id-ID", {
+      style: "currency", currency: "IDR", maximumFractionDigits: 0
+    }).format(Number(value) || 0);
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[char]));
+    }
+
+    function normalizeData(value) {
+      if (!value || typeof value !== "object") return clone(DEFAULT_DATA);
+      const settings = value.settings && typeof value.settings === "object" ? value.settings : {};
+      const stock = Array.isArray(value.stock) ? value.stock.filter((item) => item && item.email && item.password).map((item) => ({
+        email: String(item.email), password: String(item.password)
+      })) : [];
+      const orders = Array.isArray(value.orders) ? value.orders.filter((order) => order && order.id).map((order) => ({
+        id: String(order.id),
+        name: String(order.name || "Tanpa nama"),
+        quantity: Math.max(1, Number.parseInt(order.quantity, 10) || 1),
+        total: Number(order.total) || 0,
+        proof: typeof order.proof === "string" ? order.proof : "",
+        status: order.status === "approved" ? "approved" : "pending",
+        createdAt: order.createdAt || new Date().toISOString(),
+        approvedAt: order.approvedAt || "",
+        accounts: Array.isArray(order.accounts) ? order.accounts.filter((account) => account && account.email).map((account) => ({
+          email: String(account.email), password: String(account.password || "")
+        })) : []
+      })) : [];
+      return {
+        stock,
+        orders,
+        settings: {
+          price: Math.max(1, Number(settings.price) || DEFAULT_DATA.settings.price),
+          paymentNumber: String(settings.paymentNumber || DEFAULT_DATA.settings.paymentNumber)
         }
+      };
+    }
 
-        function bukaHalaman(nama){
-            document.querySelectorAll('.halaman').forEach(h => h.classList.remove('tampil'));
-            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
-                tab.classList.remove('tab-active');
-                tab.classList.add('text-gray-500');
-            });
-            document.getElementById('hal-' + nama).classList.add('tampil');
-            const tabAktif = document.getElementById('tab-' + nama);
-            tabAktif.classList.add('tab-active');
-            tabAktif.classList.remove('text-gray-500');
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        data = raw ? normalizeData(JSON.parse(raw)) : clone(DEFAULT_DATA);
+      } catch (error) {
+        data = clone(DEFAULT_DATA);
+        showToast("Data lokal tidak dapat dibaca. Data baru digunakan.", "error");
+      }
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        return true;
+      } catch (error) {
+        showToast("Penyimpanan penuh. Kurangi ukuran bukti atau hapus data browser.", "error");
+        return false;
+      }
+    }
+
+    function showToast(message, type = "success") {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.className = `toast show ${type}`;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.className = "toast"; }, 4200);
+    }
+
+    function showStoreNotice(message, type = "success") {
+      const notice = $("storeNotice");
+      notice.textContent = message;
+      notice.className = `notice notice-${type}`;
+    }
+
+    function setPage(page) {
+      if (page === "admin" && !adminAuthenticated) return;
+      document.querySelectorAll(".page").forEach((element) => element.classList.remove("active"));
+      const pageElement = $(`${page}Page`);
+      if (pageElement) pageElement.classList.add("active");
+      document.querySelectorAll("[data-page]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.page === page);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      render();
+    }
+
+    function openModal(modal) {
+      modal.classList.add("open");
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove("open");
+    }
+
+    function currentQuantity() {
+      return Math.max(1, Number.parseInt($("quantityInput").value, 10) || 1);
+    }
+
+    function updateTotal() {
+      const quantity = currentQuantity();
+      $("totalText").textContent = money(quantity * data.settings.price);
+    }
+
+    function render() {
+      const price = data.settings.price;
+      $("priceText").textContent = money(price);
+      $("stockText").textContent = `${data.stock.length} akun`;
+      $("paymentText").textContent = `${data.settings.paymentNumber} (DANA / tujuan pembayaran)`;
+      $("priceInput").value = price;
+      $("paymentInput").value = data.settings.paymentNumber;
+      $("adminStockCount").textContent = data.stock.length;
+      $("adminPendingCount").textContent = data.orders.filter((order) => order.status === "pending").length;
+      $("stockNotice").textContent = data.stock.length
+        ? `${data.stock.length} akun siap diproses.`
+        : "Stok sedang kosong. Silakan coba lagi setelah admin menambah stok.";
+      $("stockNotice").className = `notice ${data.stock.length ? "notice-success" : "notice-warning"}`;
+      updateTotal();
+      renderAdminOrders();
+      renderHistory();
+      renderStock();
+    }
+
+    function renderAdminOrders() {
+      const pendingOrders = data.orders.filter((order) => order.status === "pending");
+      if (!pendingOrders.length) {
+        $("adminOrderList").innerHTML = '<div class="empty">Belum ada pesanan yang menunggu diproses.</div>';
+        return;
+      }
+      $("adminOrderList").innerHTML = pendingOrders.map((order) => `
+        <article class="order">
+          <div class="order-heading">
+            <div>
+              <div class="order-id">#${escapeHtml(order.id)}</div>
+              <strong>${escapeHtml(order.name)}</strong>
+              <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.createdAt))}</div>
+            </div>
+            <span class="badge badge-pending">MENUNGGU</span>
+          </div>
+          ${order.proof ? `<img class="proof" src="${escapeHtml(order.proof)}" data-proof="${escapeHtml(order.proof)}" alt="Bukti pembayaran dari ${escapeHtml(order.name)}">` : '<div class="notice notice-danger">Bukti pembayaran tidak tersedia.</div>'}
+          <div class="total-row" style="margin:8px 0 12px"><span class="muted">Total</span><strong>${money(order.total)}</strong></div>
+          <button class="btn btn-success" type="button" data-process-order="${escapeHtml(order.id)}">✅ Konfirmasi & berikan akun</button>
+        </article>
+      `).join("");
+    }
+
+    function renderHistory() {
+      const approvedOrders = data.orders.filter((order) => order.status === "approved").sort((a, b) => String(b.approvedAt).localeCompare(String(a.approvedAt)));
+      if (!approvedOrders.length) {
+        $("historyList").innerHTML = '<div class="empty">Belum ada pesanan yang disetujui.</div>';
+        return;
+      }
+      $("historyList").innerHTML = approvedOrders.map((order) => `
+        <article class="order">
+          <div class="order-heading">
+            <div>
+              <div class="order-id">#${escapeHtml(order.id)}</div>
+              <strong>${escapeHtml(order.name)}</strong>
+              <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.approvedAt || order.createdAt))}</div>
+            </div>
+            <span class="badge badge-approved">BERHASIL</span>
+          </div>
+          <div class="account-list">
+            ${order.accounts.map((account, index) => `
+              <div class="account">
+                <code>${index + 1}. ${escapeHtml(account.email)}<br>${escapeHtml(account.password)}</code>
+                <button class="copy-btn" type="button" data-copy="${escapeHtml(`${account.email} | ${account.password}`)}">Salin</button>
+              </div>
+            `).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderStock() {
+      if (!adminAuthenticated) {
+        $("stockList").innerHTML = "";
+        return;
+      }
+      if (!data.stock.length) {
+        $("stockList").innerHTML = '<div class="empty">Stok kosong.</div>';
+        return;
+      }
+      $("stockList").innerHTML = data.stock.map((account, index) => `
+        <div class="account">
+          <code>${index + 1}. ${escapeHtml(account.email)}<br>${escapeHtml(account.password)}</code>
+          <span class="badge badge-approved">TERSEDIA</span>
+        </div>
+      `).join("");
+    }
+
+    function formatDate(value) {
+      try {
+        return new Intl.DateTimeFormat("id-ID", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+      } catch (error) {
+        return "Tanggal tidak tersedia";
+      }
+    }
+
+    function openPinModal() {
+      $("pinInput").value = "";
+      openModal($("pinModal"));
+      setTimeout(() => $("pinInput").focus(), 50);
+    }
+
+    function handleLogoClick() {
+      logoClicks += 1;
+      clearTimeout(logoTimer);
+      logoTimer = setTimeout(() => { logoClicks = 0; }, 2200);
+      if (logoClicks >= 15) {
+        logoClicks = 0;
+        openPinModal();
+      }
+    }
+
+    function resetPurchase() {
+      $("quantityInput").value = "1";
+      $("nameInput").value = "";
+      $("proofInput").value = "";
+      $("previewWrap").classList.add("hidden");
+      $("proofPreview").removeAttribute("src");
+      proofData = "";
+      $("stepTwo").classList.add("hidden");
+      $("stepOne").classList.remove("hidden");
+      updateTotal();
+    }
+
+    function continuePurchase() {
+      const name = $("nameInput").value.trim();
+      const quantity = currentQuantity();
+      if (!name) {
+        showToast("Nama lengkap wajib diisi.", "error");
+        $("nameInput").focus();
+        return;
+      }
+      if (quantity < 1 || !Number.isInteger(quantity)) {
+        showToast("Jumlah akun harus berupa angka bulat minimal 1.", "error");
+        $("quantityInput").focus();
+        return;
+      }
+      if (!data.stock.length || quantity > data.stock.length) {
+        showToast(`Stok tidak cukup. Tersedia ${data.stock.length} akun.`, "error");
+        return;
+      }
+      $("stepOne").classList.add("hidden");
+      $("stepTwo").classList.remove("hidden");
+      $("stepTwo").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function readProof(file) {
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+        showToast("File bukti harus berupa gambar.", "error");
+        $("proofInput").value = "";
+        return;
+      }
+      const objectUrl = URL.createObjectURL(file);
+      const image = new Image();
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const maxEdge = 1800;
+        const scale = Math.min(1, maxEdge / Math.max(image.naturalWidth, image.naturalHeight));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+        canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+        const context = canvas.getContext("2d", { alpha: false });
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        let prepared = canvas.toDataURL("image/jpeg", .88);
+        if (prepared.length > 3900000) prepared = canvas.toDataURL("image/jpeg", .7);
+        if (prepared.length > 4800000) {
+          showToast("Gambar terlalu besar untuk disimpan di browser. Pilih gambar yang lebih kecil.", "error");
+          $("proofInput").value = "";
+          return;
         }
+        proofData = prepared;
+        $("proofPreview").src = proofData;
+        $("previewWrap").classList.remove("hidden");
+        showToast("Pratinjau bukti berhasil dimuat.");
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        showToast("Gambar tidak dapat dibaca. Pilih file gambar lain.", "error");
+        $("proofInput").value = "";
+      };
+      image.src = objectUrl;
+    }
 
-        function bukaBayar(){
-            if(!db.pengaturan.buka) return alert("Toko sedang ditutup!");
-            const jum = parseInt(document.getElementById('jmlBeli').value);
-            const nama = document.getElementById('namaPembeli').value.trim();
-            if(!nama) return alert("⚠️ Masukkan nama pembeli dulu!");
-            if(isNaN(jum) || jum < 1) return alert("⚠️ Isi jumlah yang benar!");
-            if(jum > db.stok.length) return alert(`❌ Stok tidak cukup! Tersedia: ${db.stok.length} buah`);
-            
-            document.getElementById('langkah1').classList.add("hidden");
-            document.getElementById('langkah2').classList.remove("hidden");
-        }
+    function sendOrder() {
+      const name = $("nameInput").value.trim();
+      const quantity = currentQuantity();
+      if (!name) {
+        showToast("Nama lengkap wajib diisi.", "error");
+        return;
+      }
+      if (!proofData) {
+        showToast("Bukti pembayaran wajib diunggah.", "error");
+        $("proofInput").focus();
+        return;
+      }
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        showToast("Jumlah akun tidak valid.", "error");
+        return;
+      }
+      if (quantity > data.stock.length) {
+        showToast("Stok berubah dan tidak lagi mencukupi. Silakan periksa kembali.", "error");
+        return;
+      }
+      const order = {
+        id: `NX-${Date.now().toString(36).toUpperCase()}`,
+        name,
+        quantity,
+        total: quantity * data.settings.price,
+        proof: proofData,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        approvedAt: "",
+        accounts: []
+      };
+      data.orders.unshift(order);
+      if (!saveData()) {
+        data.orders.shift();
+        return;
+      }
+      resetPurchase();
+      render();
+      showStoreNotice(`Pesanan ${order.id} berhasil dikirim. Admin akan memeriksa bukti pembayaran.`, "success");
+      showToast("Pesanan berhasil dikirim.");
+    }
 
-        function kembaliKePilih(){
-            document.getElementById('langkah2').classList.add("hidden");
-            document.getElementById('langkah1').classList.remove("hidden");
-        }
+    function processOrder(id) {
+      const order = data.orders.find((item) => item.id === id);
+      if (!order || order.status !== "pending") return;
+      if (order.quantity > data.stock.length) {
+        showToast(`Stok tidak cukup untuk pesanan ini. Dibutuhkan ${order.quantity} akun.`, "error");
+        return;
+      }
+      const assigned = data.stock.splice(0, order.quantity);
+      order.accounts = assigned;
+      order.status = "approved";
+      order.approvedAt = new Date().toISOString();
+      if (!saveData()) {
+        data.stock.unshift(...assigned);
+        order.accounts = [];
+        order.status = "pending";
+        order.approvedAt = "";
+        return;
+      }
+      render();
+      showToast(`Pesanan ${order.id} berhasil dikonfirmasi.`);
+    }
 
-        // FUNGSI UTAMA - DIPERKUAT TIDAK ADA YANG MENUTUPI/TIDAK JALAN
-        function kirimPesananKeAdmin(){
-            console.log("Tombol diklik!"); // Cek kerja di konsol
+    function addStock() {
+      const email = $("stockEmailInput").value.trim();
+      const password = $("stockPasswordInput").value.trim();
+      if (!email || !password) {
+        showToast("Email dan kata sandi stok wajib diisi.", "error");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast("Format email stok tidak valid.", "error");
+        return;
+      }
+      if (data.stock.some((account) => account.email.toLowerCase() === email.toLowerCase())) {
+        showToast("Email tersebut sudah ada di stok.", "error");
+        return;
+      }
+      data.stock.push({ email, password });
+      if (!saveData()) {
+        data.stock.pop();
+        return;
+      }
+      $("stockEmailInput").value = "";
+      $("stockPasswordInput").value = "";
+      render();
+      showToast("Akun berhasil ditambahkan ke stok.");
+    }
 
-            const nama = document.getElementById('namaPembeli').value.trim();
-            const jum = parseInt(document.getElementById('jmlBeli').value);
-            const inputFile = document.getElementById('fileBukti');
+    function saveSettings() {
+      const price = Number.parseInt($("priceInput").value, 10);
+      const paymentNumber = $("paymentInput").value.trim();
+      if (!Number.isInteger(price) || price < 1 || !paymentNumber) {
+        showToast("Harga dan tujuan pembayaran wajib diisi dengan benar.", "error");
+        return;
+      }
+      const previous = clone(data.settings);
+      data.settings = { price, paymentNumber };
+      if (!saveData()) {
+        data.settings = previous;
+        return;
+      }
+      render();
+      showToast("Pengaturan toko berhasil disimpan.");
+    }
 
-            // Pemeriksaan yang sangat jelas
-            if(!nama){
-                alert("❌ Mohon isi Nama Anda terlebih dahulu!");
-                return false;
-            }
-            if(!inputFile || inputFile.files.length === 0){
-                alert("❌ Harap Pilih & Unggah Bukti Pembayaran!");
-                return false;
-            }
-            if(isNaN(jum) || jum < 1){
-                alert("❌ Jumlah pembelian tidak valid!");
-                return false;
-            }
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Data akun berhasil disalin.");
+      } catch (error) {
+        showToast("Penyalinan otomatis tidak tersedia di browser ini.", "error");
+      }
+    }
 
-            db.pesanan.push({
-                id: Date.now(),
-                nama: nama,
-                jumlah: jum,
-                waktu: new Date().toLocaleString('id-ID'),
-                status: 'menunggu',
-                akunDiberikan: []
-            });
-            
-            simpan(); 
-            tampilkanPesananAdmin();
-            
-            alert("✅ BERHASIL DIKIRIM!\nTerima kasih! Silakan tunggu persetujuan Admin.");
-            
-            // Reset formulir agar bersih
-            document.getElementById('jmlBeli').value=1;
-            document.getElementById('namaPembeli').value="";
-            document.getElementById('fileBukti').value="";
-            kembaliKePilih();
-        }
+    $("logoTrigger").addEventListener("click", handleLogoClick);
+    document.querySelectorAll("[data-page]").forEach((button) => {
+      button.addEventListener("click", () => setPage(button.dataset.page));
+    });
+    $("quantityInput").addEventListener("input", updateTotal);
+    $("continueButton").addEventListener("click", continuePurchase);
+    $("backButton").addEventListener("click", () => {
+      $("stepTwo").classList.add("hidden");
+      $("stepOne").classList.remove("hidden");
+    });
+    $("proofInput").addEventListener("change", (event) => readProof(event.target.files[0]));
+    $("sendButton").addEventListener("click", sendOrder);
+    $("cancelPinButton").addEventListener("click", () => closeModal($("pinModal")));
+    $("pinForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      if ($("pinInput").value === PIN) {
+        adminAuthenticated = true;
+        closeModal($("pinModal"));
+        setPage("admin");
+        showToast("Berhasil masuk ke panel admin.");
+      } else {
+        $("pinInput").value = "";
+        showToast("PIN salah. Silakan coba lagi.", "error");
+      }
+    });
+    $("logoutButton").addEventListener("click", () => {
+      adminAuthenticated = false;
+      setPage("store");
+      showToast("Anda sudah keluar dari panel admin.");
+    });
+    $("addStockButton").addEventListener("click", addStock);
+    $("saveSettingsButton").addEventListener("click", saveSettings);
+    $("adminOrderList").addEventListener("click", (event) => {
+      const proof = event.target.closest("[data-proof]");
+      if (proof) {
+        $("fullProofImage").src = proof.dataset.proof;
+        openModal($("imageModal"));
+        return;
+      }
+      const processButton = event.target.closest("[data-process-order]");
+      if (processButton) processOrder(processButton.dataset.processOrder);
+    });
+    $("historyList").addEventListener("click", (event) => {
+      const copyButton = event.target.closest("[data-copy]");
+      if (copyButton) copyText(copyButton.dataset.copy);
+    });
+    $("closeImageButton").addEventListener("click", () => closeModal($("imageModal")));
+    $("imageModal").addEventListener("click", (event) => {
+      if (event.target === $("imageModal")) closeModal($("imageModal"));
+    });
+    $("pinModal").addEventListener("click", (event) => {
+      if (event.target === $("pinModal")) closeModal($("pinModal"));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal($("pinModal"));
+        closeModal($("imageModal"));
+      }
+    });
 
-        function setujuiPesanan(id){
-            let idx = db.pesanan.findIndex(p => p.id === id);
-            if(idx <0) return;
-            let p = db.pesanan[idx];
-            if(p.jumlah > db.stok.length) return alert("❌ Stok kurang! Tambahkan dulu.");
-
-            for(let i=0; i < p.jumlah; i++)
-                p.akunDiberikan.push(db.stok.shift());
-            p.status = 'disetujui';
-            
-            simpan(); tampilkanSemua(); tampilkanPesananAdmin(); tampilkanRiwayat();
-            alert("✅ Selesai! Akun sudah dikirim ke pembeli.");
-        }
-
-        function tampilkanPesananAdmin(){
-            const el = document.getElementById('daftarPesananBaru');
-            const daftar = db.pesanan.filter(x=>x.status==="menunggu");
-            if(!daftar.length){ el.innerHTML="<p class='text-center'>Belum ada pesanan baru</p>"; return; }
-            el.innerHTML = daftar.map(p=>`
-                <div class="p-3 bg-white rounded-lg border mb-3 flex justify-between items-center flex-wrap gap-2">
-                    <span><strong>${p.nama}</strong> • Jumlah: ${p.jumlah} • ${p.waktu}</span>
-                    <button type="button" onclick="setujuiPesanan(${p.id})" class="bg-green-500 text-white px-3 py-1 rounded-lg btn-hover">✅ Setujui</button>
-                </div>`).join('');
-        }
-
-        function tampilkanRiwayat(){
-            const el = document.getElementById('daftarRiwayat');
-            const daftar = db.pesanan.filter(x=>x.status==="disetujui");
-            if(!daftar.length){ el.innerHTML="<p class='text-gray-400 py-8 text-center'>Belum ada riwayat pembelian</p>"; return; }
-            el.innerHTML = daftar.map(p=>`
-                <div class="border rounded-xl p-4 mb-4 bg-green-50">
-                    <div class="flex justify-between mb-2">
-                        <span class="font-semibold">${p.nama}</span>
-                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Berhasil</span>
-                    </div>
-                    <p class="text-sm text-gray-500 mb-2">Tanggal: ${p.waktu}</p>
-                    ${p.akunDiberikan.map(a=>`<div class="bg-white p-2 rounded mb-1 text-sm">📧 Email: ${a.email}<br>🔑 Sandi: ${a.sandi}</div>`).join('')}
-                </div>`).join('');
-        }
-
-        function tampilkanSemua(){
-            document.getElementById('txtStok').textContent = db.stok.length + " Buah";
-            document.getElementById('txtHarga').textContent = "Rp " + db.pengaturan.harga.toLocaleString('id-ID');
-            document.getElementById('nomorDompet').textContent = db.pengaturan.nomor;
-            document.getElementById('namaDompet').textContent = db.pengaturan.namaDompet;
-            
-            const jum = parseInt(document.getElementById('jmlBeli').value) || 1;
-            document.getElementById('totalBayar').textContent = "Rp " + (jum * db.pengaturan.harga).toLocaleString('id-ID');
-            document.getElementById('jmlBeli').max = db.stok.length;
-            
-            document.getElementById('jmlStokAdmin').textContent = db.stok.length;
-            document.getElementById('setHarga').value = db.pengaturan.harga;
-            document.getElementById('setNomor').value = db.pengaturan.nomor;
-            document.getElementById('setNamaDompet').value = db.pengaturan.namaDompet;
-            
-            const st = document.getElementById('statusToko');
-            if(db.pengaturan.buka){
-                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 font-medium";
-                st.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> BUKA';
-            }else{
-                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 font-medium";
-                st.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> DITUTUP';
-            }
-        }
-
-        function cekLogin(){
-            if(document.getElementById('passAdmin').value === db.pengaturan.sandi){
-                document.getElementById('panelHalaman').classList.remove("hidden");
-            }else alert("❌ Kata sandi salah!");
-        }
-        function keluarAdmin(){location.reload();}
-        function tambahStok(){
-            const e = document.getElementById('inEmail').value.trim();
-            const s = document.getElementById('inSandi').value.trim();
-            if(!e || !s){alert("Isi Email & Sandi lengkap!");return;}
-            db.stok.push({email:e, sandi:s});
-            simpan(); tampilkanSemua();
-            document.getElementById('inEmail').value=document.getElementById('inSandi').value="";
-       
+    loadData();
+    render();
+  </script>
+</body>
+</html>
