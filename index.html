@@ -461,7 +461,7 @@
             </div>
             <label class="field-label" for="proofInput">Bukti pembayaran <span class="muted">(gambar)</span></label>
             <input id="proofInput" class="input" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-            <p class="drop-hint">Pilih gambar yang jelas. Gambar disimpan di browser ini untuk ditampilkan ke admin.</p>
+            <p class="drop-hint">Pilih gambar yang jelas. Gambar akan dioptimalkan otomatis agar tidak memenuhi penyimpanan browser.</p>
             <div id="previewWrap" class="preview-wrap hidden">
               <img id="proofPreview" class="preview" alt="Pratinjau bukti pembayaran">
               <div class="preview-label">Pratinjau bukti pembayaran</div>
@@ -661,10 +661,24 @@
       };
     }
 
+    function compactProcessedProofs() {
+      let changed = false;
+      data.orders.forEach((order) => {
+        if (order.status !== "pending" && order.proof) {
+          order.proof = "";
+          changed = true;
+        }
+      });
+      return changed;
+    }
+
     function loadData() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         data = raw ? normalizeData(JSON.parse(raw)) : clone(DEFAULT_DATA);
+        if (compactProcessedProofs()) {
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (error) { /* dibersihkan saat simpan berikutnya */ }
+        }
       } catch (error) {
         data = clone(DEFAULT_DATA);
         showToast("Data lokal tidak dapat dibaca. Data baru digunakan.", "error");
@@ -676,7 +690,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         return true;
       } catch (error) {
-        showToast("Penyimpanan penuh. Kurangi ukuran bukti atau hapus data browser.", "error");
+        showToast("Penyimpanan browser penuh. Bukti gambar sudah dioptimalkan; hapus data lama jika masih gagal.", "error");
         return false;
       }
     }
@@ -994,18 +1008,21 @@
       const image = new Image();
       image.onload = () => {
         URL.revokeObjectURL(objectUrl);
-        const maxEdge = 1800;
-        const scale = Math.min(1, maxEdge / Math.max(image.naturalWidth, image.naturalHeight));
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-        canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
-        const context = canvas.getContext("2d", { alpha: false });
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(image, 0, 0, canvas.width, canvas.height);
-        let prepared = canvas.toDataURL("image/jpeg", .88);
-        if (prepared.length > 3900000) prepared = canvas.toDataURL("image/jpeg", .7);
-        if (prepared.length > 4800000) {
+        const makeDataUrl = (maxEdge, quality) => {
+          const scale = Math.min(1, maxEdge / Math.max(image.naturalWidth, image.naturalHeight));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+          canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+          const context = canvas.getContext("2d", { alpha: false });
+          context.fillStyle = "#ffffff";
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          return canvas.toDataURL("image/jpeg", quality);
+        };
+        let prepared = makeDataUrl(1400, .72);
+        if (prepared.length > 520000) prepared = makeDataUrl(1200, .58);
+        if (prepared.length > 760000) prepared = makeDataUrl(1000, .48);
+        if (prepared.length > 950000) {
           showToast("Gambar terlalu besar untuk disimpan di browser. Pilih gambar yang lebih kecil.", "error");
           $("proofInput").value = "";
           return;
@@ -1065,6 +1082,7 @@
         approvedAt: "",
         accounts: []
       };
+      compactProcessedProofs();
       data.orders.unshift(order);
       if (!saveData()) {
         data.orders.shift();
@@ -1084,14 +1102,17 @@
         return;
       }
       const assigned = data.stock.splice(0, order.quantity);
+      const previousProof = order.proof;
       order.accounts = assigned;
       order.status = "approved";
       order.approvedAt = new Date().toISOString();
+      order.proof = "";
       if (!saveData()) {
         data.stock.unshift(...assigned);
         order.accounts = [];
         order.status = "pending";
         order.approvedAt = "";
+        order.proof = previousProof;
         return;
       }
       render();
@@ -1103,11 +1124,14 @@
       if (!order || order.status !== "pending") return;
       const confirmed = window.confirm(`Tolak pesanan ${order.id} dari ${order.name}?`);
       if (!confirmed) return;
+      const previousProof = order.proof;
       order.status = "rejected";
       order.approvedAt = new Date().toISOString();
+      order.proof = "";
       if (!saveData()) {
         order.status = "pending";
         order.approvedAt = "";
+        order.proof = previousProof;
         return;
       }
       render();
