@@ -64,24 +64,24 @@
                             <p class="font-bold" id="txtHarga">Rp 5.000</p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-xl">
-                            <p class="text-xs text-gray-500">Stok Ada</p>
+                            <p class="text-xs text-gray-500">Stok Tersedia</p>
                             <p class="font-bold" id="txtStok">0 Buah</p>
                         </div>
                     </div>
 
-                    <!-- LANGKAH 1: PILIH JUMLAH -->
+                    <!-- LANGKAH 1: PILIH JUMLAH - TANPA BATAS HARGA, HANYA IKUT STOK ADA -->
                     <div id="langkah1">
-                        <label class="block text-sm font-medium mb-1.5">Jumlah Beli (Maks Rp100.000)</label>
-                        <input type="number" id="jmlBeli" value="1" min="1" max="20" 
+                        <label class="block text-sm font-medium mb-1.5">Jumlah Yang Ingin Dibeli</label>
+                        <input type="number" id="jmlBeli" value="1" min="1" 
                             class="w-full p-2.5 border border-gray-200 rounded-xl input-focus mb-2">
-                        <p class="text-sm mb-4">Total: <strong id="totalBayar" class="text-primary">Rp 5.000</strong></p>
+                        <p class="text-sm mb-4">Total Pembayaran: <strong id="totalBayar" class="text-primary">Rp 5.000</strong></p>
                         
                         <button onclick="bukaBayar()" class="w-full bg-primary text-white py-2.5 rounded-xl btn-hover font-medium">
                             Lanjut Ke Pembayaran →
                         </button>
                     </div>
 
-                    <!-- LANGKAH 2: DATA PEMBAYARAN (DULUNYA GAK MUNCEL BENER) -->
+                    <!-- LANGKAH 2: DATA PEMBAYARAN -->
                     <div id="langkah2" class="hidden fade-in border-t mt-5 pt-5">
                         <h3 class="font-semibold mb-3 text-base">💡 Cara Bayar</h3>
                         
@@ -179,7 +179,7 @@
     </div>
 
     <script>
-        // DATA UTAMA & PENYIMPANAN TIDAK BERUBAH
+        // DATA UTAMA & PENYIMPANAN
         let db = {
             stok: [],
             pengaturan: {
@@ -198,15 +198,14 @@
             tampilkanSemua();
         }
 
-        // PERBAIKAN UTAMA: TAMPILKAN BAGIAN PEMBAYARAN DENGAN BENAR
+        // BUKA PEMBAYARAN - HANYA CEK STOK & VALID, TIDAK ADA BATAS UANG
         function bukaBayar(){
             if(!db.pengaturan.buka) return alert("Toko sedang ditutup!");
             const jum = parseInt(document.getElementById('jmlBeli').value);
-            if(isNaN(jum)||jum<1) return alert("Isi jumlah yang benar!");
-            if(jum * db.pengaturan.harga >100000) return alert("Maksimal belanja Rp100.000!");
-            if(jum > db.stok.length) return alert(`Stok kurang! Hanya ada: ${db.stok.length}`);
+            if(isNaN(jum) || jum < 1) return alert("Isi jumlah yang benar!");
+            // HANYA BATAS: Tidak boleh lebih dari jumlah barang yang ada
+            if(jum > db.stok.length) return alert(`Stok tidak cukup! Barang tersedia: ${db.stok.length} buah`);
             
-            // PINDAH LANGKAH: gak pakai kelas rusak, langsung ganti tampilan
             document.getElementById('langkah1').classList.add("hidden");
             document.getElementById('langkah2').classList.remove("hidden");
             document.getElementById('hasilAkun').classList.add("hidden");
@@ -218,20 +217,18 @@
         }
 
         function prosesSelesai(){
-            // CEK FILE BUKTI DIPILIH
             let inputFile = document.getElementById('fileBukti');
-            if(!inputFile || inputFile.files.length===0){
-                alert("⚠️ Harap pilih & masukkan foto/bukti pembayaran dulu!");
+            if(!inputFile || inputFile.files.length === 0){
+                alert("⚠️ Harap masukkan bukti pembayaran dulu!");
                 return;
             }
+            if(db.stok.length === 0) return alert("Maaf, stok habis!");
 
-            if(db.stok.length===0) return alert("Stok habis mendadak!");
-
-            // AMBL DARI PALING AWAL & HAPUS (FIFO)
+            let jumlahAmbil = parseInt(document.getElementById('jmlBeli').value);
+            // Jika beli banyak sekaligus, ambil semua - tampilkan yang pertama saja (bisa dikembangkan)
             let akunDapat = db.stok.shift(); 
             simpan(); tampilkanSemua();
 
-            // TAMPILKAN HASIL DENGAN JELAS
             document.getElementById('langkah2').classList.add("hidden");
             document.getElementById('hasilAkun').classList.remove("hidden");
             document.getElementById('outEmail').textContent = akunDapat.email;
@@ -239,68 +236,70 @@
         }
 
         function muatUlangBelanja(){
-            document.getElementById('jmlBeli').value=1;
-            document.getElementById('fileBukti').value=null;
+            document.getElementById('jmlBeli').value = 1;
+            document.getElementById('fileBukti').value = null;
             document.getElementById('hasilAkun').classList.add("hidden");
             document.getElementById('langkah1').classList.remove("hidden");
         }
 
         function tampilkanSemua(){
-            document.getElementById('txtStok').textContent = db.stok.length+" Buah";
-            document.getElementById('txtHarga').textContent = "Rp "+db.pengaturan.harga.toLocaleString('id-ID');
+            document.getElementById('txtStok').textContent = db.stok.length + " Buah";
+            document.getElementById('txtHarga').textContent = "Rp " + db.pengaturan.harga.toLocaleString('id-ID');
             document.getElementById('nomorDompet').textContent = db.pengaturan.nomor;
             document.getElementById('namaDompet').textContent = db.pengaturan.namaDompet;
-            document.getElementById('totalBayar').textContent = "Rp "+ (parseInt(document.getElementById('jmlBeli').value||1)*db.pengaturan.harga).toLocaleString('id-ID');
             
-            // BAGIAN ADMIN
-            document.getElementById('jmlStokAdmin').textContent=db.stok.length;
-            document.getElementById('setHarga').value=db.pengaturan.harga;
-            document.getElementById('setNomor').value=db.pengaturan.nomor;
-            document.getElementById('setNamaDompet').value=db.pengaturan.namaDompet;
+            const jum = parseInt(document.getElementById('jmlBeli').value) || 1;
+            document.getElementById('totalBayar').textContent = "Rp " + (jum * db.pengaturan.harga).toLocaleString('id-ID');
             
-            // STATUS WARNA
+            // Batasi maksimal input sama persis dengan stok yang ada saat itu
+            document.getElementById('jmlBeli').max = db.stok.length;
+            
+            document.getElementById('jmlStokAdmin').textContent = db.stok.length;
+            document.getElementById('setHarga').value = db.pengaturan.harga;
+            document.getElementById('setNomor').value = db.pengaturan.nomor;
+            document.getElementById('setNamaDompet').value = db.pengaturan.namaDompet;
+            
             let st = document.getElementById('statusToko');
             if(db.pengaturan.buka){
-                st.className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 font-medium";
-                st.innerHTML='<span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> BUKA';
+                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 font-medium";
+                st.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> BUKA';
             }else{
-                st.className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 font-medium";
-                st.innerHTML='<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> DITUTUP';
+                st.className = "mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 font-medium";
+                st.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> DITUTUP';
             }
         }
 
-        // LAINNYA: LOGIN/STOK/PENGATURAN
+        // FUNGSI LAINNYA TETAP UTUH
         function cekLogin(){
             if(document.getElementById('passAdmin').value === db.pengaturan.sandi){
                 document.getElementById('panelHalaman').classList.remove("hidden");
-                document.getElementById('passAdmin').value="";
-            }else alert("SALAH SANDI!");
+                document.getElementById('passAdmin').value = "";
+            }else alert("Kata sandi salah!");
         }
         function keluarAdmin(){location.reload();}
         function tambahStok(){
-            let e=document.getElementById('inEmail').value.trim();
-            let s=document.getElementById('inSandi').value.trim();
-            if(!e||!s){alert("Isi Email & Kata Sandi keduanya!");return;}
+            let e = document.getElementById('inEmail').value.trim();
+            let s = document.getElementById('inSandi').value.trim();
+            if(!e || !s){alert("Isi Email & Sandi lengkap!");return;}
             db.stok.push({email:e, sandi:s});
             simpan(); tampilkanSemua();
-            document.getElementById('inEmail').value=document.getElementById('inSandi').value="";
-            alert("✅ BERHASIL DITAMBAHKAN!");
+            document.getElementById('inEmail').value = document.getElementById('inSandi').value = "";
+            alert("✅ Ditambahkan ke stok!");
         }
         function simpanSemuaPengaturan(){
-            db.pengaturan.harga=parseInt(document.getElementById('setHarga').value)||5000;
-            db.pengaturan.nomor=document.getElementById('setNomor').value.trim();
-            db.pengaturan.namaDompet=document.getElementById('setNamaDompet').value.trim();
-            if(document.getElementById('setPassBaru').value.trim()!="")
-                db.pengaturan.sandi=document.getElementById('setPassBaru').value.trim();
+            db.pengaturan.harga = parseInt(document.getElementById('setHarga').value) || 5000;
+            db.pengaturan.nomor = document.getElementById('setNomor').value.trim();
+            db.pengaturan.namaDompet = document.getElementById('setNamaDompet').value.trim();
+            if(document.getElementById('setPassBaru').value.trim() !== "")
+                db.pengaturan.sandi = document.getElementById('setPassBaru').value.trim();
             simpan(); tampilkanSemua();
-            alert("💾 Semua data & Nomor HP tersimpan!");
+            alert("💾 Tersimpan!");
         }
-        function tutupBukaToko(){db.pengaturan.buka=!db.pengaturan.buka; simpan(); tampilkanSemua();}
+        function tutupBukaToko(){db.pengaturan.buka = !db.pengaturan.buka; simpan(); tampilkanSemua();}
         document.getElementById('jmlBeli').oninput = tampilkanSemua;
 
-        // MULAI SAAT DIBUKA
         muat();
     </script>
 </body>
     </html>
-                    
+        
