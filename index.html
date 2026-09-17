@@ -367,4 +367,15 @@
             db.pengaturan.harga = parseInt(document.getElementById('setHarga').value) || 5000;
             db.pengaturan.nomor = document.getElementById('setNomor').value.trim();
             db.pengaturan.namaDompet = document.getElementById('setNamaDompet').value.trim();
-          
+            if(document.getElementById('setPassBaru').value.trim() !== "")
+                db.pengaturan.sandi = document.getElementById('setPassBaru').value.trim();
+            simpan(); tampilkanSemua();
+            alert("💾 Tersimpan!");
+        }
+        function tutupBukaToko(){db.pengaturan.buka = !db.pengaturan.buka; simpan(); tampilkanSemua();}
+        document.getElementById('jmlBeli').oninput = tampilkanSemua;
+
+        muat();
+    </script>
+</body>
+</html>
