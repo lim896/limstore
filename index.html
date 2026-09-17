@@ -645,6 +645,8 @@
         status: ["approved", "rejected"].includes(order.status) ? order.status : "pending",
         createdAt: order.createdAt || new Date().toISOString(),
         approvedAt: order.approvedAt || "",
+        rejectedAt: order.rejectedAt || "",
+        rejectionMessage: String(order.rejectionMessage || ""),
         accounts: Array.isArray(order.accounts) ? order.accounts.filter((account) => account && account.email).map((account) => ({
           email: String(account.email), password: String(account.password || "")
         })) : []
@@ -868,7 +870,7 @@
 
       const processedOrders = data.orders
         .filter((order) => order.status !== "pending")
-        .sort((a, b) => String(b.approvedAt || b.createdAt).localeCompare(String(a.approvedAt || a.createdAt)));
+        .sort((a, b) => String(b.approvedAt || b.rejectedAt || b.createdAt).localeCompare(String(a.approvedAt || a.rejectedAt || a.createdAt)));
       $("adminDecisionList").innerHTML = processedOrders.length ? `
         <h3 style="margin:10px 0 0">Riwayat keputusan</h3>
         ${processedOrders.map((order) => `
@@ -877,7 +879,7 @@
               <div>
                 <div class="order-id">#${escapeHtml(order.id)}</div>
                 <strong>${escapeHtml(order.name)}</strong>
-                <div class="muted small">${order.quantity} akun · ${escapeHtml(order.phone || "Nomor tidak tersedia")} · ${escapeHtml(formatDate(order.approvedAt || order.createdAt))}</div>
+                <div class="muted small">${order.quantity} akun · ${escapeHtml(order.phone || "Nomor tidak tersedia")} · ${escapeHtml(formatDate(order.approvedAt || order.rejectedAt || order.createdAt))}</div>
               </div>
               <span class="badge ${order.status === "approved" ? "badge-approved" : "badge-pending"}">${order.status === "approved" ? "DISETUJUI" : "DITOLAK"}</span>
             </div>
@@ -890,10 +892,10 @@
     function renderHistory() {
       const currentUser = getCurrentUser();
       const approvedOrders = data.orders
-        .filter((order) => currentUser && order.status === "approved" && order.userId === currentUser.id)
-        .sort((a, b) => String(b.approvedAt).localeCompare(String(a.approvedAt)));
+        .filter((order) => currentUser && order.userId === currentUser.id)
+        .sort((a, b) => String(b.approvedAt || b.rejectedAt || b.createdAt).localeCompare(String(a.approvedAt || a.rejectedAt || a.createdAt)));
       if (!approvedOrders.length) {
-        $("historyList").innerHTML = '<div class="empty">Belum ada pesanan yang disetujui.</div>';
+        $("historyList").innerHTML = '<div class="empty">Belum ada riwayat pesanan.</div>';
         return;
       }
       $("historyList").innerHTML = approvedOrders.map((order) => `
@@ -902,18 +904,24 @@
             <div>
               <div class="order-id">#${escapeHtml(order.id)}</div>
               <strong>${escapeHtml(order.name)}</strong>
-              <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.approvedAt || order.createdAt))}</div>
+              <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.approvedAt || order.rejectedAt || order.createdAt))}</div>
             </div>
-            <span class="badge badge-approved">BERHASIL</span>
+            <span class="badge ${order.status === "approved" ? "badge-approved" : order.status === "rejected" ? "badge-pending" : "badge-pending"}">${order.status === "approved" ? "BERHASIL" : order.status === "rejected" ? "DITOLAK" : "MENUNGGU"}</span>
           </div>
-          <div class="account-list">
-            ${order.accounts.map((account, index) => `
-              <div class="account">
-                <code>${index + 1}. ${escapeHtml(account.email)}<br>${escapeHtml(account.password)}</code>
-                <button class="copy-btn" type="button" data-copy="${escapeHtml(`${account.email} | ${account.password}`)}">Salin</button>
-              </div>
-            `).join("")}
-          </div>
+          ${order.status === "approved" ? `
+            <div class="account-list">
+              ${order.accounts.map((account, index) => `
+                <div class="account">
+                  <code>${index + 1}. ${escapeHtml(account.email)}<br>${escapeHtml(account.password)}</code>
+                  <button class="copy-btn" type="button" data-copy="${escapeHtml(`${account.email} | ${account.password}`)}">Salin</button>
+                </div>
+              `).join("")}
+            </div>
+          ` : order.status === "rejected" ? `
+            <div class="notice notice-danger">${escapeHtml(order.rejectionMessage || "Pesanan ditolak oleh admin. Silakan periksa kembali bukti pembayaran atau hubungi admin.")}</div>
+          ` : `
+            <div class="notice notice-warning">Pesanan sedang diperiksa oleh admin.</div>
+          `}
         </article>
       `).join("");
     }
@@ -1106,12 +1114,16 @@
       order.accounts = assigned;
       order.status = "approved";
       order.approvedAt = new Date().toISOString();
+      order.rejectedAt = "";
+      order.rejectionMessage = "";
       order.proof = "";
       if (!saveData()) {
         data.stock.unshift(...assigned);
         order.accounts = [];
         order.status = "pending";
         order.approvedAt = "";
+        order.rejectedAt = "";
+        order.rejectionMessage = "";
         order.proof = previousProof;
         return;
       }
@@ -1126,11 +1138,15 @@
       if (!confirmed) return;
       const previousProof = order.proof;
       order.status = "rejected";
-      order.approvedAt = new Date().toISOString();
+      order.approvedAt = "";
+      order.rejectedAt = new Date().toISOString();
+      order.rejectionMessage = "Pesanan ditolak oleh admin. Silakan periksa kembali bukti pembayaran atau hubungi admin.";
       order.proof = "";
       if (!saveData()) {
         order.status = "pending";
         order.approvedAt = "";
+        order.rejectedAt = "";
+        order.rejectionMessage = "";
         order.proof = previousProof;
         return;
       }
@@ -1257,6 +1273,14 @@
     $("historyList").addEventListener("click", (event) => {
       const copyButton = event.target.closest("[data-copy]");
       if (copyButton) copyText(copyButton.dataset.copy);
+    });
+    window.addEventListener("storage", (event) => {
+      if (event.key !== STORAGE_KEY) return;
+      loadData();
+      render();
+      const currentUser = getCurrentUser();
+      const rejectedOrder = currentUser && data.orders.find((order) => order.userId === currentUser.id && order.status === "rejected");
+      if (rejectedOrder) showToast(`Pesanan ${rejectedOrder.id} ditolak oleh admin.`, "error");
     });
     $("closeImageButton").addEventListener("click", () => closeModal($("imageModal")));
     $("imageModal").addEventListener("click", (event) => {
