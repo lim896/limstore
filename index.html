@@ -3,318 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIM STORE</title>
+    <title>Nexora - Toko Akun Email Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#6B7280',
+                        success: '#00B42A',
+                        danger: '#F53F3F',
+                        warning: '#FF7D00',
+                        light: '#F2F3F5',
+                        dark: '#1D2129'
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
-        :root { --utama: #0f6bcb; --gelap: #12121f; --card: #1e1e2f; --teks: #e2e8f0; --abu: #94a3b8; }
-        body { background: var(--gelap); color: var(--teks); padding-bottom: 80px; min-height: 100vh; }
-
-        header { background: var(--utama); padding: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px #0f6bcb60; }
-        header h1 { font-size: 22px; color: white; }
-        .keranjang { font-size: 26px; cursor: pointer; }
-
-        .cari { padding: 10px; }
-        .cari input { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--card); color: white; font-size: 15px; }
-
-        .menu-atas { display: flex; justify-content: space-around; padding: 12px; background: var(--card); margin: 10px; border-radius: 10px; }
-        .tab { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--abu); }
-        .tab.aktif { background: var(--utama); color: white; }
-
-        .judul { padding: 10px 15px; font-size: 18px; font-weight: bold; color: var(--utama); }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px; }
-        .card { background: var(--card); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; }
-        .card:active { transform: scale(0.97); }
-        .card img { width: 100%; height: 150px; object-fit: cover; background: #2d2d3f; }
-        .card .nama { padding: 8px 10px; font-size: 14px; line-height: 1.4; height: 40px; overflow: hidden; }
-        .card .harga { padding: 0 10px 8px; font-size: 17px; font-weight: bold; color: var(--utama); }
-
-        .bawah { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #2d2d3f; }
-        .nav { text-align: center; font-size: 12px; color: var(--abu); cursor: pointer; padding: 5px; }
-        .nav.aktif { color: var(--utama); }
-        .nav span { font-size: 22px; display: block; margin-bottom: 3px; }
-
-        #halAdmin, #halInfo { display: none; padding: 15px; }
-        .form { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        .form h3 { color: var(--utama); margin-bottom: 12px; }
-        input { width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 8px; background: #2d2d3f; color: white; font-size: 15px; }
-        input[type="file"] { background: transparent; padding: 6px; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .btn-simpan { background: var(--utama); color: white; margin-top: 8px; }
-        .btn-hapus { background: #ef4444; color: white; }
-        .daftar-admin { margin-top: 20px; }
-        .item-admin { background: var(--card); padding: 10px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-        .btn-kecil { width: auto; padding: 6px 10px; font-size: 13px; margin: 0 3px; }
-
-        #popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
-        .kotak-pass { background: var(--card); padding: 20px; border-radius: 12px; width: 100%; max-width: 350px; }
-        .kotak-pass h3 { color: var(--utama); margin-bottom: 10px; text-align: center; }
-        .info-box { background: var(--card); padding: 20px; border-radius: 12px; line-height: 1.8; }
-        .info-box h2 { color: var(--utama); margin-bottom: 10px; }
-        #lihatGambar { width:100%; max-height:150px; object-fit:contain; margin:10px 0; display:none; border-radius:8px; }
+        .card-shadow {box-shadow: 0 10px 25px -5px rgba(0,0,0,.05),0 8px 10px -6px rgba(0,0,0,.03);}
+        .btn-hover {transition:all .2s ease;}
+        .btn-hover:hover {transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+        .input-focus:focus {outline:none;border-color:#165DFF;box-shadow:0 0 0 3px rgba(22,93,255,.15);}
+        .fade-in {animation:fadeIn .3s ease;}
+        @keyframes fadeIn {from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-5xl">
+        <!-- HEADER -->
+        <header class="mb-6 text-center">
+            <div class="flex justify-center items-center mb-2">
+                <div class="w-11 h-11 bg-primary text-white rounded-xl flex items-center justify-center mr-2.5">
+                    <i class="fa fa-shield text-lg"></i>
+                </div>
+                <h1 class="text-2xl font-bold">Nexora</h1>
+            </div>
+            <p class="text-secondary text-sm">Beli Email Aman & Cepat</p>
+            <div id="statusToko" class="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <span>BUKA</span>
+            </div>
+        </header>
 
-<header>
-    <span class="keranjang" id="btnKeranjang">🛒</span>
-    <h1>LIM STORE</h1>
-</header>
+        <main class="grid md:grid-cols-3 gap-6">
+            <!-- HALAMAN UTAMA PEMBELI -->
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-2xl p-5 card-shadow">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i class="fa fa-shopping-cart text-primary"></i> Mulai Belanja
+                    </h2>
 
-<div id="halUtama">
-    <div class="cari">
-        <input type="text" id="kataCari" placeholder="🔍 Cari Produk..." oninput="cariProduk()">
-    </div>
-    <div class="menu-atas">
-        <div class="tab aktif" onclick="filterProduk('semua')">Semua Produk</div>
-        <div class="tab" onclick="filterProduk('terlaris')">Terlaris</div>
-    </div>
-    <p class="judul">🔥 Produk Pilihan</p>
-    <div class="grid" id="gridProduk"></div>
-</div>
+                    <div class="grid grid-cols-2 gap-3 mb-5">
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <p class="text-xs text-gray-500">Harga/buah</p>
+                            <p class="font-bold" id="txtHarga">Rp 5.000</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <p class="text-xs text-gray-500">Stok Ada</p>
+                            <p class="font-bold" id="txtStok">0 Buah</p>
+                        </div>
+                    </div>
 
-<div id="halAdmin">
-    <div class="form">
-        <h3>➕ Tambah / Edit Produk</h3>
-        <input type="text" id="inNama" placeholder="Nama Barang">
-        <input type="file" id="inGambar" accept="image/*" onchange="kompresGambar(this)">
-        <img id="lihatGambar" alt="Pratinjau Gambar">
-        <input type="number" id="inHarga" placeholder="Harga (isi angka saja)">
-        <input type="text" id="inLink" placeholder="Link Produk">
-        <button class="btn-simpan" onclick="simpanProduk()">💾 Simpan Produk</button>
-    </div>
-    <div class="daftar-admin">
-        <h3>📋 Daftar Produk</h3>
-        <div id="listAdmin"></div>
-    </div>
-</div>
+                    <!-- LANGKAH 1: PILIH JUMLAH -->
+                    <div id="langkah1">
+                        <label class="block text-sm font-medium mb-1.5">Jumlah Beli (Maks Rp100.000)</label>
+                        <input type="number" id="jmlBeli" value="1" min="1" max="20" 
+                            class="w-full p-2.5 border border-gray-200 rounded-xl input-focus mb-2">
+                        <p class="text-sm mb-4">Total: <strong id="totalBayar" class="text-primary">Rp 5.000</strong></p>
+                        
+                        <button onclick="bukaBayar()" class="w-full bg-primary text-white py-2.5 rounded-xl btn-hover font-medium">
+                            Lanjut Ke Pembayaran →
+                        </button>
+                    </div>
 
-<div id="halInfo">
-    <div class="info-box">
-        <h2>ℹ️ Tentang LIM STORE</h2>
-        <p><strong>LIM STORE</strong> adalah tempat belanja hemat dan terpercaya.</p>
-        <br>
-        <strong>❓ Cara Berbelanja:</strong>
-        <p>1. Pilih barang yang diinginkan</p>
-        <p>2. Klik gambar barang</p>
-        <p>3. Otomatis pindah ke toko resmi untuk bayar</p>
-        <br>
-        <strong>📞 Kontak Admin:</strong>
-        <p>Hubungi kami jika ada kendala</p>
-    </div>
-</div>
+                    <!-- LANGKAH 2: DATA PEMBAYARAN (DULUNYA GAK MUNCEL BENER) -->
+                    <div id="langkah2" class="hidden fade-in border-t mt-5 pt-5">
+                        <h3 class="font-semibold mb-3 text-base">💡 Cara Bayar</h3>
+                        
+                        <div class="bg-blue-50 p-4 rounded-xl mb-4">
+                            <p class="text-sm mb-1">Kirim ke:</p>
+                            <p class="font-bold text-lg text-primary" id="nomorDompet">0812-xxxx-xxxx</p>
+                            <p class="text-xs text-gray-500 mt-1" id="namaDompet">DANA / OVO / GoPay</p>
+                        </div>
 
-<div class="bawah">
-    <div class="nav aktif" onclick="bukaHal('utama')">
-        <span>🏠</span> Beranda
-    </div>
-    <div class="nav" onclick="bukaHal('info')">
-        <span>ℹ️</span> Info / FAQ
-    </div>
-</div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-1.5">📷 Unggah Bukti Bayar (Tangkapan Layar)</label>
+                            <input type="file" id="fileBukti" accept="image/*" 
+                                class="w-full text-sm border border-gray-200 p-2.5 rounded-xl input-focus">
+                        </div>
 
-<div id="popup">
-    <div class="kotak-pass">
-        <h3>Masuk Kode Admin</h3>
-        <input type="password" id="passAdmin" placeholder="Masukkan kata sandi">
-        <button class="btn-simpan" onclick="cekPass()">Masuk</button>
-        <button style="background:#64748b; color:white; margin-top:8px" onclick="tutupPopup()">Batal</button>
+                        <div class="flex gap-2.5">
+                            <button onclick="kembaliKePilih()" class="flex-1 border border-gray-200 py-2.5 rounded-xl hover:bg-gray-50">
+                                ← Balik
+                            </button>
+                            <button onclick="prosesSelesai()" class="flex-1 bg-green-600 text-white py-2.5 rounded-xl btn-hover font-medium">
+                                ✅ Kirim & Ambil Email
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- HASIL BERHASIL -->
+                    <div id="hasilAkun" class="hidden fade-in mt-5 p-4 bg-green-50 border border-green-100 rounded-xl">
+                        <h3 class="font-bold text-green-700 mb-3">✅ SUKSES! Simpan Baik-baik:</h3>
+                        <div class="bg-white p-3 rounded-lg mb-2 break-all text-sm">
+                            Email: <strong id="outEmail"></strong>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-4 break-all text-sm">
+                            Sandi: <strong id="outPass"></strong>
+                        </div>
+                        <button onclick="muatUlangBelanja()" class="w-full bg-green-600 text-white py-2 rounded-lg">Selesai</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAGIAN KANAN: LOGIN ADMIN -->
+            <div>
+                <div class="bg-white rounded-2xl p-4 card-shadow">
+                    <h3 class="font-semibold mb-3 flex items-center gap-2">
+                        <i class="fa fa-lock text-gray-400"></i> Masuk Admin
+                    </h3>
+                    <input type="password" id="passAdmin" placeholder="Kata sandi" 
+                        class="w-full mb-3 p-2.5 border border-gray-200 rounded-xl input-focus">
+                    <button onclick="cekLogin()" class="w-full bg-gray-800 text-white py-2 rounded-xl btn-hover">MASUK</button>
+                    <p class="text-xs text-gray-400 mt-2 text-center">Bawaan: admin123</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- PANEL ADMIN LENGKAP -->
+        <div id="panelHalaman" class="hidden mt-6 bg-white rounded-2xl p-5 card-shadow fade-in">
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="text-lg font-bold">⚙️ Pengaturan Toko Nexora</h2>
+                <button onclick="keluarAdmin()" class="text-red-500 text-sm">Keluar</button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold mb-3 border-b pb-2">+ Tambah Stok Email & Sandi</h4>
+                    <input type="email" id="inEmail" placeholder="alamat@email.com" 
+                        class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
+                    <input type="text" id="inSandi" placeholder="Kata sandinya" 
+                        class="w-full mb-3 p-2.5 border rounded-xl input-focus">
+                    <button onclick="tambahStok()" class="w-full bg-green-600 text-white py-2 rounded-xl btn-hover">
+                        Tambah Ke Stok
+                    </button>
+                    <p class="mt-3 text-sm">Total Stok: <strong id="jmlStokAdmin">0</strong></p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3 border-b pb-2">Pengaturan Umum</h4>
+                    <label class="text-sm">Harga Satuan (Rp)</label>
+                    <input type="number" id="setHarga" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
+
+                    <label class="text-sm">Nomor E-Wallet Kamu</label>
+                    <input type="text" id="setNomor" placeholder="08xxx" class="w-full mb-2.5 p-2.5 border rounded-xl input-focus">
+
+                    <label class="text-sm">Nama Layanan (Contoh:DANA)</label>
+                    <input type="text" id="setNamaDompet" placeholder="DANA / OVO" class="w-full mb-3 p-2.5 border rounded-xl input-focus">
+
+                    <label class="text-sm">Sandi Admin Baru</label>
+                    <input type="text" id="setPassBaru" placeholder="Boleh kosong" class="w-full mb-3 p-2.5 border rounded-xl input-focus">
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="simpanSemuaPengaturan()" class="bg-primary text-white py-2 rounded-xl">💾 Simpan</button>
+                        <button onclick="tutupBukaToko()" id="tombolTutup" class="bg-orange-500 text-white py-2 rounded-xl">Tutup Toko</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-const PASS_ADMIN = '123456';
-let produk = [];
-let editIndex = null;
-let gambarBase64 = '';
-let hitungKlik = 0;
-let db = null;
-
-// === SIAPKAN PENYIMPANAN INDEXEDDB (LEBIH BESAR & KUAT) ===
-function bukaDB() {
-    return new Promise((resolve, reject) => {
-        const req = indexedDB.open('LimStoreDB', 1);
-        req.onupgradeneeded = e => {
-            db = e.target.result;
-            if (!db.objectStoreNames.contains('produk')) {
-                db.createObjectStore('produk', { keyPath: 'id', autoIncrement: true });
+    <script>
+        // DATA UTAMA & PENYIMPANAN TIDAK BERUBAH
+        let db = {
+            stok: [],
+            pengaturan: {
+                harga:5000, 
+                nomor:'0812-3456-7890', 
+                namaDompet:'DANA / OVO / GoPay', 
+                buka:true, 
+                sandi:'admin123'
             }
         };
-        req.onsuccess = e => { db = e.target.result; resolve(); };
-        req.onerror = reject;
-    });
-}
 
-async function simpanData() {
-    const tx = db.transaction('produk', 'readwrite');
-    const store = tx.objectStore('produk');
-    await store.clear();
-    produk.forEach(p => store.add(p));
-    await tx.complete;
-}
-
-async function muatData() {
-    await bukaDB();
-    const tx = db.transaction('produk', 'readonly');
-    const store = tx.objectStore('produk');
-    const req = store.getAll();
-    req.onsuccess = e => {
-        produk = e.target.result || [];
-        tampilProduk();
-        tampilAdmin();
-    };
-}
-
-// === KLIK KERANJANG 10x ===
-document.getElementById('btnKeranjang').addEventListener('click', () => {
-    hitungKlik++;
-    if (hitungKlik >= 10) {
-        hitungKlik = 0;
-        document.getElementById('popup').style.display = 'flex';
-    }
-});
-
-// === KOMPRES GAMBAR OTOMATIS ===
-function kompresGambar(input) {
-    if (!input.files || !input.files[0]) return;
-    const file = input.files[0];
-    const reader = new FileReader();
-    reader.onload = e => {
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const MAX = 600;
-            let w = img.width, h = img.height;
-            if (w > MAX) { h *= MAX/w; w = MAX; }
-            canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            gambarBase64 = canvas.toDataURL('image/jpeg', 0.75);
-            const lihat = document.getElementById('lihatGambar');
-            lihat.src = gambarBase64;
-            lihat.style.display = 'block';
-        };
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-// === TAMPILKAN PRODUK ===
-function tampilProduk(dataProduk = produk) {
-    const el = document.getElementById('gridProduk');
-    el.innerHTML = '';
-    dataProduk.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => window.open(p.link, '_blank');
-        card.innerHTML = `
-            <img src="${p.gambar}" alt="${p.nama}" onerror="this.src='https://via.placeholder.com/150/2d2d3f/ffffff?text=Gambar'">
-            <div class="nama">${p.nama}</div>
-            <div class="harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
-        `;
-        el.appendChild(card);
-    });
-}
-
-function tampilAdmin() {
-    const el = document.getElementById('listAdmin');
-    el.innerHTML = '';
-    produk.forEach((p, i) => {
-        const item = document.createElement('div');
-        item.className = 'item-admin';
-        item.innerHTML = `
-            <span>${p.nama.substring(0,15)}...</span>
-            <div>
-                <button class="btn-kecil" style="background:#3b82f6; color:white" onclick="editProduk(${i})">Ubah</button>
-                <button class="btn-kecil btn-hapus" onclick="hapusProduk(${i})">Hapus</button>
-            </div>
-        `;
-        el.appendChild(item);
-    });
-}
-
-// === SIMPAN PRODUK ===
-async function simpanProduk() {
-    const nama = document.getElementById('inNama').value.trim();
-    const gambar = gambarBase64;
-    const harga = parseInt(document.getElementById('inHarga').value);
-    const link = document.getElementById('inLink').value.trim();
-
-    if (!nama || !gambar || !harga || !link) {
-        return alert('❌ Lengkapi semua data & pilih gambar!');
-    }
-
-    try {
-        if (editIndex !== null) {
-            produk[editIndex] = { nama, gambar, harga, link };
-            editIndex = null;
-        } else {
-            produk.unshift({ nama, gambar, harga, link });
+        function simpan() {localStorage.setItem('nexFix', JSON.stringify(db));}
+        function muat() {
+            const lama = localStorage.getItem('nexFix');
+            if(lama) db = JSON.parse(lama);
+            tampilkanSemua();
         }
-        await simpanData();
-        tampilProduk();
-        tampilAdmin();
-        document.getElementById('inNama').value = '';
-        document.getElementById('inGambar').value = '';
-        document.getElementById('lihatGambar').style.display = 'none';
-        gambarBase64 = '';
-        document.getElementById('inHarga').value = '';
-        document.getElementById('inLink').value = '';
-        alert('✅ Berhasil Disimpan!');
-    } catch (err) {
-        alert('❌ Penyimpanan Penuh! Hapus beberapa produk lama dulu.');
-        console.error(err);
-    }
-}
 
-function editProduk(i) {
-    const p = produk[i];
-    document.getElementById('inNama').value = p.nama;
-    gambarBase64 = p.gambar;
-    document.getElementById('lihatGambar').src = p.gambar;
-    document.getElementById('lihatGambar').style.display = 'block';
-    document.getElementById('inHarga').value = p.harga;
-    document.getElementById('inLink').value = p.link;
-    editIndex = i;
-    window.scrollTo({top:0, behavior:'smooth'});
-}
+        // PERBAIKAN UTAMA: TAMPILKAN BAGIAN PEMBAYARAN DENGAN BENAR
+        function bukaBayar(){
+            if(!db.pengaturan.buka) return alert("Toko sedang ditutup!");
+            const jum = parseInt(document.getElementById('jmlBeli').value);
+            if(isNaN(jum)||jum<1) return alert("Isi jumlah yang benar!");
+            if(jum * db.pengaturan.harga >100000) return alert("Maksimal belanja Rp100.000!");
+            if(jum > db.stok.length) return alert(`Stok kurang! Hanya ada: ${db.stok.length}`);
+            
+            // PINDAH LANGKAH: gak pakai kelas rusak, langsung ganti tampilan
+            document.getElementById('langkah1').classList.add("hidden");
+            document.getElementById('langkah2').classList.remove("hidden");
+            document.getElementById('hasilAkun').classList.add("hidden");
+        }
 
-async function hapusProduk(i) {
-    if (confirm('Yakin hapus?')) {
-        produk.splice(i, 1);
-        await simpanData();
-        tampilProduk();
-        tampilAdmin();
-    }
-}
+        function kembaliKePilih(){
+            document.getElementById('langkah2').classList.add("hidden");
+            document.getElementById('langkah1').classList.remove("hidden");
+        }
 
-function cariProduk() {
-    const kata = document.getElementById('kataCari').value.toLowerCase().trim();
-    tampilProduk(!kata ? produk : produk.filter(p => p.nama.toLowerCase().includes(kata)));
-}
+        function prosesSelesai(){
+            // CEK FILE BUKTI DIPILIH
+            let inputFile = document.getElementById('fileBukti');
+            if(!inputFile || inputFile.files.length===0){
+                alert("⚠️ Harap pilih & masukkan foto/bukti pembayaran dulu!");
+                return;
+            }
 
-function filterProduk() { tampilProduk(); }
+            if(db.stok.length===0) return alert("Stok habis mendadak!");
 
-function bukaHal(tujuan) {
-    document.getElementById('halUtama').style.display = tujuan==='utama'?'block':'none';
-    document.getElementById('halAdmin').style.display = 'none';
-    document.getElementById('halInfo').style.display = tujuan==='info'?'block':'none';
-    document.querySelectorAll('.nav').forEach((n,i) => n.classList.toggle('aktif', (tujuan==='utama'&&i===0) || (tujuan==='info'&&i===1)));
-}
+            // AMBL DARI PALING AWAL & HAPUS (FIFO)
+            let akunDapat = db.stok.shift(); 
+            simpan(); tampilkanSemua();
 
-function cekPass() {
-    if (document.getElementById('passAdmin').value === PASS_ADMIN) {
-        tutupPopup();
-        document.getElementById('halUtama').style.display = 'none';
-        document.getElementById('halAdmin').style.display = 'block';
-    } else alert('❌ Kode Salah!');
-    document.getElementById('passAdmin').value = '';
-}
+            // TAMPILKAN HASIL DENGAN JELAS
+            document.getElementById('langkah2').classList.add("hidden");
+            document.getElementById('hasilAkun').classList.remove("hidden");
+            document.getElementById('outEmail').textContent = akunDapat.email;
+            document.getElementById('outPass').textContent = akunDapat.sandi;
+        }
 
-function tutupPopup() { document.getElementById('popup').style.display = 'none'; }
+        function muatUlangBelanja(){
+            document.getElementById('jmlBeli').value=1;
+            document.getElementById('fileBukti').value=null;
+            document.getElementById('hasilAkun').classList.add("hidden");
+            document.getElementById('langkah1').classList.remove("hidden");
+        }
 
-// MULAI
-muatData();
-</script>
+        function tampilkanSemua(){
+            document.getElementById('txtStok').textContent = db.stok.length+" Buah";
+            document.getElementById('txtHarga').textContent = "Rp "+db.pengaturan.harga.toLocaleString('id-ID');
+            document.getElementById('nomorDompet').textContent = db.pengaturan.nomor;
+            document.getElementById('namaDompet').textContent = db.pengaturan.namaDompet;
+            document.getElementById('totalBayar').textContent = "Rp "+ (parseInt(document.getElementById('jmlBeli').value||1)*db.pengaturan.harga).toLocaleString('id-ID');
+            
+            // BAGIAN ADMIN
+            document.getElementById('jmlStokAdmin').textContent=db.stok.length;
+            document.getElementById('setHarga').value=db.pengaturan.harga;
+            document.getElementById('setNomor').value=db.pengaturan.nomor;
+            document.getElementById('setNamaDompet').value=db.pengaturan.namaDompet;
+            
+            // STATUS WARNA
+            let st = document.getElementById('statusToko');
+            if(db.pengaturan.buka){
+                st.className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-700 font-medium";
+                st.innerHTML='<span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span> BUKA';
+            }else{
+                st.className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 font-medium";
+                st.innerHTML='<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> DITUTUP';
+            }
+        }
 
+        // LAINNYA: LOGIN/STOK/PENGATURAN
+        function cekLogin(){
+            if(document.getElementById('passAdmin').value === db.pengaturan.sandi){
+                document.getElementById('panelHalaman').classList.remove("hidden");
+                document.getElementById('passAdmin').value="";
+            }else alert("SALAH SANDI!");
+        }
+        function keluarAdmin(){location.reload();}
+        function tambahStok(){
+            let e=document.getElementById('inEmail').value.trim();
+            let s=document.getElementById('inSandi').value.trim();
+            if(!e||!s){alert("Isi Email & Kata Sandi keduanya!");return;}
+            db.stok.push({email:e, sandi:s});
+            simpan(); tampilkanSemua();
+            document.getElementById('inEmail').value=document.getElementById('inSandi').value="";
+            alert("✅ BERHASIL DITAMBAHKAN!");
+        }
+        function simpanSemuaPengaturan(){
+            db.pengaturan.harga=parseInt(document.getElementById('setHarga').value)||5000;
+            db.pengaturan.nomor=document.getElementById('setNomor').value.trim();
+            db.pengaturan.namaDompet=document.getElementById('setNamaDompet').value.trim();
+            if(document.getElementById('setPassBaru').value.trim()!="")
+                db.pengaturan.sandi=document.getElementById('setPassBaru').value.trim();
+            simpan(); tampilkanSemua();
+            alert("💾 Semua data & Nomor HP tersimpan!");
+        }
+        function tutupBukaToko(){db.pengaturan.buka=!db.pengaturan.buka; simpan(); tampilkanSemua();}
+        document.getElementById('jmlBeli').oninput = tampilkanSemua;
+
+        // MULAI SAAT DIBUKA
+        muat();
+    </script>
 </body>
-</html>
+    </html>
+                    
