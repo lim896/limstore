@@ -34,6 +34,7 @@
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
+      padding-bottom: 82px;
     }
     button, input { font: inherit; }
     button { cursor: pointer; }
@@ -75,20 +76,38 @@
     .brand-name { font-weight: 800; letter-spacing: .13em; }
     .brand-subtitle { margin: 1px 0 0; color: var(--muted); font-size: .75rem; }
     .nav {
-      display: flex;
-      gap: 8px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 26px;
+      position: fixed;
+      z-index: 30;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      border-top: 1px solid var(--line);
+      background: rgba(13,16,24,.94);
+      box-shadow: 0 -14px 35px rgba(0,0,0,.25);
+      padding: 8px max(12px, calc((100vw - 1080px) / 2));
+      backdrop-filter: blur(16px);
     }
     .nav-btn {
-      border: 0;
-      border-bottom: 2px solid transparent;
+      display: flex;
+      min-height: 56px;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid transparent;
+      border-radius: 12px;
       background: transparent;
       color: var(--muted);
-      padding: 11px 17px;
+      padding: 7px 10px;
+      font-size: .76rem;
       font-weight: 700;
+      transition: background .16s, color .16s, border-color .16s;
     }
-    .nav-btn.active { border-color: var(--primary); color: var(--text); }
+    .nav-btn:hover { background: rgba(255,255,255,.05); color: var(--text); }
+    .nav-btn.active { border-color: rgba(41,150,255,.35); background: rgba(41,150,255,.12); color: #8ac9ff; }
+    .nav-icon { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
     .page { display: none; }
     .page.active { display: block; }
     .hero { margin: 3px 0 22px; }
@@ -211,6 +230,14 @@
       cursor: zoom-in;
     }
     .account-list { display: grid; gap: 8px; margin-top: 12px; }
+    .profile-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
+    .profile-avatar { display: grid; width: 52px; height: 52px; flex: 0 0 52px; place-items: center; border: 1px solid rgba(41,150,255,.3); border-radius: 16px; background: rgba(41,150,255,.12); color: #8ac9ff; }
+    .profile-avatar svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+    .profile-name { margin: 0; font-size: 1.12rem; font-weight: 800; }
+    .detail-list { display: grid; gap: 9px; margin: 0 0 20px; }
+    .detail-row { display: flex; justify-content: space-between; gap: 16px; border: 1px solid var(--line); border-radius: 11px; background: rgba(255,255,255,.035); padding: 11px 12px; }
+    .detail-row dt { color: var(--muted); font-size: .82rem; }
+    .detail-row dd { max-width: 65%; margin: 0; overflow-wrap: anywhere; color: #dbeafe; font-size: .84rem; font-weight: 700; text-align: right; }
     .account {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -276,6 +303,25 @@
     .toast.success { border-color: rgba(34,197,94,.35); }
     .toast.error { border-color: rgba(239,68,68,.4); }
     .footer { margin-top: 34px; color: #667085; text-align: center; font-size: .78rem; }
+    .gate {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 24px 14px;
+    }
+    .gate-card { width: min(100%, 500px); }
+    .gate-logo {
+      display: grid;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 18px;
+      place-items: center;
+      border: 1px solid rgba(93,184,255,.3);
+      border-radius: 18px;
+      background: linear-gradient(145deg, #123d85, #0b1837);
+      box-shadow: 0 7px 24px rgba(41,150,255,.2);
+    }
+    .gate-logo svg { width: 44px; height: 44px; }
     @media (min-width: 760px) {
       .store-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; align-items: start; }
       .store-layout > .card + .card { margin-top: 0; }
@@ -293,7 +339,38 @@
   </style>
 </head>
 <body>
-  <main class="app">
+  <section id="registrationGate" class="gate">
+    <div class="card gate-card">
+      <div class="gate-logo" aria-hidden="true">
+        <svg viewBox="0 0 960 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gateGradient" x1="180" y1="240" x2="780" y2="780" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#168DFF"/>
+              <stop offset="1" stop-color="#73D0FF"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#gateGradient)" d="M480 240 180 580l300-140 300 140L480 240Zm0 200L180 780l300-180 300 180-300-340Z"/>
+        </svg>
+      </div>
+      <p class="eyebrow">Selamat datang di NEXORA</p>
+      <h1>Daftar sebelum masuk</h1>
+      <p class="muted">Isi nama dan nomor telepon agar pesanan serta riwayat akun tidak tercampur dengan pengguna lain.</p>
+      <form id="registrationForm" class="form-grid" style="margin-top:22px">
+        <div>
+          <label class="field-label" for="registrationName">Nama lengkap</label>
+          <input id="registrationName" class="input" type="text" maxlength="80" placeholder="Contoh: Budi Santoso" autocomplete="name" required>
+        </div>
+        <div>
+          <label class="field-label" for="registrationPhone">Nomor telepon</label>
+          <input id="registrationPhone" class="input" type="tel" maxlength="20" placeholder="Contoh: 081234567890" autocomplete="tel" inputmode="tel" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Masuk ke NEXORA →</button>
+      </form>
+      <p class="muted small" style="margin:16px 0 0">Nomor telepon digunakan sebagai identitas pesanan di browser ini. Tidak ada OTP pada versi lokal.</p>
+    </div>
+  </section>
+
+  <main id="appShell" class="app hidden">
     <header class="topbar">
       <button id="logoTrigger" class="brand" type="button" aria-label="Logo NEXORA">
         <span class="brand-mark" aria-hidden="true">
@@ -315,8 +392,18 @@
     </header>
 
     <nav class="nav" aria-label="Navigasi utama">
-      <button class="nav-btn active" type="button" data-page="store">🛒 Toko</button>
-      <button class="nav-btn" type="button" data-page="history">📂 Pesanan</button>
+      <button class="nav-btn active" type="button" data-page="store">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L20.5 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+        <span>Toko</span>
+      </button>
+      <button class="nav-btn" type="button" data-page="history">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+        <span>Pesanan</span>
+      </button>
+      <button class="nav-btn" type="button" data-page="account">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+        <span>Akun</span>
+      </button>
     </nav>
 
     <section id="storePage" class="page active" aria-labelledby="storeTitle">
@@ -400,6 +487,31 @@
       </div>
     </section>
 
+    <section id="accountPage" class="page" aria-labelledby="accountTitle">
+      <div class="card">
+        <div class="hero">
+          <p class="eyebrow">Profil pengguna</p>
+          <h1 id="accountTitle">Akun saya</h1>
+          <p class="muted">Identitas ini digunakan untuk memisahkan pesanan dan riwayat Anda.</p>
+        </div>
+        <div class="profile-head">
+          <div class="profile-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+          </div>
+          <div>
+            <p id="accountName" class="profile-name">Pengguna</p>
+            <p id="accountPhone" class="muted small" style="margin:2px 0 0">Nomor telepon</p>
+          </div>
+        </div>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>ID pengguna</dt><dd id="accountId">-</dd></div>
+          <div class="detail-row"><dt>Nama lengkap</dt><dd id="accountFullName">-</dd></div>
+          <div class="detail-row"><dt>Nomor telepon</dt><dd id="accountPhoneDetail">-</dd></div>
+        </dl>
+        <button id="switchUserButton" class="btn btn-danger" type="button" style="width:100%">Ganti akun / keluar</button>
+      </div>
+    </section>
+
     <section id="adminPage" class="page" aria-labelledby="adminTitle">
       <div class="card">
         <div class="admin-heading">
@@ -460,7 +572,7 @@
 
   <div id="pinModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
     <form id="pinForm" class="modal-card">
-      <h2 id="pinTitle">🔐 Masuk admin</h2>
+      <h2 id="pinTitle">Masuk admin</h2>
       <p class="muted small">Masukkan PIN untuk membuka panel pengelolaan.</p>
       <label class="field-label" for="pinInput">PIN admin</label>
       <input id="pinInput" class="input" type="password" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6 digit PIN" required>
@@ -483,7 +595,9 @@
 
     const PIN = "085213";
     const STORAGE_KEY = "nexora_store_v2";
+    const SESSION_USER_KEY = "nexora_current_user";
     const DEFAULT_DATA = {
+      users: [],
       stock: [],
       orders: [],
       settings: { price: 5000, paymentNumber: "087794088983", isOpen: true }
@@ -511,12 +625,20 @@
     function normalizeData(value) {
       if (!value || typeof value !== "object") return clone(DEFAULT_DATA);
       const settings = value.settings && typeof value.settings === "object" ? value.settings : {};
+      const users = Array.isArray(value.users) ? value.users.filter((user) => user && user.id && user.phone).map((user) => ({
+        id: String(user.id),
+        name: String(user.name || "Tanpa nama"),
+        phone: normalizePhone(user.phone),
+        joinedAt: user.joinedAt || new Date().toISOString()
+      })) : [];
       const stock = Array.isArray(value.stock) ? value.stock.filter((item) => item && item.email && item.password).map((item) => ({
         email: String(item.email), password: String(item.password)
       })) : [];
       const orders = Array.isArray(value.orders) ? value.orders.filter((order) => order && order.id).map((order) => ({
         id: String(order.id),
         name: String(order.name || "Tanpa nama"),
+        userId: String(order.userId || "legacy"),
+        phone: normalizePhone(order.phone),
         quantity: Math.max(1, Number.parseInt(order.quantity, 10) || 1),
         total: Number(order.total) || 0,
         proof: typeof order.proof === "string" ? order.proof : "",
@@ -528,6 +650,7 @@
         })) : []
       })) : [];
       return {
+        users,
         stock,
         orders,
         settings: {
@@ -572,6 +695,78 @@
       notice.className = `notice notice-${type}`;
     }
 
+    function normalizePhone(value) {
+      let phone = String(value || "").replace(/\D/g, "");
+      if (phone.startsWith("62")) phone = `0${phone.slice(2)}`;
+      return phone;
+    }
+
+    function getCurrentUser() {
+      const userId = sessionStorage.getItem(SESSION_USER_KEY);
+      return data.users.find((user) => user.id === userId) || null;
+    }
+
+    function showRegistration() {
+      adminAuthenticated = false;
+      $("appShell").classList.add("hidden");
+      $("registrationGate").classList.remove("hidden");
+      $("registrationName").focus();
+    }
+
+    function enterApp(userId) {
+      const user = data.users.find((item) => item.id === userId);
+      if (!user) {
+        sessionStorage.removeItem(SESSION_USER_KEY);
+        showRegistration();
+        return;
+      }
+      sessionStorage.setItem(SESSION_USER_KEY, user.id);
+      $("registrationGate").classList.add("hidden");
+      $("appShell").classList.remove("hidden");
+      setPage("store");
+      render();
+    }
+
+    function registerUser(event) {
+      event.preventDefault();
+      const name = $("registrationName").value.trim();
+      const phone = normalizePhone($("registrationPhone").value);
+      if (name.length < 2) {
+        showToast("Nama lengkap minimal 2 karakter.", "error");
+        $("registrationName").focus();
+        return;
+      }
+      if (phone.length < 8 || phone.length > 15) {
+        showToast("Nomor telepon tidak valid. Masukkan 8–15 digit.", "error");
+        $("registrationPhone").focus();
+        return;
+      }
+      let user = data.users.find((item) => item.phone === phone);
+      if (user) {
+        user.name = name;
+      } else {
+        user = {
+          id: `user-${phone}`,
+          name,
+          phone,
+          joinedAt: new Date().toISOString()
+        };
+        data.users.push(user);
+      }
+      if (!saveData()) return;
+      enterApp(user.id);
+      showToast(`Selamat datang, ${name}.`);
+    }
+
+    function switchUser() {
+      adminAuthenticated = false;
+      sessionStorage.removeItem(SESSION_USER_KEY);
+      resetPurchase();
+      $("registrationName").value = "";
+      $("registrationPhone").value = "";
+      showRegistration();
+    }
+
     function setPage(page) {
       if (page === "admin" && !adminAuthenticated) return;
       document.querySelectorAll(".page").forEach((element) => element.classList.remove("active"));
@@ -602,6 +797,7 @@
     }
 
     function render() {
+      const currentUser = getCurrentUser();
       const price = data.settings.price;
       $("priceText").textContent = money(price);
       $("stockText").textContent = `${data.stock.length} akun`;
@@ -624,6 +820,11 @@
       $("adminStoreState").textContent = data.settings.isOpen
         ? "Status saat ini: toko sedang buka."
         : "Status saat ini: toko sedang tutup.";
+      $("accountName").textContent = currentUser ? currentUser.name : "Pengguna";
+      $("accountPhone").textContent = currentUser ? currentUser.phone : "Nomor telepon";
+      $("accountId").textContent = currentUser ? currentUser.id : "-";
+      $("accountFullName").textContent = currentUser ? currentUser.name : "-";
+      $("accountPhoneDetail").textContent = currentUser ? currentUser.phone : "-";
       updateTotal();
       renderAdminOrders();
       renderHistory();
@@ -638,15 +839,15 @@
             <div>
               <div class="order-id">#${escapeHtml(order.id)}</div>
               <strong>${escapeHtml(order.name)}</strong>
-              <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.createdAt))}</div>
+              <div class="muted small">${order.quantity} akun · ${escapeHtml(order.phone || "Nomor tidak tersedia")} · ${escapeHtml(formatDate(order.createdAt))}</div>
             </div>
             <span class="badge badge-pending">MENUNGGU</span>
           </div>
           ${order.proof ? `<img class="proof" src="${escapeHtml(order.proof)}" data-proof="${escapeHtml(order.proof)}" alt="Bukti pembayaran dari ${escapeHtml(order.name)}">` : '<div class="notice notice-danger">Bukti pembayaran tidak tersedia.</div>'}
           <div class="total-row" style="margin:8px 0 12px"><span class="muted">Total</span><strong>${money(order.total)}</strong></div>
           <div class="button-row">
-            <button class="btn btn-success" type="button" data-process-order="${escapeHtml(order.id)}">✅ Konfirmasi</button>
-            <button class="btn btn-danger" type="button" data-reject-order="${escapeHtml(order.id)}">✕ Tolak</button>
+            <button class="btn btn-success" type="button" data-process-order="${escapeHtml(order.id)}">Konfirmasi</button>
+            <button class="btn btn-danger" type="button" data-reject-order="${escapeHtml(order.id)}">Tolak pesanan</button>
           </div>
         </article>
       `).join("") : '<div class="empty">Belum ada pesanan yang menunggu diproses.</div>';
@@ -662,7 +863,7 @@
               <div>
                 <div class="order-id">#${escapeHtml(order.id)}</div>
                 <strong>${escapeHtml(order.name)}</strong>
-                <div class="muted small">${order.quantity} akun · ${escapeHtml(formatDate(order.approvedAt || order.createdAt))}</div>
+                <div class="muted small">${order.quantity} akun · ${escapeHtml(order.phone || "Nomor tidak tersedia")} · ${escapeHtml(formatDate(order.approvedAt || order.createdAt))}</div>
               </div>
               <span class="badge ${order.status === "approved" ? "badge-approved" : "badge-pending"}">${order.status === "approved" ? "DISETUJUI" : "DITOLAK"}</span>
             </div>
@@ -673,7 +874,10 @@
     }
 
     function renderHistory() {
-      const approvedOrders = data.orders.filter((order) => order.status === "approved").sort((a, b) => String(b.approvedAt).localeCompare(String(a.approvedAt)));
+      const currentUser = getCurrentUser();
+      const approvedOrders = data.orders
+        .filter((order) => currentUser && order.status === "approved" && order.userId === currentUser.id)
+        .sort((a, b) => String(b.approvedAt).localeCompare(String(a.approvedAt)));
       if (!approvedOrders.length) {
         $("historyList").innerHTML = '<div class="empty">Belum ada pesanan yang disetujui.</div>';
         return;
@@ -824,6 +1028,11 @@
         showToast("Toko sedang tutup. Pesanan tidak dapat dikirim.", "error");
         return;
       }
+      const currentUser = getCurrentUser();
+      if (!currentUser) {
+        showRegistration();
+        return;
+      }
       const name = $("nameInput").value.trim();
       const quantity = currentQuantity();
       if (!name) {
@@ -846,6 +1055,8 @@
       const order = {
         id: `NX-${Date.now().toString(36).toUpperCase()}`,
         name,
+        userId: currentUser.id,
+        phone: currentUser.phone,
         quantity,
         total: quantity * data.settings.price,
         proof: proofData,
@@ -937,7 +1148,7 @@
         return;
       }
       const previous = clone(data.settings);
-      data.settings = { price, paymentNumber };
+      data.settings = { price, paymentNumber, isOpen: previous.isOpen !== false };
       if (!saveData()) {
         data.settings = previous;
         return;
@@ -966,6 +1177,8 @@
     }
 
     $("logoTrigger").addEventListener("click", handleLogoClick);
+    $("registrationForm").addEventListener("submit", registerUser);
+    $("switchUserButton").addEventListener("click", switchUser);
     document.querySelectorAll("[data-page]").forEach((button) => {
       button.addEventListener("click", () => setPage(button.dataset.page));
     });
@@ -1036,7 +1249,14 @@
     });
 
     loadData();
-    render();
+    const sessionUserId = sessionStorage.getItem(SESSION_USER_KEY);
+    if (sessionUserId && data.users.some((user) => user.id === sessionUserId)) {
+      enterApp(sessionUserId);
+    } else {
+      sessionStorage.removeItem(SESSION_USER_KEY);
+      showRegistration();
+      render();
+    }
   </script>
 </body>
 </html>
